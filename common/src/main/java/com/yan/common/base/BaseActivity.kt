@@ -3,6 +3,7 @@ package com.yan.common.base
 import android.graphics.Color
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -32,8 +33,8 @@ abstract class BaseActivity<VM : ViewModel> : AppCompatActivity() {
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         cancelStatusBar()
     }
 
@@ -41,7 +42,6 @@ abstract class BaseActivity<VM : ViewModel> : AppCompatActivity() {
     private fun cancelStatusBar() {
         val window = this.window
         val decorView = window.decorView
-
         // 这是 Android 做了兼容的 Compat 包
         // 注意，使用了下面这个方法后，状态栏不会再有东西占位，
         // 可以给根布局加上 android:fitsSystemWindows=true

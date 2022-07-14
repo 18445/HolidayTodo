@@ -13,6 +13,6 @@ import com.yan.common.base.BaseViewModel
  * @Version:        1.0
  * @Description:
  */
-class HomeRepository : BaseViewModel(){
+class HomeRepository{
 
 }
