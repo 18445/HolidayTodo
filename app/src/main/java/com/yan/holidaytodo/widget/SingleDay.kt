@@ -7,6 +7,8 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
+import com.yan.holidaytodo.bean.Day
+import com.yan.holidaytodo.callback.IDayDrawer
 
 
 /**
@@ -25,7 +27,7 @@ class SingleDay @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0
-) : View(context,attrs, defStyleAttr, defStyleRes){
+) : View(context,attrs, defStyleAttr, defStyleRes),IDayDrawer{
 
     //是否被选中
     private var beChosen = true
@@ -51,12 +53,12 @@ class SingleDay @JvmOverloads constructor(
     // mPaint.measureText(mText)是精确的测出绘制文本的宽度
     // fontMetrics.bottom-fontMetrics.top就是绘制文本的高度。
     // y计算出来就是baseline的纵坐标
-    private val middleX by lazy {
-        width / 2f - mDayPaint.measureText(mText) / 2f
-    }
-    private val middleY by lazy {
-        height / 2f + (fm.bottom - fm.top) / 2f - fm.bottom
-    }
+    private val middleX
+        get() = width / 2f - mDayPaint.measureText(mText) / 2f
+
+    private val middleY
+        get() = height / 2f + (fm.bottom - fm.top) / 2f - fm.bottom
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         drawDay(canvas)
@@ -73,6 +75,15 @@ class SingleDay @JvmOverloads constructor(
     private fun drawText(canvas: Canvas){
         mTextPaint.textSize = textSize
         canvas.drawText(mText,middleX,middleY+height/4,mTextPaint)
+    }
+
+    override fun drawDay(canvas: Canvas, day: Day) {
+        drawText(canvas)
+        drawDay(canvas)
+    }
+
+    override fun copy(): IDayDrawer {
+        return this
     }
 
 

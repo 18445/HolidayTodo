@@ -1,5 +1,6 @@
 package com.yan.holidaytodo.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
@@ -30,65 +31,22 @@ class CalendarView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0,
-    private val onSelectListener: OnSelectDateListener,
-    private val attr: CalendarAttr,
 ) : View(context,attrs, defStyleAttr, defStyleRes){
-/**
-    //行数 即高度
-    private val row = 7
-    //列数 即宽度
-    private var column = 6
-    //年份
-    private val year = 2022
-    //日期
-    private val day = 7
-    // 获得每个月第一天是星期几
-    //（日：1 一：2 二：3 三：4 四：5 五：6 六：7）
-    val firstDayOfMonth = getFirstDayOfMonth(year,day)
 
-    val columnWidth by lazy {
-        width / column
+    private lateinit var onSelectListener: OnSelectDateListener
+    private lateinit var calendarAttr: CalendarAttr
+
+    fun initOnSelectListener(listener: OnSelectDateListener){
+        onSelectListener = listener
     }
 
-    val rowHeight by lazy {
-        height / row
+    fun initAttr(attr: CalendarAttr){
+        calendarAttr = attr
     }
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
+    fun initDayDrawer(dayDrawer: IDayDrawer) {
+        drawer.dayDrawer = dayDrawer
     }
-
-    lateinit var mDays : HashMap<Int,SingleDay>
-
-    fun initDays(){
-        for(i in 0..row){
-            for(j in 0..column){
-                val pair = (i.toString()+j).toInt() to CalendarData(14,"十六",false,false)
-                SingleDay(context).also {
-                    mDays[(i.toString()+j).toInt()] = it
-                }
-            }
-        }
-    }
-
-    fun drawDays(canvas: Canvas){
-        for (i in 0..row) {
-            drawEachWeek(canvas,i)
-        }
-    }
-
-    //绘画每一行
-    private fun drawEachWeek(canvas: Canvas,row : Int) {
-        for(i in 0..column){
-            drawEachDay(canvas,row,i)
-        }
-    }
-
-    //绘画每一天
-    private fun drawEachDay(canvas: Canvas,row:Int,column:Int){
-
-    }
-*/
 
     companion object{
         const val TOTAL_ROW = 6
@@ -98,35 +56,42 @@ class CalendarView @JvmOverloads constructor(
     //单元格的高度
     private val cellHeight by lazy {
         val h = height / TOTAl_COLUMN
-        attr.cellHeight = h
+        calendarAttr.cellHeight = h
         h
     }
     //单元格的宽度
     private val cellWidth by lazy{
         val w = width / TOTAL_ROW
-        attr.cellWidth = w
+        calendarAttr.cellWidth = w
         w
     }
 
+    //当前被选定的行数
     private var selectedRowIndex = 0
 
+    //Adapter监听
     private lateinit var onAdapterSelectListener: OnAdapterSelectListener
 
+    //滑动距离的常量
     private val touchSlop = getTouchSlop(context).toFloat()
 
+    //日期
     val data : CalendarData
         get() = drawer.seedDate
-
+    //周/月类型
     val type : CalendarAttr.CalendarType
-        get() = attr.calendarType
+        get() = calendarAttr.calendarType
 
-    private val drawer = CalendarDrawer(context,this,attr).also{
-        it.setOnSelectDataListener(onSelectListener)
+    //日历的绘画类
+    private val drawer by lazy {
+        CalendarDrawer(context,this,calendarAttr).also{
+            it.setOnSelectDataListener(onSelectListener)
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        //交给drawer画days
+        //交给drawer画每一天
         drawer.drawDays(canvas)
     }
 
@@ -136,6 +101,7 @@ class CalendarView @JvmOverloads constructor(
     /**
      * 确立点击位置的日期
      */
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when(event.action){
             MotionEvent.ACTION_DOWN -> {
@@ -153,16 +119,14 @@ class CalendarView @JvmOverloads constructor(
                     onAdapterSelectListener.updateSelectState()
                     invalidate()
                 }
-
-
             }
         }
         return true
     }
 
     fun switchCalendarType(calendarType : CalendarAttr.CalendarType){
-        attr.calendarType = calendarType
-        drawer.setAttr(attr)
+        calendarAttr.calendarType = calendarType
+        drawer.setAttr(calendarAttr)
     }
 
     fun setSelectedRowIndex(rowIndex : Int){
@@ -185,18 +149,14 @@ class CalendarView @JvmOverloads constructor(
     fun update(){
         drawer.update()
     }
+
     fun cancelSelectState() {
         drawer.cancelSelectState()
-    }
-
-    fun setDayDrawer(dayDrawer: IDayDrawer) {
-        drawer.dayDrawer = dayDrawer
     }
 
     fun showDate(calendarData: CalendarData){
         drawer.showDate(calendarData)
     }
-
 
     fun getFirstDate(): CalendarData {
         return drawer.getFirstDate()

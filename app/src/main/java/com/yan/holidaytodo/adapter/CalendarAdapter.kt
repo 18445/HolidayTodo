@@ -48,7 +48,6 @@ class CalendarAdapter(context: Context,onSelectDateListener: OnSelectDateListene
 
     init{
         initCalendar(context, onSelectDateListener)
-        setDayDrawer(dayView)
     }
 
     companion object{
@@ -59,7 +58,10 @@ class CalendarAdapter(context: Context,onSelectDateListener: OnSelectDateListene
         for (i in 0..2) {
             val calendarAttr = CalendarAttr()
             calendarAttr.calendarType = (CalendarAttr.CalendarType.WEEK)
-            val calendarView = CalendarView(context, onSelectListener = onSelectDateListener, attr = calendarAttr)
+            val calendarView = CalendarView(context).apply {
+                initOnSelectListener(onSelectDateListener)
+                initAttr(calendarAttr)
+            }
             calendarView.setOnAdapterSelectListener(object : OnAdapterSelectListener {
                 override fun cancelSelectState() {
                     cancelOtherSelectState()
@@ -153,7 +155,7 @@ class CalendarAdapter(context: Context,onSelectDateListener: OnSelectDateListene
         if (calendars.size > 0 && calendarType !== CalendarAttr.CalendarType.MONTH) {
             onCalendarTypeChangedListener(CalendarAttr.CalendarType.MONTH)
             calendarType = CalendarAttr.CalendarType.MONTH
-            MonthView.CURRENT_DAY_INDEX = currentPosition
+            MonthView.currentPosition = currentPosition
             val v: CalendarView = calendars[currentPosition % 3] //0
             seedDate = v.data
             val v1: CalendarView = calendars[currentPosition % 3] //0
@@ -177,7 +179,7 @@ class CalendarAdapter(context: Context,onSelectDateListener: OnSelectDateListene
         if (calendars.size > 0 && calendarType !== CalendarAttr.CalendarType.WEEK) {
             onCalendarTypeChangedListener(CalendarAttr.CalendarType.WEEK)
             calendarType = CalendarAttr.CalendarType.WEEK
-            MonthView.CURRENT_DAY_INDEX = currentPosition
+            MonthView.currentPosition = currentPosition
             val v: CalendarView = calendars[currentPosition % 3]
             seedDate = v.data
             rowCount = v.getSelectedRowIndex()
@@ -215,7 +217,7 @@ class CalendarAdapter(context: Context,onSelectDateListener: OnSelectDateListene
 
     private fun refreshCalendar() {
         if (calendarType === CalendarAttr.CalendarType.WEEK) {
-            MonthView.CURRENT_DAY_INDEX = currentPosition
+            MonthView.currentPosition = currentPosition
             val v1: CalendarView = calendars[currentPosition % 3]
             v1.showDate(seedDate)
             v1.updateWeek(rowCount)
@@ -228,8 +230,8 @@ class CalendarAdapter(context: Context,onSelectDateListener: OnSelectDateListene
             v3.showDate(getSaturday(next))
             v3.updateWeek(rowCount)
         } else {
-            MonthView.CURRENT_DAY_INDEX = currentPosition
-            val v1: CalendarView = calendars!![currentPosition % 3] //0
+            MonthView.currentPosition = currentPosition
+            val v1: CalendarView = calendars[currentPosition % 3] //0
             v1.showDate(seedDate)
             val v2: CalendarView = calendars[(currentPosition - 1) % 3] //2
             val last: CalendarData = seedDate.modifyMonth(-1)
@@ -246,18 +248,5 @@ class CalendarAdapter(context: Context,onSelectDateListener: OnSelectDateListene
         return calendarType
     }
 
-    /**
-     * 为每一个Calendar实例设置renderer对象
-     *
-     * @return void
-     */
-    private fun setDayDrawer(dayDrawer: IDayDrawer) {
-        val c0: CalendarView = calendars[0]
-        c0.setDayDrawer(dayDrawer)
-        val c1: CalendarView = calendars[1]
-        c1.setDayDrawer(dayDrawer.copy())
-        val c2: CalendarView = calendars[2]
-        c2.setDayDrawer(dayDrawer.copy())
-    }
 
 }

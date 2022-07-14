@@ -2,6 +2,7 @@ package com.yan.holidaytodo.bean
 
 import android.content.Context
 import android.graphics.Canvas
+import android.util.Log
 import com.yan.holidaytodo.adapter.CalendarAdapter
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnSelectDateListener
@@ -11,7 +12,6 @@ import com.yan.holidaytodo.util.getSaturday
 import com.yan.holidaytodo.widget.CalendarView
 
 /**
- *
  * @ProjectName:    HolidayTodo
  * @Package:        com.yan.holidaytodo.callback
  * @ClassName:      CalendarRenderer
@@ -23,7 +23,7 @@ import com.yan.holidaytodo.widget.CalendarView
  */
 class CalendarDrawer(private val context: Context,private val calendarView: CalendarView,private var calendarAttr: CalendarAttr) {
     private val weeks: Array<WeekData> = Array(CalendarView.TOTAL_ROW){
-        WeekData()
+        WeekData(it)
     }
     lateinit var dayDrawer: IDayDrawer //每一天的drawer
 

@@ -16,8 +16,6 @@ import com.yan.holidaytodo.bean.Day
  */
 interface IDayDrawer {
 
-    fun refreshContent()
-
     fun drawDay(canvas: Canvas, day: Day)
 
     fun copy() : IDayDrawer

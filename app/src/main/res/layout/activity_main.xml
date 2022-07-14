@@ -4,26 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-        <com.yan.holidaytodo.widget.WeekView
+        <com.yan.holidaytodo.widget.CalendarView
+            android:id="@+id/calendar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-<!--            <androidx.coordinatorlayout.widget.CoordinatorLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent">-->
-
-
-
-<!--                <com.yan.holidaytodo.widget.MonthView-->
-<!--                    android:id="@+id/calendar_view"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="300dp"-->
-<!--                    android:background="#fff">-->
-<!--                </com.yan.holidaytodo.widget.MonthView>-->
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:background="@color/white"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    />-->
-<!--            </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+            android:layout_height="match_parent" />
 </LinearLayout>

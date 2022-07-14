@@ -47,7 +47,7 @@ fun calcOffset(offset: Int, min: Int, max: Int): Int {
  * @param maxOffset 最大偏移量
  * @return void
  */
-fun scroll(child: View, dy: Int, minOffset: Int, maxOffset: Int) {
+fun calcAndScroll(child: View, dy: Int, minOffset: Int, maxOffset: Int) {
     val initOffset = child.top
     val offset: Int = calcOffset(initOffset - dy, minOffset, maxOffset) - initOffset
     child.offsetTopAndBottom(offset)
@@ -76,13 +76,10 @@ fun isCalendarScrollToBottom(): Boolean {
 
 /**
  * 设置上一次滑动改变周月日历是向下滑还是向上滑 向下滑表示切换为月日历模式 向上滑表示切换为周日历模式
- *
  */
 fun setCalendarScrollToBottom(ifScrollToBottom: Boolean) {
     ScrollToBottom = ifScrollToBottom
 }
-
-    var top : Int = 0
 
 
 /**
@@ -94,7 +91,9 @@ fun setCalendarScrollToBottom(ifScrollToBottom: Boolean) {
  * @param duration 滑动执行时间
  * @return void
  */
+
 fun calendarScrollTo(parent: CoordinatorLayout, child: RecyclerView, y: Int, duration: Int) {
+    var top  = 0
     val scroller = Scroller(parent.context)
     scroller.startScroll(
         0,

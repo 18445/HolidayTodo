@@ -24,12 +24,24 @@ data class CalendarData(
     var day : Int,
 ){
 
+    init {
+        //初始化日期
+        if (month > 12) {
+            month = 1
+            year++
+        } else if (month < 1) {
+            month = 12
+            year--
+        }
+    }
+
+
     /**
      * 通过修改当前Date对象的天数返回一个修改后的Date
      *
-     * @return CalendarDate 修改后的日期
+     * @param day 修改的日期
+     * @return CalendarData 修改后的日期
      */
-
     fun modifyDay(day: Int): CalendarData {
         val lastMonthDays: Int = getMonthDays(year, month - 1)
         val currentMonthDays: Int = getMonthDays(year, month)
@@ -49,7 +61,8 @@ data class CalendarData(
     /**
      * 通过修改当前Date对象的所在周返回一个修改后的Date
      *
-     * @return CalendarDate 修改后的日期
+     * @param offset 修改的周数
+     * @return CalendarData 修改后的日期
      */
     fun modifyWeek(offset: Int): CalendarData {
         val result  = CalendarData(getDay(), getMonth(), getYear())
@@ -67,11 +80,12 @@ data class CalendarData(
     /**
      * 通过修改当前Date对象的所在月返回一个修改后的Date
      *
-     * @return CalendarDate 修改后的日期
+     * @param offset 修改的日期
+     * @return CalendarData 修改后的日期
      */
     fun modifyMonth(offset: Int):CalendarData {
-        var mMonth = 0
-        var mYear = 0
+        val mMonth: Int
+        val mYear: Int
         val addToMonth = month + offset
         if (offset > 0) {
             if (addToMonth > 12) {

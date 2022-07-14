@@ -13,7 +13,7 @@ package com.yan.holidaytodo.bean
  */
 class CalendarAttr {
 
-    //日历 周布局或月布局
+    //显示周布局或月布局
     lateinit var calendarType: CalendarType
 
     //日期格子高度
