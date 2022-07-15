@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.yan.holidaytodo.bean.CalendarAttr
@@ -14,6 +15,7 @@ import com.yan.holidaytodo.callback.OnAdapterSelectListener
 import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.util.getTouchSlop
 import kotlin.math.abs
+import kotlin.properties.Delegates
 
 /**
  *
@@ -33,19 +35,49 @@ class CalendarView @JvmOverloads constructor(
     defStyleRes: Int = 0,
 ) : View(context,attrs, defStyleAttr, defStyleRes){
 
+    //Adapter监听
+    private lateinit var onAdapterSelectListener: OnAdapterSelectListener
+    //外部监听
     private lateinit var onSelectListener: OnSelectDateListener
+    //设置日历属性
     private lateinit var calendarAttr: CalendarAttr
+    //设置日历所在页面
+    private var currentPosition = -1
+
+    //日历的绘画类
+    private lateinit var drawer : CalendarDrawer
+
+    private fun initDrawer(context:Context){
+        drawer = CalendarDrawer(context,this,calendarAttr).also {
+            it.initSeedData(currentPosition)
+            it.setOnSelectDataListener(onSelectListener)
+        }
+    }
 
     fun initOnSelectListener(listener: OnSelectDateListener){
         onSelectListener = listener
+        invalidate()
     }
 
     fun initAttr(attr: CalendarAttr){
         calendarAttr = attr
+        invalidate()
     }
 
     fun initDayDrawer(dayDrawer: IDayDrawer) {
+        initDrawer(context)
         drawer.dayDrawer = dayDrawer
+        invalidate()
+    }
+
+    fun initAdapter(listener : OnAdapterSelectListener){
+        onAdapterSelectListener = listener
+        invalidate()
+    }
+
+    fun initCurrentPosition(position : Int){
+        currentPosition = position
+        invalidate()
     }
 
     companion object{
@@ -69,8 +101,6 @@ class CalendarView @JvmOverloads constructor(
     //当前被选定的行数
     private var selectedRowIndex = 0
 
-    //Adapter监听
-    private lateinit var onAdapterSelectListener: OnAdapterSelectListener
 
     //滑动距离的常量
     private val touchSlop = getTouchSlop(context).toFloat()
@@ -78,21 +108,22 @@ class CalendarView @JvmOverloads constructor(
     //日期
     val data : CalendarData
         get() = drawer.seedDate
+
     //周/月类型
     val type : CalendarAttr.CalendarType
         get() = calendarAttr.calendarType
 
-    //日历的绘画类
-    private val drawer by lazy {
-        CalendarDrawer(context,this,calendarAttr).also{
-            it.setOnSelectDataListener(onSelectListener)
-        }
-    }
+
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         //交给drawer画每一天
-        drawer.drawDays(canvas)
+        if(this::onAdapterSelectListener.isInitialized
+            && this::onSelectListener.isInitialized
+            && this::calendarAttr.isInitialized
+            &&  currentPosition != -1){
+                drawer.drawDays(canvas)
+        }
     }
 
     private var posX = 0f
@@ -114,10 +145,10 @@ class CalendarView @JvmOverloads constructor(
                 if (abs(disX) < touchSlop && abs(disY) < touchSlop) {
                     val col: Int = (posX / cellWidth + 0.5).toInt()
                     val row: Int = (posY / cellHeight).toInt()
-//                    onAdapterSelectListener.cancelSelectState()
+                    onAdapterSelectListener.cancelSelectState()
                     cancelSelectState()
                     drawer.onClickDate(col, row)
-//                    onAdapterSelectListener.updateSelectState()
+                    onAdapterSelectListener.updateSelectState()
                     update()
                     invalidate()
                 }
@@ -149,7 +180,7 @@ class CalendarView @JvmOverloads constructor(
     }
 
     fun update(){
-        drawer.update()
+         drawer.update()
     }
 
     fun cancelSelectState() {

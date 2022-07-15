@@ -28,6 +28,7 @@ import java.util.*
  * @param month 参数月
  * @return int 参数月所包含的天数
  */
+
 fun getMonthDays(year: Int, month: Int): Int {
     var mMonth = month
     var mYear = year
@@ -53,10 +54,36 @@ fun getMonthDays(year: Int, month: Int): Int {
  * @param month 当前月
  * @return int 本月第一天在其周的位置
  */
+//fun getFirstDayWeekPosition(year: Int, month: Int): Int {
+//    val cal = Calendar.getInstance()
+//    cal.set(year,month+1,1)
+//    return cal[Calendar.DAY_OF_WEEK]
+//}
 fun getFirstDayWeekPosition(year: Int, month: Int): Int {
     val cal = Calendar.getInstance()
-    cal.set(year,month+1,1)
-    return cal[Calendar.DAY_OF_WEEK]
+    cal.time = getDateFromString(year, month)
+    return cal[Calendar.DAY_OF_WEEK] - 1
+
+}
+
+/**
+ * 将yyyy-MM-dd类型的字符串转化为对应的Date对象
+ *
+ * @param year  当前年
+ * @param month 当前月
+ * @return Date  对应的Date对象
+ */
+@SuppressLint("SimpleDateFormat")
+fun getDateFromString(year: Int, month: Int): Date {
+    val dateString = year.toString() + "-" + (if (month > 9) month else "0$month") + "-01"
+    var date = Date()
+    try {
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        date = sdf.parse(dateString)!!
+    } catch (e: ParseException) {
+        println(e.message)
+    }
+    return date
 }
 
 /**
@@ -70,7 +97,7 @@ fun getFirstDayWeekPosition(year: Int, month: Int): Int {
 fun calculateMonthOffset(
     year: Int,
     month: Int,
-    currentDate: CalendarData
+    currentDate: CalendarData,
 ): Int {
     val currentYear: Int = currentDate.year
     val currentMonth: Int = currentDate.month

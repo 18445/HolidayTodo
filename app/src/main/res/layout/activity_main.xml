@@ -10,12 +10,8 @@
         <com.yan.holidaytodo.widget.WeekView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <com.yan.holidaytodo.widget.CalendarView
-            android:id="@+id/calendar"
-            android:layout_width="match_parent"
-            android:layout_height="300dp" />
         <com.yan.holidaytodo.widget.MonthView
             android:id="@+id/month_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="300dp"/>
 </LinearLayout>

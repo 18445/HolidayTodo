@@ -35,6 +35,7 @@ android {
 
 dependencies {
     implementation(project(":common"))
+    implementation(kotlin("reflect"))
 }
 
 

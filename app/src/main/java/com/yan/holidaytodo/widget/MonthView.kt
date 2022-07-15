@@ -37,7 +37,7 @@ class MonthView@JvmOverloads constructor(
         var currentPosition = CURRENT_DAY_INDEX
     }
 
-    private lateinit var viewPager2 : ViewPager2
+    private var viewPager2 : ViewPager2
 
     init {
         layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -47,12 +47,9 @@ class MonthView@JvmOverloads constructor(
         viewPager2 = findViewById(R.id.calendar_pager)
     }
 
-
     fun initAdapter(calendarAdapter: CalendarAdapter){
         viewPager2.adapter = calendarAdapter
+        viewPager2.setCurrentItem(CURRENT_DAY_INDEX,false)
     }
-
-
-
 
 }
