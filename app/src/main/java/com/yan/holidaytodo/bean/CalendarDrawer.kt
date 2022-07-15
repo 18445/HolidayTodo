@@ -22,14 +22,81 @@ import com.yan.holidaytodo.widget.CalendarView
  * @Description:    负责绘画日历
  */
 class CalendarDrawer(private val context: Context,private val calendarView: CalendarView,private var calendarAttr: CalendarAttr) {
-    private val weeks: Array<WeekData> = Array(CalendarView.TOTAL_ROW){
-        WeekData(it)
-    }
+
+//    private val weeks: Array<WeekData> = Array(CalendarView.TOTAL_ROW){
+//        WeekData(it)
+//    }
+
+    private val days1 = arrayOf(
+        Day(State.PAST_MONTH,CalendarData(2022,6,26),0,0),
+        Day(State.PAST_MONTH,CalendarData(2022,6,27),0,1),
+        Day(State.PAST_MONTH,CalendarData(2022,6,28),0,2),
+        Day(State.PAST_MONTH,CalendarData(2022,6,29),0,3),
+        Day(State.PAST_MONTH,CalendarData(2022,6,30),0,4),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,1),0,5),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,2),0,6),
+    )
+
+    private val days2 = arrayOf(
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,3),1,0),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,4),1,1),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,5),1,2),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,6),1,3),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,7),1,4),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,8),1,5),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,9),1,6),
+    )
+    private val days3 = arrayOf(
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,10),2,0),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,11),2,1),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,12),2,2),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,13),2,3),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,14),2,4),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,15),2,5),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,16),2,6),
+    )
+    private val days4 = arrayOf(
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,17),3,0),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,18),3,1),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,19),3,2),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,20),3,3),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,21),3,4),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,22),3,5),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,23),3,6),
+    )
+    private val days5 = arrayOf(
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,24),4,0),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,25),4,1),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,26),4,2),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,27),4,3),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,28),4,4),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,29),4,5),
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,30),4,6),
+    )
+    private val days6 = arrayOf(
+        Day(State.CURRENT_MONTH,CalendarData(2022,7,30),5,0),
+        Day(State.NEXT_MONTH,CalendarData(2022,8,1),5,1),
+        Day(State.NEXT_MONTH,CalendarData(2022,8,2),5,2),
+        Day(State.NEXT_MONTH,CalendarData(2022,8,3),5,3),
+        Day(State.NEXT_MONTH,CalendarData(2022,8,4),5,4),
+        Day(State.NEXT_MONTH,CalendarData(2022,8,5),5,5),
+        Day(State.NEXT_MONTH,CalendarData(2022,8,6),5,6),
+    )
+
+    private val weeks : Array<WeekData> = arrayOf(
+        WeekData(0, days1),
+        WeekData(1, days2),
+        WeekData(2, days3),
+        WeekData(3, days4),
+        WeekData(4, days5),
+        WeekData(5, days6),
+    )
+
     lateinit var dayDrawer: IDayDrawer //每一天的drawer
 
     private lateinit var onSelectDateListener: OnSelectDateListener //点击回调
     //种子日期
-    lateinit var seedDate: CalendarData
+     lateinit var seedDate: CalendarData
     //被选中的日期
     private lateinit var selectedDate : CalendarData
     //被选中的行数
@@ -40,6 +107,7 @@ class CalendarDrawer(private val context: Context,private val calendarView: Cale
         for (row in 0 until CalendarView.TOTAL_ROW) {
             for (col in 0 until CalendarView.TOTAl_COLUMN) {
                 //第row行第col列的元素
+                Log.d("yanDrawer","$row , $col   "+weeks[row].days[col].data)
                 dayDrawer.drawDay(canvas, weeks[row].days[col])
             }
         }
@@ -122,7 +190,7 @@ class CalendarDrawer(private val context: Context,private val calendarView: Cale
         val lastMonthDays: Int = getMonthDays(seedDate.year, seedDate.month - 1) // 上个月的天数
         val currentMonthDays: Int = getMonthDays(seedDate.year, seedDate.month) // 当前月的天数
         val firstDayPosition: Int = getFirstDayWeekPosition(
-            seedDate.year,
+            seedDate.year,+
             seedDate.month
         )
         var day = 0

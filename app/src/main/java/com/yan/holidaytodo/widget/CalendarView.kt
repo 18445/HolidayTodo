@@ -112,11 +112,13 @@ class CalendarView @JvmOverloads constructor(
                 val disX = event.x - posX
                 val disY = event.y - posY
                 if (abs(disX) < touchSlop && abs(disY) < touchSlop) {
-                    val col: Int = (posX / cellWidth).toInt()
+                    val col: Int = (posX / cellWidth + 0.5).toInt()
                     val row: Int = (posY / cellHeight).toInt()
-                    onAdapterSelectListener.cancelSelectState()
+//                    onAdapterSelectListener.cancelSelectState()
+                    cancelSelectState()
                     drawer.onClickDate(col, row)
-                    onAdapterSelectListener.updateSelectState()
+//                    onAdapterSelectListener.updateSelectState()
+                    update()
                     invalidate()
                 }
             }

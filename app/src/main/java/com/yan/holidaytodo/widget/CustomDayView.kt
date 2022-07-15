@@ -28,20 +28,20 @@ import com.yan.holidaytodo.util.getYear
 @SuppressLint("ViewConstructor")
 class CustomDayView(context: Context, layoutResource: Int) :
     DayView(context, layoutResource) {
-    private val dateTv: TextView = findViewById<TextView>(R.id.date)
-    private val marker: ImageView = findViewById<ImageView>(R.id.maker)
+    private val dateTv: TextView = findViewById(R.id.date)
+    private val marker: ImageView = findViewById(R.id.maker)
     private val selectedBackground: View = findViewById(R.id.selected_background)
     private val todayBackground: View = findViewById(R.id.today_background)
     private val today: CalendarData = CalendarData(getYear(), getMonth(), getDay())
 
     override fun refreshContent() {
-        super.refreshContent()
         drawerToday(day.data)
         drawerSelect(day.state)
+        super.refreshContent()
 //        drawerMarker(day.getDate(), day.getState())
     }
 
-//    private fun drawerMarker(date: CalendarDate, state: State) {
+//    private fun drawerMarker(data: CalendarData, state: State) {
 //        if (loadMarkData().containsKey(date.toString())) {
 //            if (state === State.SELECT || date.toString().equals(today.toString())) {
 //                marker.visibility = GONE

@@ -11,10 +11,8 @@ package com.yan.holidaytodo.bean
  * @Version:        1.0
  * @Description:    日历的相关属性
  */
-class CalendarAttr {
+class CalendarAttr (var calendarType: CalendarType){
 
-    //显示周布局或月布局
-    lateinit var calendarType: CalendarType
 
     //日期格子高度
     var cellHeight = 0
@@ -24,6 +22,7 @@ class CalendarAttr {
      */
     var cellWidth = 0
 
+    //显示周布局或月布局
     enum class CalendarType {
         WEEK,
         MONTH

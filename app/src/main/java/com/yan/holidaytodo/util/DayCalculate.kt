@@ -39,17 +39,11 @@ fun getMonthDays(year: Int, month: Int): Int {
         mYear -= 1
     }
     val monthDays = intArrayOf(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
-    var days = 0
     // 闰年2月29天
     if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
         monthDays[1] = 29
     }
-    try {
-        days = monthDays[mMonth - 1]
-    } catch (e: Exception) {
-        e.stackTrace
-    }
-    return days
+    return monthDays[(mMonth - 1)%12]
 }
 
 /**
@@ -57,12 +51,11 @@ fun getMonthDays(year: Int, month: Int): Int {
  *
  * @param year  当前年
  * @param month 当前月
- * @param type  周排列方式 0代表周一作为本周的第一天， 2代表周日作为本周的第一天
  * @return int 本月第一天在其周的位置
  */
 fun getFirstDayWeekPosition(year: Int, month: Int): Int {
     val cal = Calendar.getInstance()
-    cal.set(year,month,1)
+    cal.set(year,month+1,1)
     return cal[Calendar.DAY_OF_WEEK]
 }
 
