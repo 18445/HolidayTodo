@@ -82,9 +82,4 @@ class CustomDayView(context: Context, layoutResource: Int) :
         }
     }
 
-    override fun copy(): IDayDrawer {
-        return CustomDayView(context, layoutResource)
-    }
-
-
 }

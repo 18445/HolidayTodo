@@ -82,9 +82,5 @@ class SingleDay @JvmOverloads constructor(
         drawDay(canvas)
     }
 
-    override fun copy(): IDayDrawer {
-        return this
-    }
-
 
 }

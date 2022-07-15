@@ -18,10 +18,9 @@ import com.yan.holidaytodo.callback.IDayDrawer
  * @Version:        1.0
  * @Description:
  */
-abstract class DayView(context: Context, layoutResource: Int) :
+abstract class DayView(context: Context, private val layoutResource: Int) :
     RelativeLayout(context), IDayDrawer {
     lateinit var day: Day
-    var layoutResource: Int
 
     /**
      * 为自定义的DayView设置资源文件
@@ -36,14 +35,8 @@ abstract class DayView(context: Context, layoutResource: Int) :
         inflated.layout(0, 0, measuredWidth, measuredHeight)
     }
 
-    /**
-     *
-     * @param layoutResource 资源文件
-     * @param context 上下文
-     */
     init {
         setupLayoutResource(layoutResource)
-        this.layoutResource = layoutResource
     }
 
     open fun refreshContent() {

@@ -19,20 +19,21 @@ class MainActivity : BaseActivity<HomeViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        findViewById<CalendarView>(R.id.calendar).apply {
-            initAttr(CalendarAttr(CalendarAttr.CalendarType.MONTH))
-            initOnSelectListener (object : OnSelectDateListener {
-                override fun onSelectDate(calendarData: CalendarData) {
-
-                }
-
-                override fun onSelectOtherMonth(offset: Int) {
-
-                }
-
-            })
-            initDayDrawer(CustomDayView(baseContext,R.layout.custiom_day))
-        }
+//        findViewById<CalendarView>(R.id.calendar).apply {
+//            initAttr(CalendarAttr(CalendarAttr.CalendarType.MONTH))
+//            initOnSelectListener (object : OnSelectDateListener {
+//                override fun onSelectDate(calendarData: CalendarData) {
+//
+//                }
+//
+//                override fun onSelectOtherMonth(offset: Int) {
+//
+//                }
+//
+//            })
+//            initDayDrawer(CustomDayView(baseContext,R.layout.custiom_day))
+//            initCurrentPosition(1000)
+//        }
         findViewById<MonthView>(R.id.month_view).apply {
             initAdapter(CalendarAdapter(context, object : OnSelectDateListener {
                 override fun onSelectDate(calendarData: CalendarData) {

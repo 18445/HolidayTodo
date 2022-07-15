@@ -18,5 +18,4 @@ interface IDayDrawer {
 
     fun drawDay(canvas: Canvas, day: Day)
 
-    fun copy() : IDayDrawer
 }
