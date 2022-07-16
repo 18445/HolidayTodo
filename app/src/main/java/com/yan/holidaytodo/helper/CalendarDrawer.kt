@@ -46,7 +46,7 @@ class CalendarDrawer(private val context: Context,private val calendarView: Cale
     private fun initWeeks(calendarData: CalendarData) {
 
         val tempWeeks : Array<WeekData> = Array(CalendarView.TOTAL_ROW){
-            val days = Array<Day>(CalendarView.TOTAl_COLUMN){
+            val days = Array(CalendarView.TOTAl_COLUMN){
                 Day(State.CURRENT_MONTH, CalendarData(getYear(), getMonth(), getDay()),0,0)
             }
             WeekData(it,days)
@@ -80,10 +80,6 @@ class CalendarDrawer(private val context: Context,private val calendarView: Cale
             )
         }
 
-        Log.e("duration", "first day: $firstDay")
-        Log.e("duration", "this:$duration    last:$lastDuration")
-        Log.e("duration", "this:$calendarData    last:$lastCalendarData")
-
         for(row in 0 until CalendarView.TOTAL_ROW){
             for (col in 0 until CalendarView.TOTAl_COLUMN){
                 tempWeeks[row].days[col] = dayList[(col + row * CalendarView.TOTAl_COLUMN)]
@@ -112,7 +108,8 @@ class CalendarDrawer(private val context: Context,private val calendarView: Cale
                 dayDrawer.drawDay(canvas, weeks[row].days[col],percent)
             }
         }
-//        update()
+
+        dayDrawer.drawWeek(canvas,weeks[5])
     }
 
 
@@ -197,7 +194,7 @@ class CalendarDrawer(private val context: Context,private val calendarView: Cale
     /**
      * 填充月中周数据
      *
-     * @return void
+     * @return
      */
     private fun fillWeekInMonth(
         lastMonthDays: Int,
@@ -223,7 +220,7 @@ class CalendarDrawer(private val context: Context,private val calendarView: Cale
     }
 
     /**
-     * 填充当前月份的数据
+     * 填充月中的数据
      *
      * @return void
      */

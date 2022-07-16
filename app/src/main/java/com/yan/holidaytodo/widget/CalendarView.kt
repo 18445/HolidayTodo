@@ -108,8 +108,7 @@ class CalendarView @JvmOverloads constructor(
     private val calendarMover = CalendarMover(this)
 
     //单元格现在的高度
-    var currentCellHeight = -1
-        private set
+    private var currentCellHeight = -1
 
     //现在的整体高度
     var mCurrentHeight = -1
@@ -188,25 +187,22 @@ class CalendarView @JvmOverloads constructor(
                 //每次的偏移量
                 val distanceY = event.y - moveY
 
-                //两个分支作用一样
-                //这样写是方便区分状态
                 if(totalOffsetY < -moveUpOrDown && layoutParams.height >= mLeastHeight.dpToPx() ){//view 向上滑动 (折叠)
                     parent.requestDisallowInterceptTouchEvent(true)
                     calendarMover.calendarMove(calendarState,distanceY)
-//                    最终结果
-//                    layoutParams.height = 60.dpToPx()
-//                    requestLayout()
                 }else if(totalOffsetY > moveUpOrDown && layoutParams.height <= mMostHeight.dpToPx()){//view 普通状态向下滑动 (展开)
                     parent.requestDisallowInterceptTouchEvent(true)
                     calendarMover.calendarMove(calendarState,distanceY)
-//                    最终结果
-//                    layoutParams.height = 675.dpToPx()
                 }
                 moveY = event.y
             }
+
+
             MotionEvent.ACTION_UP -> {
                 val disX = event.x - posX
                 val disY = event.y - posY
+
+
 
                 if (abs(disX) < touchSlop && abs(disY) < touchSlop) {//点击事件
                     val col: Int = (posX / cellWidth + 0.5).toInt()
@@ -219,19 +215,36 @@ class CalendarView @JvmOverloads constructor(
                     invalidate()
                 }
 
-                //向下滑动
-                if (calendarState === CalendarMover.CalendarState.NORMAL && disY > (mMostHeight.dpToPx() - mNormalHeight) / 2 ){ //普通状态拉伸
+                //普通状态向下滑动
+                if (calendarState === CalendarMover.CalendarState.NORMAL && disY > (mMostHeight.dpToPx() - mNormalHeight) / 2
+                    && mCurrentHeight >= mNormalHeight){ //普通状态拉伸
                     calendarMover.moveToDown()
                     calendarState = CalendarMover.CalendarState.STRETCHING
-                }else if (calendarState === CalendarMover.CalendarState.NORMAL && disY > 0){ //普通状态恢复
+                }else if (calendarState === CalendarMover.CalendarState.NORMAL && disY > 0 && mCurrentHeight >= mNormalHeight){ //普通状态恢复
                     calendarMover.moveToNormal()
                 }
-
-                if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > (mMostHeight.dpToPx() - mNormalHeight) / 2){ //恢复为普通状态
+                //普通状态向上滑动
+                else if(calendarState === CalendarMover.CalendarState.NORMAL && -disY > (mNormalHeight - mLeastHeight.dpToPx())/2
+                    && mCurrentHeight <= mNormalHeight) { //普通状态收缩
+                    calendarMover.moveToFoldingTop()
+                    calendarState = CalendarMover.CalendarState.FOLDING
+                }else if(calendarState === CalendarMover.CalendarState.NORMAL && -disY > 0 && mCurrentHeight <= mNormalHeight){ //普通状态恢复
+                    calendarMover.moveToNormalWhenUp()
+                }
+                //拉伸状态向上滑动
+                else if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > (mMostHeight.dpToPx() - mNormalHeight) / 2){ //恢复为普通状态
                     calendarMover.moveToNormal()
                     calendarState = CalendarMover.CalendarState.NORMAL
                 }else if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > 0){ //恢复为拉伸状态
                     calendarMover.moveToDown()
+                }
+                //折叠状态向下滑动
+                else if(calendarState === CalendarMover.CalendarState.FOLDING && disY >= cellHeight * 2
+                    && mCurrentHeight <= mNormalHeight){ //恢复为普通状态
+                    calendarMover.moveToNormalWhenFolding()
+                    calendarState = CalendarMover.CalendarState.NORMAL
+                }else if(calendarState === CalendarMover.CalendarState.FOLDING && disY > 0 && mCurrentHeight <= mNormalHeight){
+                    calendarMover.moveToFoldingTop()
                 }
 
             }

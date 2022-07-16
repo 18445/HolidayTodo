@@ -2,6 +2,7 @@ package com.yan.holidaytodo.callback
 
 import android.graphics.Canvas
 import com.yan.holidaytodo.bean.Day
+import com.yan.holidaytodo.bean.WeekData
 
 /**
  *
@@ -18,4 +19,5 @@ interface IDayDrawer {
 
     fun drawDay(canvas: Canvas, day: Day, percent : Float)
 
+    fun drawWeek(canvas: Canvas,weekData: WeekData)
 }

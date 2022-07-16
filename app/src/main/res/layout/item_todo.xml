@@ -14,8 +14,6 @@
         app:layout_constraintEnd_toStartOf="@+id/gl_todo_right"
         app:layout_constraintStart_toStartOf="@id/gl_todo_left"
         app:layout_constraintTop_toTopOf="@id/gl_todo_top">
-
-
     </androidx.cardview.widget.CardView>
 
     <androidx.constraintlayout.widget.Guideline

@@ -13,17 +13,7 @@ import com.yan.holidaytodo.widget.CalendarView
  * @Version:        1.0
  * @Description:    周数据
  */
+
 class WeekData (val row : Int,val days: Array<Day>){
 
-
-    //一周中的每一天
-//    val days : Array<Day> = arrayOf(
-//        Day(State.CURRENT_MONTH,CalendarData(2022,7,15),row,0),
-//        Day(State.CURRENT_MONTH,CalendarData(2022,7,16),row,1),
-//        Day(State.CURRENT_MONTH,CalendarData(2022,7,17),row,2),
-//        Day(State.CURRENT_MONTH,CalendarData(2022,7,18),row,3),
-//        Day(State.CURRENT_MONTH,CalendarData(2022,7,19),row,4),
-//        Day(State.CURRENT_MONTH,CalendarData(2022,7,20),row,5),
-//        Day(State.CURRENT_MONTH,CalendarData(2022,7,21),row,6),
-//    )
 }

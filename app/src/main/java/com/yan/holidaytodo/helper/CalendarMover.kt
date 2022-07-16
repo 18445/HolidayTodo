@@ -1,8 +1,11 @@
 package com.yan.holidaytodo.helper
 
+import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.util.Log
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AnimationSet
+import androidx.core.animation.doOnEnd
 import com.yan.holidaytodo.util.dpToPx
 import com.yan.holidaytodo.widget.CalendarView
 
@@ -19,27 +22,31 @@ import com.yan.holidaytodo.widget.CalendarView
  */
 class CalendarMover(private val calendarView: CalendarView) {
 
+    //view移动的距离
+    private var mScrollOffset = 0f
 
     /**
      * 提供给外部的滑动方法
      */
     fun calendarMove(calendarState: CalendarState,offsetY : Float){
-        Log.d("beMoved",offsetY.toString())
-        Log.d("beMoved",calendarView.layoutParams.height.toString())
-        Log.d("beMoved",calendarState.name)
-        Log.d("beMoved",calendarView.layoutParams.height.toString())
-        Log.d("beMoved",calendarView.mNormalHeight.toString())
-        if(calendarState === CalendarState.NORMAL && offsetY > 0){
+
+        if(calendarState === CalendarState.NORMAL && offsetY > 0 && calendarView.mCurrentHeight >= calendarView.mNormalHeight){
             //向下滑动
             calendarNormalDown(offsetY)
-        }else if(calendarState === CalendarState.NORMAL && offsetY < 0){
+        }else if(calendarState === CalendarState.NORMAL && offsetY < 0 && calendarView.mCurrentHeight <= calendarView.mNormalHeight){
             //向上滑动
             calendarNormalUp(offsetY)
+        }else if(calendarState === CalendarState.NORMAL && offsetY > 0 && calendarView.mCurrentHeight <= calendarView.mNormalHeight){
+            //向上滑动时向下滑动
+            calendarNormalDownWhenUp(offsetY)
         }else if(calendarState === CalendarState.STRETCHING && offsetY < 0
             && calendarView.mCurrentHeight <= calendarView.mMostHeight.dpToPx()
             && calendarView.mCurrentHeight > calendarView.mNormalHeight){
-            Log.d("beMoved", calendarState.name)
             calendarStretchingUp(offsetY)
+        }else if (calendarState === CalendarState.FOLDING && offsetY > 0
+            && calendarView.mCurrentHeight <= calendarView.mNormalHeight
+            && calendarView.mCurrentHeight >= calendarView.mLeastHeight.dpToPx()){
+            calendarFoldingDown(offsetY)
         }
     }
 
@@ -51,7 +58,9 @@ class CalendarMover(private val calendarView: CalendarView) {
         calendarView.apply {
             layoutParams.height += offsetY.toInt()
             requestLayout()
-            downPercent = -(layoutParams.height - mNormalHeight )/(mLeastHeight.dpToPx().toFloat() - mNormalHeight)
+            mScrollOffset -= offsetY
+            Log.d("aaa",mScrollOffset.toString())
+            scrollTo(0, mScrollOffset.toInt())
         }
     }
 
@@ -68,7 +77,19 @@ class CalendarMover(private val calendarView: CalendarView) {
     }
 
     /**
-     * 拉伸状态拉到普通
+     * 普通状态上拉时下滑
+     */
+    private fun calendarNormalDownWhenUp(offsetY: Float){
+        calendarView.apply {
+            layoutParams.height += offsetY.toInt()
+            requestLayout()
+            mScrollOffset -= offsetY
+            scrollTo(0,mScrollOffset.toInt())
+        }
+    }
+
+    /**
+     * 拉伸状态向上滑动
      */
     private fun calendarStretchingUp(offsetY: Float){
         calendarView.apply {
@@ -78,6 +99,17 @@ class CalendarMover(private val calendarView: CalendarView) {
         }
     }
 
+    /**
+     * 收缩状态向下滑动
+     */
+    private fun calendarFoldingDown(offsetY: Float){
+        calendarView.apply {
+            layoutParams.height += offsetY.toInt()
+            requestLayout()
+            mScrollOffset -= offsetY
+            scrollTo(0,mScrollOffset.toInt())
+        }
+    }
 
 
     /**
@@ -119,9 +151,106 @@ class CalendarMover(private val calendarView: CalendarView) {
         }
     }
 
+    /**
+     * 上滑时向下滑动成正常状态
+     */
+    fun moveToNormalWhenUp(){
+        calendarView.apply {
+            val time = 500
+            val v1 = ValueAnimator.ofInt(mCurrentHeight,mNormalHeight).apply {
+                duration = time.toLong()
+                addUpdateListener {
+                    val adjustedHeight = it.animatedValue as Int
+                    layoutParams.height = adjustedHeight
+                    requestLayout()
+                }
+                interpolator = AccelerateDecelerateInterpolator()
+            }
+            val v2 = ValueAnimator.ofInt(0,mScrollOffset.toInt()).apply {
+                duration = time.toLong()
+                var lastMove = 0
+                addUpdateListener {
+                    val adjustedMove = it.animatedValue as Int
+                    scrollTo(0,adjustedMove - lastMove)
+                    lastMove = adjustedMove
+                }
+                doOnEnd {
+                    mScrollOffset = 0f
+                }
+                interpolator = AccelerateDecelerateInterpolator()
+            }
+            AnimatorSet().apply {
+                play(v1).with(v2)
+                start()
+            }
+        }
+    }
 
+    /**
+     * 进入收缩状态
+     */
+    fun moveToFoldingTop(){
+        calendarView.apply {
+            val time = 500
+            val v1 = ValueAnimator.ofInt(mCurrentHeight,mLeastHeight.dpToPx()).apply {
+                duration = time.toLong()
+                addUpdateListener {
+                    val adjustedHeight = it.animatedValue as Int
+                    layoutParams.height = adjustedHeight
+                    requestLayout()
+                }
+                interpolator = AccelerateDecelerateInterpolator()
+            }
+            val v2 = ValueAnimator.ofInt(mScrollOffset.toInt(),700).apply {
+                duration = time.toLong()
+                addUpdateListener {
+                    val adjustedMove = it.animatedValue as Int
+                    scrollTo(0,adjustedMove)
+                }
+                doOnEnd {
+                    mScrollOffset = 700f
+                }
+                interpolator = AccelerateDecelerateInterpolator()
+            }
+            AnimatorSet().apply {
+                play(v1).with(v2)
+                start()
+            }
+        }
+    }
 
-
+    /**
+     * 收缩状态恢复普通
+     */
+    fun moveToNormalWhenFolding(){
+        calendarView.apply {
+            val time = 500
+            val v1 = ValueAnimator.ofInt(mCurrentHeight,mNormalHeight).apply {
+                duration = time.toLong()
+                addUpdateListener {
+                    val adjustedHeight = it.animatedValue as Int
+                    layoutParams.height = adjustedHeight
+                    requestLayout()
+                }
+                interpolator = AccelerateDecelerateInterpolator()
+            }
+            val v2 = ValueAnimator.ofInt(mScrollOffset.toInt(),0).apply {
+                duration = time.toLong()
+                addUpdateListener {
+                    val adjustedMove = it.animatedValue as Int
+                    scrollTo(0,adjustedMove)
+                }
+                doOnEnd {
+                    mScrollOffset = 0f
+                }
+                interpolator = AccelerateDecelerateInterpolator()
+            }
+            AnimatorSet().apply {
+                play(v1).with(v2)
+                start()
+            }
+        }
+    }
 
 
 

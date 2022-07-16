@@ -2,10 +2,14 @@ package com.yan.holidaytodo.widget
 
 import android.content.Context
 import android.graphics.Canvas
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
+import com.yan.holidaytodo.R
 import com.yan.holidaytodo.bean.Day
+import com.yan.holidaytodo.bean.WeekData
 import com.yan.holidaytodo.callback.IDayDrawer
+import kotlin.time.Duration.Companion.days
 
 /**
  *
@@ -29,10 +33,10 @@ abstract class DayView(context: Context, layoutResource: Int) :
      * @return CalendarDate 修改后的日期
      */
     private fun setupLayoutResource(layoutResource: Int) {
-        val inflated = LayoutInflater.from(context).inflate(layoutResource, this)
-        inflated.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+        val view = LayoutInflater.from(context).inflate(layoutResource, this)
+        view.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
             MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
-        inflated.layout(0, 0, measuredWidth, measuredHeight)
+        view.layout(0, 0, measuredWidth, measuredHeight)
     }
 
     init {
@@ -55,6 +59,16 @@ abstract class DayView(context: Context, layoutResource: Int) :
         canvas.restoreToCount(saveId)
     }
 
+//    fun drawWeekDay(canvas: Canvas,day: Day){
+//
+//    }
+//
+    override fun drawWeek(canvas: Canvas,weekData: WeekData){
+//        for(i in 0 until CalendarView.TOTAl_COLUMN){
+//            drawDay(canvas,weekData)
+//        }
+    }
+
     private fun getTranslateX(canvas: Canvas, day: Day): Int {
         val canvasWidth = canvas.width / 7
         val viewWidth = measuredWidth
@@ -62,10 +76,7 @@ abstract class DayView(context: Context, layoutResource: Int) :
         return day.posCol * canvasWidth + moveX
     }
 
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-//        cleanMarkData()
-    }
+
 
 
 }

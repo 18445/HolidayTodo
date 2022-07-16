@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import com.yan.holidaytodo.bean.Day
+import com.yan.holidaytodo.bean.WeekData
 import com.yan.holidaytodo.callback.IDayDrawer
 
 
@@ -80,6 +81,10 @@ class SingleDay @JvmOverloads constructor(
     override fun drawDay(canvas: Canvas, day: Day,percent : Float) {
         drawText(canvas)
         drawDay(canvas)
+    }
+
+    override fun drawWeek(canvas: Canvas, weekData: WeekData) {
+
     }
 
 
