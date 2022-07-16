@@ -77,7 +77,7 @@ class SingleDay @JvmOverloads constructor(
         canvas.drawText(mText,middleX,middleY+height/4,mTextPaint)
     }
 
-    override fun drawDay(canvas: Canvas, day: Day) {
+    override fun drawDay(canvas: Canvas, day: Day,percent : Float) {
         drawText(canvas)
         drawDay(canvas)
     }

@@ -18,7 +18,7 @@ import com.yan.holidaytodo.callback.IDayDrawer
  * @Version:        1.0
  * @Description:
  */
-abstract class DayView(context: Context, private val layoutResource: Int) :
+abstract class DayView(context: Context, layoutResource: Int) :
     RelativeLayout(context), IDayDrawer {
     lateinit var day: Day
 
@@ -45,23 +45,21 @@ abstract class DayView(context: Context, private val layoutResource: Int) :
         layout(0, 0, measuredWidth, measuredHeight)
     }
 
-    override fun drawDay(canvas: Canvas, day: Day) {
+    override fun drawDay(canvas: Canvas, day: Day ,percent : Float) {
         this.day = day
         refreshContent()
         val saveId = canvas.save()
         canvas.translate(getTranslateX(canvas, day).toFloat(),
-            (day.posRow * measuredHeight).toFloat())
+            (day.posRow * measuredHeight + 150 * day.posRow * percent))
         draw(canvas)
         canvas.restoreToCount(saveId)
     }
 
     private fun getTranslateX(canvas: Canvas, day: Day): Int {
-        val dx: Int
         val canvasWidth = canvas.width / 7
         val viewWidth = measuredWidth
         val moveX = (canvasWidth - viewWidth) / 2
-        dx = day.posCol * canvasWidth + moveX
-        return dx
+        return day.posCol * canvasWidth + moveX
     }
 
     override fun onDetachedFromWindow() {

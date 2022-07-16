@@ -9,13 +9,15 @@ import android.view.MotionEvent
 import android.view.View
 import com.yan.holidaytodo.bean.CalendarAttr
 import com.yan.holidaytodo.bean.CalendarData
-import com.yan.holidaytodo.bean.CalendarDrawer
+import com.yan.holidaytodo.helper.CalendarDrawer
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnAdapterSelectListener
 import com.yan.holidaytodo.callback.OnSelectDateListener
+import com.yan.holidaytodo.helper.CalendarMover
+import com.yan.holidaytodo.util.calcOffset
+import com.yan.holidaytodo.util.dpToPx
 import com.yan.holidaytodo.util.getTouchSlop
 import kotlin.math.abs
-import kotlin.properties.Delegates
 
 /**
  *
@@ -43,7 +45,6 @@ class CalendarView @JvmOverloads constructor(
     private lateinit var calendarAttr: CalendarAttr
     //设置日历所在页面
     private var currentPosition = -1
-
     //日历的绘画类
     private lateinit var drawer : CalendarDrawer
 
@@ -85,25 +86,42 @@ class CalendarView @JvmOverloads constructor(
         const val TOTAl_COLUMN = 7
     }
 
-    //单元格的高度
+    //单元格的初始高度
     private val cellHeight by lazy {
         val h = height / TOTAl_COLUMN
         calendarAttr.cellHeight = h
         h
     }
-    //单元格的宽度
+    //单元格的初始宽度
     private val cellWidth by lazy{
         val w = width / TOTAL_ROW
         calendarAttr.cellWidth = w
         w
     }
 
+    //上下滑动阈值
+    private val moveUpOrDown by lazy {
+        cellHeight
+    }
+
+    //移动类
+    private val calendarMover = CalendarMover(this)
+
+    //单元格现在的高度
+    var currentCellHeight = -1
+        private set
+
+    //现在的整体高度
+    var mCurrentHeight = -1
+        private set
     //当前被选定的行数
     private var selectedRowIndex = 0
 
-
     //滑动距离的常量
     private val touchSlop = getTouchSlop(context).toFloat()
+
+    //现在的view状态
+    private var calendarState = CalendarMover.CalendarState.NORMAL
 
     //日期
     val data : CalendarData
@@ -113,7 +131,27 @@ class CalendarView @JvmOverloads constructor(
     val type : CalendarAttr.CalendarType
         get() = calendarAttr.calendarType
 
+    //设置的最小高度 dp 单位
+    val mLeastHeight = 60
+    //设置的最大高度 dp 单位
+    val mMostHeight = 650
+    //初始长度 px 单位
+    var mNormalHeight = -1
+        private set
 
+    //下拉比例
+    var downPercent = 0f
+        get() = calcOffset(field,-1f,1f)
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        if(mNormalHeight == -1){
+            mNormalHeight = h
+        }
+        mCurrentHeight = h
+        currentCellHeight = h / TOTAl_COLUMN
+        Log.d("currentCellHeight",currentCellHeight.toString())
+    }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -122,12 +160,16 @@ class CalendarView @JvmOverloads constructor(
             && this::onSelectListener.isInitialized
             && this::calendarAttr.isInitialized
             &&  currentPosition != -1){
-                drawer.drawDays(canvas)
+                drawer.drawDays(canvas, downPercent)
         }
     }
 
+    //用于记录总滑动位置
     private var posX = 0f
     private var posY = 0f
+
+    //用于记录每次滑动位置
+    private var moveY = 0f
 
     /**
      * 确立点击位置的日期
@@ -138,13 +180,37 @@ class CalendarView @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> {
                 posX = event.x
                 posY = event.y
+                moveY = event.y
+            }
+            MotionEvent.ACTION_MOVE -> {
+                //总偏移量
+                val totalOffsetY =  event.y - posY
+                //每次的偏移量
+                val distanceY = event.y - moveY
+
+                //两个分支作用一样
+                //这样写是方便区分状态
+                if(totalOffsetY < -moveUpOrDown && layoutParams.height >= mLeastHeight.dpToPx() ){//view 向上滑动 (折叠)
+                    parent.requestDisallowInterceptTouchEvent(true)
+                    calendarMover.calendarMove(calendarState,distanceY)
+//                    最终结果
+//                    layoutParams.height = 60.dpToPx()
+//                    requestLayout()
+                }else if(totalOffsetY > moveUpOrDown && layoutParams.height <= mMostHeight.dpToPx()){//view 普通状态向下滑动 (展开)
+                    parent.requestDisallowInterceptTouchEvent(true)
+                    calendarMover.calendarMove(calendarState,distanceY)
+//                    最终结果
+//                    layoutParams.height = 675.dpToPx()
+                }
+                moveY = event.y
             }
             MotionEvent.ACTION_UP -> {
                 val disX = event.x - posX
                 val disY = event.y - posY
-                if (abs(disX) < touchSlop && abs(disY) < touchSlop) {
+
+                if (abs(disX) < touchSlop && abs(disY) < touchSlop) {//点击事件
                     val col: Int = (posX / cellWidth + 0.5).toInt()
-                    val row: Int = (posY / cellHeight).toInt()
+                    val row: Int = (posY / currentCellHeight).toInt()
                     onAdapterSelectListener.cancelSelectState()
                     cancelSelectState()
                     drawer.onClickDate(col, row)
@@ -152,6 +218,22 @@ class CalendarView @JvmOverloads constructor(
                     update()
                     invalidate()
                 }
+
+                //向下滑动
+                if (calendarState === CalendarMover.CalendarState.NORMAL && disY > (mMostHeight.dpToPx() - mNormalHeight) / 2 ){ //普通状态拉伸
+                    calendarMover.moveToDown()
+                    calendarState = CalendarMover.CalendarState.STRETCHING
+                }else if (calendarState === CalendarMover.CalendarState.NORMAL && disY > 0){ //普通状态恢复
+                    calendarMover.moveToNormal()
+                }
+
+                if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > (mMostHeight.dpToPx() - mNormalHeight) / 2){ //恢复为普通状态
+                    calendarMover.moveToNormal()
+                    calendarState = CalendarMover.CalendarState.NORMAL
+                }else if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > 0){ //恢复为拉伸状态
+                    calendarMover.moveToDown()
+                }
+
             }
         }
         return true

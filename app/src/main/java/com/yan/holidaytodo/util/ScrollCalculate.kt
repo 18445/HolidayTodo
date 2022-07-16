@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @param max    最大偏移值
  * @return int offset
  */
-fun calcOffset(offset: Int, min: Int, max: Int): Int {
+fun calcOffset(offset: Float, min: Float, max: Float): Float {
     return if (offset > max) {
         max
     } else if (offset < min) {
@@ -47,10 +47,10 @@ fun calcOffset(offset: Int, min: Int, max: Int): Int {
  * @param maxOffset 最大偏移量
  * @return void
  */
-fun calcAndScroll(child: View, dy: Int, minOffset: Int, maxOffset: Int) {
+fun calcAndScroll(child: View, dy: Float, minOffset: Float, maxOffset: Float) {
     val initOffset = child.top
-    val offset: Int = calcOffset(initOffset - dy, minOffset, maxOffset) - initOffset
-    child.offsetTopAndBottom(offset)
+    val offset: Float = calcOffset(initOffset - dy, minOffset, maxOffset) - initOffset
+    child.offsetTopAndBottom(offset.toInt())
 }
 
 /**

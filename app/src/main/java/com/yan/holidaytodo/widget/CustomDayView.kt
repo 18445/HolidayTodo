@@ -37,6 +37,7 @@ class CustomDayView(context: Context, layoutResource: Int) :
     override fun refreshContent() {
         drawerToday(day.data)
         drawerSelect(day.state)
+        //恢复
         super.refreshContent()
 //        drawerMarker(day.getDate(), day.getState())
     }

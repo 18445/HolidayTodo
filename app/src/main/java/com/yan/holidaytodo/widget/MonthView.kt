@@ -3,6 +3,7 @@ package com.yan.holidaytodo.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -10,6 +11,9 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.yan.holidaytodo.R
 import com.yan.holidaytodo.adapter.CalendarAdapter
+import com.yan.holidaytodo.bean.CalendarData
+import com.yan.holidaytodo.callback.IDayDrawer
+import com.yan.holidaytodo.callback.OnSelectDateListener
 
 
 /**
@@ -36,7 +40,6 @@ class MonthView@JvmOverloads constructor(
         //当前界面
         var currentPosition = CURRENT_DAY_INDEX
     }
-
     private var viewPager2 : ViewPager2
 
     init {
@@ -44,12 +47,46 @@ class MonthView@JvmOverloads constructor(
             ViewGroup.LayoutParams.WRAP_CONTENT)
         orientation = VERTICAL
         View.inflate(getContext(),R.layout.calendar_pager,this)
-        viewPager2 = findViewById(R.id.calendar_pager)
+        viewPager2 = findViewById<ViewPager2?>(R.id.calendar_pager).apply {
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback()  {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    currentPosition = position
+                }
+            })
+        }
     }
 
-    fun initAdapter(calendarAdapter: CalendarAdapter){
-        viewPager2.adapter = calendarAdapter
+    fun initAdapter(context: Context,iDayDrawer : IDayDrawer){
+        viewPager2.adapter = CalendarAdapter(context,object : OnSelectDateListener{
+
+            override fun onSelectOtherMonth(offset: Int) {
+                viewPager2.currentItem = currentPosition + offset
+            }
+
+            override fun onSelectDate(calendarData: CalendarData) {
+
+            }
+
+        },iDayDrawer)
         viewPager2.setCurrentItem(CURRENT_DAY_INDEX,false)
     }
+
+//    private var touchX = 0f
+//    private var touchY = 0f
+//    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+//        when(ev.action){
+//            MotionEvent.ACTION_DOWN -> {
+//                touchX = x
+//                touchY = y
+//            }
+//
+//            MotionEvent.ACTION_MOVE -> {
+//                val disX = x - touchX
+//                val disY = y - touchY
+//                if (disY > )
+//            }
+//        }
+//    }
 
 }

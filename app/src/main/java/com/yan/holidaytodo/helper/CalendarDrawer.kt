@@ -1,9 +1,10 @@
-package com.yan.holidaytodo.bean
+package com.yan.holidaytodo.helper
 
 import android.content.Context
 import android.graphics.Canvas
 import android.util.Log
 import com.yan.holidaytodo.adapter.CalendarAdapter
+import com.yan.holidaytodo.bean.*
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.util.*
@@ -67,13 +68,15 @@ class CalendarDrawer(private val context: Context,private val calendarView: Cale
         //这一月的
         for(i in firstDay  until firstDay + duration){
             dayList.add(
-                Day(State.CURRENT_MONTH,CalendarData(calendarData.year,calendarData.month,i - firstDay + 1),0,0
+                Day(State.CURRENT_MONTH,
+                    CalendarData(calendarData.year,calendarData.month,i - firstDay + 1),0,0
             ))
         }
         //下一月的
         for(i in firstDay + duration until 42){
             dayList.add(
-                Day(State.NEXT_MONTH,CalendarData(nextCalendarData.year,nextCalendarData.month,i - firstDay - duration + 1),0,0)
+                Day(State.NEXT_MONTH,
+                    CalendarData(nextCalendarData.year,nextCalendarData.month,i - firstDay - duration + 1),0,0)
             )
         }
 
@@ -102,11 +105,11 @@ class CalendarDrawer(private val context: Context,private val calendarView: Cale
     }
 
     //绘画每一天
-    fun drawDays(canvas: Canvas){
+    fun drawDays(canvas: Canvas,percent : Float){
         for (row in 0 until CalendarView.TOTAL_ROW) {
             for (col in 0 until CalendarView.TOTAl_COLUMN) {
                 //第row行第col列的元素
-                dayDrawer.drawDay(canvas, weeks[row].days[col])
+                dayDrawer.drawDay(canvas, weeks[row].days[col],percent)
             }
         }
 //        update()
@@ -120,7 +123,7 @@ class CalendarDrawer(private val context: Context,private val calendarView: Cale
      */
     fun onClickDate(col: Int, row: Int) {
         if (col >= CalendarView.TOTAl_COLUMN || row >= CalendarView.TOTAL_ROW) return
-            if(calendarAttr.calendarType ==  CalendarAttr.CalendarType.MONTH){
+            if(calendarAttr.calendarType == CalendarAttr.CalendarType.MONTH){
                 //为月份表达的时候
                 if (weeks[row].days[col].state === State.CURRENT_MONTH) {
                     weeks[row].days[col].state = (State.SELECT)

@@ -16,6 +16,6 @@ import com.yan.holidaytodo.bean.Day
  */
 interface IDayDrawer {
 
-    fun drawDay(canvas: Canvas, day: Day)
+    fun drawDay(canvas: Canvas, day: Day, percent : Float)
 
 }

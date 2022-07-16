@@ -103,7 +103,6 @@ class CalendarAdapter(
 
     fun cancelOtherSelectState() {
         for (CalendarPair in calendars) {
-            Log.d("yancancelOther",calendars.size.toString())
             CalendarPair.value.cancelSelectState()
         }
     }
@@ -240,7 +239,6 @@ class CalendarAdapter(
             initOnSelectListener(onSelectDateListener)
             initDayDrawer(iDayDrawer)
             initAdapter(onAdapterSelectListener)
-
         }
     }
 
