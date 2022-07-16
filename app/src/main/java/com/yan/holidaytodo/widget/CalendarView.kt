@@ -56,6 +56,14 @@ class CalendarView @JvmOverloads constructor(
     //日历的绘画类
     private lateinit var drawer: CalendarDrawer
 
+    //是否画当日信息
+    private val dayInfo : Boolean
+        get() {
+            return mCurrentHeight >(mNormalHeight + (mMostHeight.dpToPx() - mNormalHeight) / 2.5)
+        }
+
+
+
     private fun initDrawer(context: Context) {
         drawer = CalendarDrawer(context, this, calendarAttr).also {
             it.initSeedData(currentPosition)
@@ -99,14 +107,14 @@ class CalendarView @JvmOverloads constructor(
 
     //单元格的初始高度
     private val cellHeight by lazy {
-        val h = height / TOTAl_COLUMN
+        val h = height / TOTAL_ROW
         calendarAttr.cellHeight = h
         h
     }
 
     //单元格的初始宽度
     private val cellWidth by lazy {
-        val w = width / TOTAL_ROW
+        val w = width / TOTAl_COLUMN
         calendarAttr.cellWidth = w
         w
     }
@@ -164,7 +172,6 @@ class CalendarView @JvmOverloads constructor(
         }
         mCurrentHeight = h
         currentCellHeight = h / TOTAl_COLUMN
-        Log.d("currentCellHeight", currentCellHeight.toString())
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -175,8 +182,9 @@ class CalendarView @JvmOverloads constructor(
             && this::calendarAttr.isInitialized
             && currentPosition != -1
         ) {
-            drawer.drawDays(canvas, downPercent)
+            drawer.drawDays(canvas, downPercent,cellHeight,cellWidth,currentCellHeight,dayInfo)
         }
+
     }
 
     //用于记录总滑动位置
@@ -218,8 +226,6 @@ class CalendarView @JvmOverloads constructor(
                 val disX = event.x - posX
                 val disY = event.y - posY
 
-
-
                 if (abs(disX) < touchSlop && abs(disY) < touchSlop) {//点击事件
                     val col: Int = (posX / cellWidth + 0.5).toInt()
                     val row: Int = (posY / currentCellHeight).toInt()
@@ -245,9 +251,13 @@ class CalendarView @JvmOverloads constructor(
                 else if (calendarState === CalendarMover.CalendarState.NORMAL && -disY > (mNormalHeight - mLeastHeight.dpToPx()) / 2
                     && mCurrentHeight <= mNormalHeight
                 ) { //普通状态收缩
-                    calendarMover.moveToFoldingTop()
+                    val success = calendarMover.moveToFoldingTop()
                     onCalendarStateListener.onFoldingState()
-                    calendarState = CalendarMover.CalendarState.FOLDING
+                    calendarState = if(success){
+                        CalendarMover.CalendarState.FOLDING
+                    }else{
+                        CalendarMover.CalendarState.NORMAL
+                    }
                 } else if (calendarState === CalendarMover.CalendarState.NORMAL && -disY > 0 && mCurrentHeight <= mNormalHeight) { //普通状态恢复
                     calendarMover.moveToNormalWhenUp()
                 }
@@ -273,11 +283,12 @@ class CalendarView @JvmOverloads constructor(
                     onCalendarStateListener.onNormalState()
                     calendarState = CalendarMover.CalendarState.NORMAL
                 }
-
+                calendarMover.resetState()
             }
         }
         return true
     }
+
 
     fun setSelectedRowIndex(rowIndex: Int) {
         selectedRowIndex = rowIndex

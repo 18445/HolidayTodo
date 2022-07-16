@@ -27,8 +27,7 @@ import com.yan.holidaytodo.util.getYear
 @SuppressLint("ViewConstructor")
 class CustomDayView(context: Context, layoutResource: Int) :
     DayView(context, layoutResource) {
-    private val dateTv: TextView = findViewById(R.id.date)
-    private val marker: ImageView = findViewById(R.id.maker)
+    private val dateTv: TextView = findViewById(R.id.tv_date)
     private val selectedBackground: View = findViewById(R.id.selected_background)
     private val todayBackground: View = findViewById(R.id.today_background)
     private val today: CalendarData = CalendarData(getYear(), getMonth(), getDay())
@@ -38,25 +37,8 @@ class CustomDayView(context: Context, layoutResource: Int) :
         drawerSelect(day.state)
         //恢复
         super.refreshContent()
-//        drawerMarker(day.getDate(), day.getState())
     }
 
-//    private fun drawerMarker(data: CalendarData, state: State) {
-//        if (loadMarkData().containsKey(date.toString())) {
-//            if (state === State.SELECT || date.toString().equals(today.toString())) {
-//                marker.visibility = GONE
-//            } else {
-//                marker.visibility = VISIBLE
-//                if (Utils.loadMarkData().get(date.toString()).equals("0")) {
-//                    marker.isEnabled = true
-//                } else {
-//                    marker.isEnabled = false
-//                }
-//            }
-//        } else {
-//            marker.visibility = GONE
-//        }
-//    }
 
     private fun drawerSelect(state: State) {
         if (state === State.SELECT) {

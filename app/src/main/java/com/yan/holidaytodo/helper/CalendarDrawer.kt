@@ -2,6 +2,8 @@ package com.yan.holidaytodo.helper
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import com.yan.holidaytodo.adapter.CalendarAdapter
 import com.yan.holidaytodo.bean.*
 import com.yan.holidaytodo.callback.IDayDrawer
@@ -112,16 +114,48 @@ class CalendarDrawer(
     }
 
     //绘画每一天
-    fun drawDays(canvas: Canvas, percent: Float) {
+    fun drawDays(
+        canvas: Canvas, percent: Float,
+        cellHeight: Int,
+        cellWidth: Int,
+        currentCellHeight: Int,
+        drawInfo : Boolean) {
         for (row in 0 until CalendarView.TOTAL_ROW) {
             for (col in 0 until CalendarView.TOTAl_COLUMN) {
                 //第row行第col列的元素
                 dayDrawer.drawDay(canvas, weeks[row].days[col], percent)
+                if(drawInfo){
+                    drawDayInfo(canvas,row,col,cellHeight, cellWidth,currentCellHeight)
+                }
             }
         }
-
         dayDrawer.drawWeek(canvas, weeks[5])
+        update()
     }
+
+    //绘制文字信息
+    private fun drawDayInfo(
+        canvas: Canvas,
+        row:Int,
+        col: Int,
+        cellHeight: Int,
+        cellWidth: Int,
+        currentCellHeight: Int){
+        canvas.drawRect((col*cellWidth).toFloat(),
+            (row*currentCellHeight).toFloat()+cellWidth-cellWidth*0.05f,(col+1f)*cellWidth,
+            (row*currentCellHeight+cellHeight).toFloat()+cellWidth*0.05f,Paint().apply {
+            color = Color.LTGRAY
+        })
+        canvas.drawText("ABC", col*cellWidth + 0.3f * cellWidth,
+            (row*currentCellHeight + cellHeight*1.3f),
+            Paint().apply {
+            textSize = 35f
+            color = Color.GRAY
+        })
+    }
+
+
+
 
 
     /**

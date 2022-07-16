@@ -24,21 +24,27 @@ class CalendarMover(private val calendarView: CalendarView) {
     //view移动的距离
     private var mScrollOffset = 0f
 
+    //判断是否已经向下
+    //解决向下滑动时能向上滑动带着整体View一起向下的BUG
+    private var hasDown = false
+
+
     /**
      * 提供给外部的滑动方法
      */
     fun calendarMove(calendarState: CalendarState, offsetY: Float) {
 
-        if (calendarState === CalendarState.NORMAL && offsetY > 0 && calendarView.mCurrentHeight >= calendarView.mNormalHeight) {
-            //向下滑动
-            calendarNormalDown(offsetY)
-        } else if (calendarState === CalendarState.NORMAL && offsetY < 0 && calendarView.mCurrentHeight <= calendarView.mNormalHeight) {
-            //向上滑动
-            calendarNormalUp(offsetY)
-        } else if (calendarState === CalendarState.NORMAL && offsetY > 0 && calendarView.mCurrentHeight <= calendarView.mNormalHeight) {
+        if (calendarState === CalendarState.NORMAL && offsetY > 0 && calendarView.mCurrentHeight + offsetY <= calendarView.mNormalHeight && !hasDown ) {
             //向上滑动时向下滑动
             calendarNormalDownWhenUp(offsetY)
-        } else if (calendarState === CalendarState.STRETCHING && offsetY < 0
+        } else if (calendarState === CalendarState.NORMAL && offsetY < 0 && calendarView.mCurrentHeight <= calendarView.mNormalHeight && !hasDown) {
+            //向上滑动
+            calendarNormalUp(offsetY)
+        } else if (calendarState === CalendarState.NORMAL && calendarView.mCurrentHeight >= calendarView.mNormalHeight ) {
+            //向下滑动
+            hasDown = true
+            calendarNormalDown(offsetY)
+        } else if (calendarState === CalendarState.STRETCHING
             && calendarView.mCurrentHeight <= calendarView.mMostHeight.dpToPx()
             && calendarView.mCurrentHeight > calendarView.mNormalHeight
         ) {
@@ -51,7 +57,6 @@ class CalendarMover(private val calendarView: CalendarView) {
         }
     }
 
-
     /**
      * 普通状态向上滑动
      */
@@ -60,7 +65,6 @@ class CalendarMover(private val calendarView: CalendarView) {
             layoutParams.height += offsetY.toInt()
             requestLayout()
             mScrollOffset -= offsetY
-            Log.d("aaa", mScrollOffset.toString())
             scrollTo(0, mScrollOffset.toInt())
         }
     }
@@ -72,9 +76,9 @@ class CalendarMover(private val calendarView: CalendarView) {
     private fun calendarNormalDown(offsetY: Float) {
         calendarView.apply {
             layoutParams.height += offsetY.toInt()
-            requestLayout()
             downPercent = (layoutParams.height - mNormalHeight) / (mMostHeight.dpToPx()
                 .toFloat() - mNormalHeight)
+            requestLayout()
         }
     }
 
@@ -192,7 +196,11 @@ class CalendarMover(private val calendarView: CalendarView) {
     /**
      * 进入收缩状态
      */
-    fun moveToFoldingTop() {
+    fun moveToFoldingTop() : Boolean{
+        if(hasDown){
+            moveToNormal()
+            return false
+        }
         calendarView.apply {
             val time = 500
             val v1 = ValueAnimator.ofInt(mCurrentHeight, mLeastHeight.dpToPx()).apply {
@@ -220,6 +228,7 @@ class CalendarMover(private val calendarView: CalendarView) {
                 start()
             }
         }
+        return true
     }
 
     /**
@@ -255,6 +264,12 @@ class CalendarMover(private val calendarView: CalendarView) {
         }
     }
 
+    /**
+     * 完成一次滑动重置初始值
+     */
+    fun resetState(){
+        hasDown = false
+    }
 
     enum class CalendarState {
         //普通状态
