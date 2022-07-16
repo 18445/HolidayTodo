@@ -12,6 +12,7 @@ import com.yan.holidaytodo.bean.CalendarAttr
 import com.yan.holidaytodo.bean.CalendarData
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnAdapterSelectListener
+import com.yan.holidaytodo.callback.OnCalendarStateListener
 import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.util.getDay
 import com.yan.holidaytodo.util.getMonth
@@ -38,6 +39,7 @@ import kotlin.collections.HashMap
 class CalendarAdapter(
     context: Context,
     private val onSelectDateListener: OnSelectDateListener,
+    private val onCalendarStateListener: OnCalendarStateListener,
     private val iDayDrawer: IDayDrawer) :  RecyclerView.Adapter<CalendarAdapter.ViewHolder>(){
 
     //日历view
@@ -48,8 +50,6 @@ class CalendarAdapter(
     private var rowCount = CalendarView.TOTAL_ROW
     //今天的日期
     private var seedDate = CalendarData(getYear(), getMonth(), getDay())
-    //状态改变回调监听
-    private var onCalendarTypeChangedListener : (CalendarAttr.CalendarType) -> Unit = {}
     //Adapter回调
     private val onAdapterSelectListener = object : OnAdapterSelectListener {
         override fun cancelSelectState() {
@@ -100,6 +100,7 @@ class CalendarAdapter(
 //    fun getLastVisibleDate(): CalendarData {
 //        return calendars[currentPosition % 3].getLastDate()
 //    }
+
 
     fun cancelOtherSelectState() {
         for (CalendarPair in calendars) {
@@ -239,6 +240,7 @@ class CalendarAdapter(
             initOnSelectListener(onSelectDateListener)
             initDayDrawer(iDayDrawer)
             initAdapter(onAdapterSelectListener)
+            initOnCalendarStateListener(onCalendarStateListener)
         }
     }
 

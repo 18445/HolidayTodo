@@ -13,6 +13,7 @@ import com.yan.holidaytodo.R
 import com.yan.holidaytodo.adapter.CalendarAdapter
 import com.yan.holidaytodo.bean.CalendarData
 import com.yan.holidaytodo.callback.IDayDrawer
+import com.yan.holidaytodo.callback.OnCalendarStateListener
 import com.yan.holidaytodo.callback.OnSelectDateListener
 
 
@@ -68,25 +69,25 @@ class MonthView@JvmOverloads constructor(
 
             }
 
+        },object : OnCalendarStateListener{
+            override fun onFoldingState() {
+                isAllowSlide(false)
+            }
+
+            override fun onStretchingState() {
+                isAllowSlide(false)
+            }
+
+            override fun onNormalState() {
+                isAllowSlide(true)
+            }
+
         },iDayDrawer)
         viewPager2.setCurrentItem(CURRENT_DAY_INDEX,false)
     }
 
-//    private var touchX = 0f
-//    private var touchY = 0f
-//    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-//        when(ev.action){
-//            MotionEvent.ACTION_DOWN -> {
-//                touchX = x
-//                touchY = y
-//            }
-//
-//            MotionEvent.ACTION_MOVE -> {
-//                val disX = x - touchX
-//                val disY = y - touchY
-//                if (disY > )
-//            }
-//        }
-//    }
+    fun isAllowSlide(state : Boolean){
+        viewPager2.isUserInputEnabled = state
+    }
 
 }

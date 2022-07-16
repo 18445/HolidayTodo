@@ -166,13 +166,11 @@ class CalendarMover(private val calendarView: CalendarView) {
                 }
                 interpolator = AccelerateDecelerateInterpolator()
             }
-            val v2 = ValueAnimator.ofInt(0,mScrollOffset.toInt()).apply {
+            val v2 = ValueAnimator.ofInt(mScrollOffset.toInt(),0).apply {
                 duration = time.toLong()
-                var lastMove = 0
                 addUpdateListener {
                     val adjustedMove = it.animatedValue as Int
-                    scrollTo(0,adjustedMove - lastMove)
-                    lastMove = adjustedMove
+                    scrollTo(0,adjustedMove)
                 }
                 doOnEnd {
                     mScrollOffset = 0f

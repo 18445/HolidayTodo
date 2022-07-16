@@ -12,6 +12,7 @@ import com.yan.holidaytodo.bean.CalendarData
 import com.yan.holidaytodo.helper.CalendarDrawer
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnAdapterSelectListener
+import com.yan.holidaytodo.callback.OnCalendarStateListener
 import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.helper.CalendarMover
 import com.yan.holidaytodo.util.calcOffset
@@ -39,8 +40,10 @@ class CalendarView @JvmOverloads constructor(
 
     //Adapter监听
     private lateinit var onAdapterSelectListener: OnAdapterSelectListener
-    //外部监听
+    //日历切换监听
     private lateinit var onSelectListener: OnSelectDateListener
+    //状态更改监听
+    private lateinit var onCalendarStateListener: OnCalendarStateListener
     //设置日历属性
     private lateinit var calendarAttr: CalendarAttr
     //设置日历所在页面
@@ -55,9 +58,12 @@ class CalendarView @JvmOverloads constructor(
         }
     }
 
+    fun initOnCalendarStateListener(listener: OnCalendarStateListener){
+        onCalendarStateListener = listener
+    }
+
     fun initOnSelectListener(listener: OnSelectDateListener){
         onSelectListener = listener
-        invalidate()
     }
 
     fun initAttr(attr: CalendarAttr){
@@ -220,6 +226,7 @@ class CalendarView @JvmOverloads constructor(
                     && mCurrentHeight >= mNormalHeight){ //普通状态拉伸
                     calendarMover.moveToDown()
                     calendarState = CalendarMover.CalendarState.STRETCHING
+                    onCalendarStateListener.onStretchingState()
                 }else if (calendarState === CalendarMover.CalendarState.NORMAL && disY > 0 && mCurrentHeight >= mNormalHeight){ //普通状态恢复
                     calendarMover.moveToNormal()
                 }
@@ -227,6 +234,7 @@ class CalendarView @JvmOverloads constructor(
                 else if(calendarState === CalendarMover.CalendarState.NORMAL && -disY > (mNormalHeight - mLeastHeight.dpToPx())/2
                     && mCurrentHeight <= mNormalHeight) { //普通状态收缩
                     calendarMover.moveToFoldingTop()
+                    onCalendarStateListener.onFoldingState()
                     calendarState = CalendarMover.CalendarState.FOLDING
                 }else if(calendarState === CalendarMover.CalendarState.NORMAL && -disY > 0 && mCurrentHeight <= mNormalHeight){ //普通状态恢复
                     calendarMover.moveToNormalWhenUp()
@@ -234,6 +242,7 @@ class CalendarView @JvmOverloads constructor(
                 //拉伸状态向上滑动
                 else if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > (mMostHeight.dpToPx() - mNormalHeight) / 2){ //恢复为普通状态
                     calendarMover.moveToNormal()
+                    onCalendarStateListener.onNormalState()
                     calendarState = CalendarMover.CalendarState.NORMAL
                 }else if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > 0){ //恢复为拉伸状态
                     calendarMover.moveToDown()
@@ -242,19 +251,19 @@ class CalendarView @JvmOverloads constructor(
                 else if(calendarState === CalendarMover.CalendarState.FOLDING && disY >= cellHeight * 2
                     && mCurrentHeight <= mNormalHeight){ //恢复为普通状态
                     calendarMover.moveToNormalWhenFolding()
+                    onCalendarStateListener.onNormalState()
                     calendarState = CalendarMover.CalendarState.NORMAL
                 }else if(calendarState === CalendarMover.CalendarState.FOLDING && disY > 0 && mCurrentHeight <= mNormalHeight){
                     calendarMover.moveToFoldingTop()
+                }else if(calendarState === CalendarMover.CalendarState.FOLDING && disY > 0){
+                    calendarMover.moveToNormalWhenFolding()
+                    onCalendarStateListener.onNormalState()
+                    calendarState = CalendarMover.CalendarState.NORMAL
                 }
 
             }
         }
         return true
-    }
-
-    fun switchCalendarType(calendarType : CalendarAttr.CalendarType){
-        calendarAttr.calendarType = calendarType
-        drawer.setAttr(calendarAttr)
     }
 
     fun setSelectedRowIndex(rowIndex : Int){
@@ -263,10 +272,6 @@ class CalendarView @JvmOverloads constructor(
 
     fun resetSelectedRowIndex() {
         drawer.resetSelectedRowIndex()
-    }
-
-    fun setOnAdapterSelectListener(adapterSelectListener: OnAdapterSelectListener) {
-        onAdapterSelectListener = adapterSelectListener
     }
 
     fun updateWeek(rowCount: Int) {
