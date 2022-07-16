@@ -93,7 +93,7 @@ fun setCalendarScrollToBottom(ifScrollToBottom: Boolean) {
  */
 
 fun calendarScrollTo(parent: CoordinatorLayout, child: RecyclerView, y: Int, duration: Int) {
-    var top  = 0
+    var top = 0
     val scroller = Scroller(parent.context)
     scroller.startScroll(
         0,

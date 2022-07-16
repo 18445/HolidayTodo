@@ -1,7 +1,5 @@
 package com.yan.holidaytodo.widget
 
-import android.R.attr.text
-import android.R.attr.textSize
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -27,25 +25,33 @@ class SingleDay @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
-) : View(context,attrs, defStyleAttr, defStyleRes),IDayDrawer{
+    defStyleRes: Int = 0,
+) : View(context, attrs, defStyleAttr, defStyleRes), IDayDrawer {
 
     //是否被选中
     private var beChosen = true
+
     //是否当月key日期
     private var isKey = true
+
     //日期字体的画笔
-    private val mDayPaint : Paint = Paint()
+    private val mDayPaint: Paint = Paint()
+
     //日期文字描述画笔
-    private val mTextPaint : Paint = Paint()
+    private val mTextPaint: Paint = Paint()
+
     //当日日期
-    private val mDay : Int = 14
+    private val mDay: Int = 14
+
     //当日描述
-    private val mText : String = "十六"
+    private val mText: String = "十六"
+
     //日期大小
     private val daySize = 70f
+
     //字体大小
     private val textSize = 40f
+
     //FrontMetrics对象
     private val fm = mTextPaint.fontMetricsInt
 
@@ -69,16 +75,16 @@ class SingleDay @JvmOverloads constructor(
     //绘制日期
     private fun drawDay(canvas: Canvas) {
         mDayPaint.textSize = daySize
-        canvas.drawText(mDay.toString(),middleX,middleY,mDayPaint)
+        canvas.drawText(mDay.toString(), middleX, middleY, mDayPaint)
     }
 
     //绘制日期相关文字
-    private fun drawText(canvas: Canvas){
+    private fun drawText(canvas: Canvas) {
         mTextPaint.textSize = textSize
-        canvas.drawText(mText,middleX,middleY+height/4,mTextPaint)
+        canvas.drawText(mText, middleX, middleY + height / 4, mTextPaint)
     }
 
-    override fun drawDay(canvas: Canvas, day: Day,percent : Float) {
+    override fun drawDay(canvas: Canvas, day: Day, percent: Float) {
         drawText(canvas)
         drawDay(canvas)
     }

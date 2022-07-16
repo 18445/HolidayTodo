@@ -16,5 +16,4 @@ import com.yan.common.base.BaseViewModel
 class HomeViewModel : BaseViewModel() {
 
 
-
 }

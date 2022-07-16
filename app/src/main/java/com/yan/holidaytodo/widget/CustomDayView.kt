@@ -9,7 +9,6 @@ import android.widget.TextView
 import com.yan.holidaytodo.R
 import com.yan.holidaytodo.bean.CalendarData
 import com.yan.holidaytodo.bean.State
-import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.util.getDay
 import com.yan.holidaytodo.util.getMonth
 import com.yan.holidaytodo.util.getYear

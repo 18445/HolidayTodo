@@ -16,7 +16,7 @@ data class HolidayNext(
     val code: Int,
     val holiday: Holiday,
     val type: Type,
-    val workday: Workday
+    val workday: Workday,
 )
 
 data class Workday(
@@ -26,17 +26,17 @@ data class Workday(
     val name: String,
     val rest: Int,
     val target: String,
-    val wage: Int
+    val wage: Int,
 )
 
 data class HolidayType(
     val name: String,
     val type: Int,
-    val week: Int
+    val week: Int,
 )
 
 data class WorkdayType(
     val name: String,
     val type: Int,
-    val week: Int
+    val week: Int,
 )

@@ -1,7 +1,5 @@
 package com.yan.holidaytodo.repository
 
-import com.yan.common.base.BaseViewModel
-
 /**
  *
  * @ProjectName:    HolidayTodo
@@ -13,6 +11,6 @@ import com.yan.common.base.BaseViewModel
  * @Version:        1.0
  * @Description:
  */
-class HomeRepository{
+class HomeRepository {
 
 }

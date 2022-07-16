@@ -19,10 +19,10 @@ import kotlin.math.abs
  * @Description:    在日期中的每一个Day类
  */
 data class CalendarData(
-    var year : Int,
-    var month : Int,
-    var day : Int,
-){
+    var year: Int,
+    var month: Int,
+    var day: Int,
+) {
 
     init {
         //初始化日期
@@ -45,16 +45,16 @@ data class CalendarData(
     fun modifyDay(day: Int): CalendarData {
         val lastMonthDays: Int = getMonthDays(year, month - 1)
         val currentMonthDays: Int = getMonthDays(year, month)
-        val modifyDate : CalendarData =
-        if (day > currentMonthDays) {
-            CalendarData(year, month, this.day)
-        } else if (day > 0) {
-            CalendarData(year, month, day)
-        } else if (day > 0 - lastMonthDays) {
-            CalendarData(year, month - 1, lastMonthDays + day)
-        } else {
-            CalendarData(year, month, this.day)
-        }
+        val modifyDate: CalendarData =
+            if (day > currentMonthDays) {
+                CalendarData(year, month, this.day)
+            } else if (day > 0) {
+                CalendarData(year, month, day)
+            } else if (day > 0 - lastMonthDays) {
+                CalendarData(year, month - 1, lastMonthDays + day)
+            } else {
+                CalendarData(year, month, this.day)
+            }
         return modifyDate
     }
 
@@ -65,7 +65,7 @@ data class CalendarData(
      * @return CalendarData 修改后的日期
      */
     fun modifyWeek(offset: Int): CalendarData {
-        val result  = CalendarData(getDay(), getMonth(), getYear())
+        val result = CalendarData(getDay(), getMonth(), getYear())
         val c = Calendar.getInstance()
         c[Calendar.YEAR] = year
         c[Calendar.MONTH] = month - 1
@@ -83,7 +83,7 @@ data class CalendarData(
      * @param offset 修改的日期
      * @return CalendarData 修改后的日期
      */
-    fun modifyMonth(offset: Int):CalendarData {
+    fun modifyMonth(offset: Int): CalendarData {
         val mMonth: Int
         val mYear: Int
         val addToMonth = month + offset
@@ -115,7 +115,7 @@ data class CalendarData(
             getDay())
     }
 
-    private fun Int.getNoZeroInt(backup : Int) : Int{
+    private fun Int.getNoZeroInt(backup: Int): Int {
         return if (this == 0) backup else this
     }
 

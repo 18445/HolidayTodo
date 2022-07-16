@@ -13,34 +13,35 @@
         app:layout_constraintBottom_toBottomOf="@id/gl_todo_bottom"
         app:layout_constraintEnd_toStartOf="@+id/gl_todo_right"
         app:layout_constraintStart_toStartOf="@id/gl_todo_left"
-        app:layout_constraintTop_toTopOf="@id/gl_todo_top">
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toTopOf="@id/gl_todo_top"></androidx.cardview.widget.CardView>
 
     <androidx.constraintlayout.widget.Guideline
-        app:layout_constraintGuide_percent="0.05"
         android:id="@+id/gl_todo_left"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
     <androidx.constraintlayout.widget.Guideline
-        app:layout_constraintGuide_percent="0.95"
         android:id="@+id/gl_todo_right"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_todo_top"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.05" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_todo_bottom"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.95" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

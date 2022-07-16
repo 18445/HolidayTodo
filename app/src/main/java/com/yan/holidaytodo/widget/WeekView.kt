@@ -22,10 +22,10 @@ class WeekView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
-) : ViewGroup(context,attrs, defStyleAttr, defStyleRes){
+    defStyleRes: Int = 0,
+) : ViewGroup(context, attrs, defStyleAttr, defStyleRes) {
 
-    companion object{
+    companion object {
         private const val DEFAULT_DAYS_IN_WEEK = 7
     }
 

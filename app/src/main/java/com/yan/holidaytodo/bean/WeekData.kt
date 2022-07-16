@@ -1,7 +1,5 @@
 package com.yan.holidaytodo.bean
 
-import com.yan.holidaytodo.widget.CalendarView
-
 /**
  *
  * @ProjectName:    HolidayTodo
@@ -14,6 +12,6 @@ import com.yan.holidaytodo.widget.CalendarView
  * @Description:    周数据
  */
 
-class WeekData (val row : Int,val days: Array<Day>){
+class WeekData(val row: Int, val days: Array<Day>) {
 
 }

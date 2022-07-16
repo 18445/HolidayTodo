@@ -22,8 +22,10 @@ class ResultBuilder<T> {
     var onComplete: () -> Unit = {}
 }
 
-fun <T> parseResultAndCallback(response: ApiResponse<T>,
-                                       listenerBuilder: ResultBuilder<T>.() -> Unit) {
+fun <T> parseResultAndCallback(
+    response: ApiResponse<T>,
+    listenerBuilder: ResultBuilder<T>.() -> Unit,
+) {
     val listener = ResultBuilder<T>().also(listenerBuilder)
     when (response) {
         is ApiSuccessResponse -> listener.onSuccess(response.response)

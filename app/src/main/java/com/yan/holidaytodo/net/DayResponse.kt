@@ -25,7 +25,7 @@ open class DayResponse<out T>(
     open val message: String? = null,
     open val holiday: Holiday? = null,
     open val workday: Workday? = null,
-    open val type : Type? = null
+    open val type: Type? = null,
 ) : Serializable {
     val isSuccess: Boolean
         get() = code == 0 || code == 200

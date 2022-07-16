@@ -9,11 +9,11 @@ import android.view.MotionEvent
 import android.view.View
 import com.yan.holidaytodo.bean.CalendarAttr
 import com.yan.holidaytodo.bean.CalendarData
-import com.yan.holidaytodo.helper.CalendarDrawer
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnAdapterSelectListener
 import com.yan.holidaytodo.callback.OnCalendarStateListener
 import com.yan.holidaytodo.callback.OnSelectDateListener
+import com.yan.holidaytodo.helper.CalendarDrawer
 import com.yan.holidaytodo.helper.CalendarMover
 import com.yan.holidaytodo.util.calcOffset
 import com.yan.holidaytodo.util.dpToPx
@@ -36,37 +36,42 @@ class CalendarView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0,
-) : View(context,attrs, defStyleAttr, defStyleRes){
+) : View(context, attrs, defStyleAttr, defStyleRes) {
 
     //Adapter监听
     private lateinit var onAdapterSelectListener: OnAdapterSelectListener
+
     //日历切换监听
     private lateinit var onSelectListener: OnSelectDateListener
+
     //状态更改监听
     private lateinit var onCalendarStateListener: OnCalendarStateListener
+
     //设置日历属性
     private lateinit var calendarAttr: CalendarAttr
+
     //设置日历所在页面
     private var currentPosition = -1
-    //日历的绘画类
-    private lateinit var drawer : CalendarDrawer
 
-    private fun initDrawer(context:Context){
-        drawer = CalendarDrawer(context,this,calendarAttr).also {
+    //日历的绘画类
+    private lateinit var drawer: CalendarDrawer
+
+    private fun initDrawer(context: Context) {
+        drawer = CalendarDrawer(context, this, calendarAttr).also {
             it.initSeedData(currentPosition)
             it.setOnSelectDataListener(onSelectListener)
         }
     }
 
-    fun initOnCalendarStateListener(listener: OnCalendarStateListener){
+    fun initOnCalendarStateListener(listener: OnCalendarStateListener) {
         onCalendarStateListener = listener
     }
 
-    fun initOnSelectListener(listener: OnSelectDateListener){
+    fun initOnSelectListener(listener: OnSelectDateListener) {
         onSelectListener = listener
     }
 
-    fun initAttr(attr: CalendarAttr){
+    fun initAttr(attr: CalendarAttr) {
         calendarAttr = attr
         invalidate()
     }
@@ -77,17 +82,17 @@ class CalendarView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun initAdapter(listener : OnAdapterSelectListener){
+    fun initAdapter(listener: OnAdapterSelectListener) {
         onAdapterSelectListener = listener
         invalidate()
     }
 
-    fun initCurrentPosition(position : Int){
+    fun initCurrentPosition(position: Int) {
         currentPosition = position
         invalidate()
     }
 
-    companion object{
+    companion object {
         const val TOTAL_ROW = 6
         const val TOTAl_COLUMN = 7
     }
@@ -98,8 +103,9 @@ class CalendarView @JvmOverloads constructor(
         calendarAttr.cellHeight = h
         h
     }
+
     //单元格的初始宽度
-    private val cellWidth by lazy{
+    private val cellWidth by lazy {
         val w = width / TOTAL_ROW
         calendarAttr.cellWidth = w
         w
@@ -119,6 +125,7 @@ class CalendarView @JvmOverloads constructor(
     //现在的整体高度
     var mCurrentHeight = -1
         private set
+
     //当前被选定的行数
     private var selectedRowIndex = 0
 
@@ -129,43 +136,46 @@ class CalendarView @JvmOverloads constructor(
     private var calendarState = CalendarMover.CalendarState.NORMAL
 
     //日期
-    val data : CalendarData
+    val data: CalendarData
         get() = drawer.seedDate
 
     //周/月类型
-    val type : CalendarAttr.CalendarType
+    val type: CalendarAttr.CalendarType
         get() = calendarAttr.calendarType
 
     //设置的最小高度 dp 单位
     val mLeastHeight = 60
+
     //设置的最大高度 dp 单位
     val mMostHeight = 650
+
     //初始长度 px 单位
     var mNormalHeight = -1
         private set
 
     //下拉比例
     var downPercent = 0f
-        get() = calcOffset(field,-1f,1f)
+        get() = calcOffset(field, -1f, 1f)
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        if(mNormalHeight == -1){
+        if (mNormalHeight == -1) {
             mNormalHeight = h
         }
         mCurrentHeight = h
         currentCellHeight = h / TOTAl_COLUMN
-        Log.d("currentCellHeight",currentCellHeight.toString())
+        Log.d("currentCellHeight", currentCellHeight.toString())
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         //交给drawer画每一天
-        if(this::onAdapterSelectListener.isInitialized
+        if (this::onAdapterSelectListener.isInitialized
             && this::onSelectListener.isInitialized
             && this::calendarAttr.isInitialized
-            &&  currentPosition != -1){
-                drawer.drawDays(canvas, downPercent)
+            && currentPosition != -1
+        ) {
+            drawer.drawDays(canvas, downPercent)
         }
     }
 
@@ -181,7 +191,7 @@ class CalendarView @JvmOverloads constructor(
      */
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        when(event.action){
+        when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 posX = event.x
                 posY = event.y
@@ -189,16 +199,16 @@ class CalendarView @JvmOverloads constructor(
             }
             MotionEvent.ACTION_MOVE -> {
                 //总偏移量
-                val totalOffsetY =  event.y - posY
+                val totalOffsetY = event.y - posY
                 //每次的偏移量
                 val distanceY = event.y - moveY
 
-                if(totalOffsetY < -moveUpOrDown && layoutParams.height >= mLeastHeight.dpToPx() ){//view 向上滑动 (折叠)
+                if (totalOffsetY < -moveUpOrDown && layoutParams.height >= mLeastHeight.dpToPx()) {//view 向上滑动 (折叠)
                     parent.requestDisallowInterceptTouchEvent(true)
-                    calendarMover.calendarMove(calendarState,distanceY)
-                }else if(totalOffsetY > moveUpOrDown && layoutParams.height <= mMostHeight.dpToPx()){//view 普通状态向下滑动 (展开)
+                    calendarMover.calendarMove(calendarState, distanceY)
+                } else if (totalOffsetY > moveUpOrDown && layoutParams.height <= mMostHeight.dpToPx()) {//view 普通状态向下滑动 (展开)
                     parent.requestDisallowInterceptTouchEvent(true)
-                    calendarMover.calendarMove(calendarState,distanceY)
+                    calendarMover.calendarMove(calendarState, distanceY)
                 }
                 moveY = event.y
             }
@@ -223,39 +233,42 @@ class CalendarView @JvmOverloads constructor(
 
                 //普通状态向下滑动
                 if (calendarState === CalendarMover.CalendarState.NORMAL && disY > (mMostHeight.dpToPx() - mNormalHeight) / 2
-                    && mCurrentHeight >= mNormalHeight){ //普通状态拉伸
+                    && mCurrentHeight >= mNormalHeight
+                ) { //普通状态拉伸
                     calendarMover.moveToDown()
                     calendarState = CalendarMover.CalendarState.STRETCHING
                     onCalendarStateListener.onStretchingState()
-                }else if (calendarState === CalendarMover.CalendarState.NORMAL && disY > 0 && mCurrentHeight >= mNormalHeight){ //普通状态恢复
+                } else if (calendarState === CalendarMover.CalendarState.NORMAL && disY > 0 && mCurrentHeight >= mNormalHeight) { //普通状态恢复
                     calendarMover.moveToNormal()
                 }
                 //普通状态向上滑动
-                else if(calendarState === CalendarMover.CalendarState.NORMAL && -disY > (mNormalHeight - mLeastHeight.dpToPx())/2
-                    && mCurrentHeight <= mNormalHeight) { //普通状态收缩
+                else if (calendarState === CalendarMover.CalendarState.NORMAL && -disY > (mNormalHeight - mLeastHeight.dpToPx()) / 2
+                    && mCurrentHeight <= mNormalHeight
+                ) { //普通状态收缩
                     calendarMover.moveToFoldingTop()
                     onCalendarStateListener.onFoldingState()
                     calendarState = CalendarMover.CalendarState.FOLDING
-                }else if(calendarState === CalendarMover.CalendarState.NORMAL && -disY > 0 && mCurrentHeight <= mNormalHeight){ //普通状态恢复
+                } else if (calendarState === CalendarMover.CalendarState.NORMAL && -disY > 0 && mCurrentHeight <= mNormalHeight) { //普通状态恢复
                     calendarMover.moveToNormalWhenUp()
                 }
                 //拉伸状态向上滑动
-                else if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > (mMostHeight.dpToPx() - mNormalHeight) / 2){ //恢复为普通状态
+                else if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > (mMostHeight.dpToPx() - mNormalHeight) / 2) { //恢复为普通状态
                     calendarMover.moveToNormal()
                     onCalendarStateListener.onNormalState()
                     calendarState = CalendarMover.CalendarState.NORMAL
-                }else if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > 0){ //恢复为拉伸状态
+                } else if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > 0) { //恢复为拉伸状态
                     calendarMover.moveToDown()
                 }
                 //折叠状态向下滑动
-                else if(calendarState === CalendarMover.CalendarState.FOLDING && disY >= cellHeight * 2
-                    && mCurrentHeight <= mNormalHeight){ //恢复为普通状态
+                else if (calendarState === CalendarMover.CalendarState.FOLDING && disY >= cellHeight * 2
+                    && mCurrentHeight <= mNormalHeight
+                ) { //恢复为普通状态
                     calendarMover.moveToNormalWhenFolding()
                     onCalendarStateListener.onNormalState()
                     calendarState = CalendarMover.CalendarState.NORMAL
-                }else if(calendarState === CalendarMover.CalendarState.FOLDING && disY > 0 && mCurrentHeight <= mNormalHeight){
+                } else if (calendarState === CalendarMover.CalendarState.FOLDING && disY > 0 && mCurrentHeight <= mNormalHeight) {
                     calendarMover.moveToFoldingTop()
-                }else if(calendarState === CalendarMover.CalendarState.FOLDING && disY > 0){
+                } else if (calendarState === CalendarMover.CalendarState.FOLDING && disY > 0) {
                     calendarMover.moveToNormalWhenFolding()
                     onCalendarStateListener.onNormalState()
                     calendarState = CalendarMover.CalendarState.NORMAL
@@ -266,7 +279,7 @@ class CalendarView @JvmOverloads constructor(
         return true
     }
 
-    fun setSelectedRowIndex(rowIndex : Int){
+    fun setSelectedRowIndex(rowIndex: Int) {
         selectedRowIndex = rowIndex
     }
 
@@ -279,15 +292,15 @@ class CalendarView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun update(){
-         drawer.update()
+    fun update() {
+        drawer.update()
     }
 
     fun cancelSelectState() {
         drawer.cancelSelectState()
     }
 
-    fun showDate(calendarData: CalendarData){
+    fun showDate(calendarData: CalendarData) {
         drawer.showDate(calendarData)
     }
 
@@ -299,7 +312,7 @@ class CalendarView @JvmOverloads constructor(
         return drawer.getLastDate()
     }
 
-    fun getSelectedRowIndex() : Int{
+    fun getSelectedRowIndex(): Int {
         return selectedRowIndex
     }
 

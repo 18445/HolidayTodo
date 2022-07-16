@@ -4,7 +4,6 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.AppBarLayout
 import com.yan.holidaytodo.widget.MonthView
 
 /**
@@ -24,7 +23,7 @@ class MonthViewBehavior : CoordinatorLayout.Behavior<MonthView>() {
     override fun layoutDependsOn(
         parent: CoordinatorLayout,
         child: MonthView,
-        dependency: View
+        dependency: View,
     ): Boolean {
         return dependency is RecyclerView
     }
@@ -33,7 +32,7 @@ class MonthViewBehavior : CoordinatorLayout.Behavior<MonthView>() {
     override fun onLayoutChild(
         parent: CoordinatorLayout,
         child: MonthView,
-        layoutDirection: Int
+        layoutDirection: Int,
     ): Boolean {
         return super.onLayoutChild(parent, child, layoutDirection)
     }
@@ -42,7 +41,7 @@ class MonthViewBehavior : CoordinatorLayout.Behavior<MonthView>() {
     override fun onTouchEvent(
         parent: CoordinatorLayout,
         child: MonthView,
-        ev: MotionEvent
+        ev: MotionEvent,
     ): Boolean {
         return super.onTouchEvent(parent, child, ev)
     }
@@ -51,7 +50,7 @@ class MonthViewBehavior : CoordinatorLayout.Behavior<MonthView>() {
     override fun onInterceptTouchEvent(
         parent: CoordinatorLayout,
         child: MonthView,
-        ev: MotionEvent
+        ev: MotionEvent,
     ): Boolean {
         return super.onInterceptTouchEvent(parent, child, ev)
     }
@@ -60,12 +59,10 @@ class MonthViewBehavior : CoordinatorLayout.Behavior<MonthView>() {
     override fun onDependentViewChanged(
         parent: CoordinatorLayout,
         child: MonthView,
-        dependency: View
+        dependency: View,
     ): Boolean {
         return super.onDependentViewChanged(parent, child, dependency)
     }
-
-
 
 
 }

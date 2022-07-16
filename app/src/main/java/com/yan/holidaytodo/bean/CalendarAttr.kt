@@ -11,7 +11,7 @@ package com.yan.holidaytodo.bean
  * @Version:        1.0
  * @Description:    日历的相关属性
  */
-class CalendarAttr (var calendarType: CalendarType){
+class CalendarAttr(var calendarType: CalendarType) {
 
 
     //日期格子高度

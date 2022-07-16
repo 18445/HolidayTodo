@@ -19,8 +19,6 @@ import java.util.*
  */
 
 
-
-
 /**
  * 得到某一个月的具体天数
  *
@@ -44,7 +42,7 @@ fun getMonthDays(year: Int, month: Int): Int {
     if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
         monthDays[1] = 29
     }
-    return monthDays[(mMonth - 1)%12]
+    return monthDays[(mMonth - 1) % 12]
 }
 
 /**

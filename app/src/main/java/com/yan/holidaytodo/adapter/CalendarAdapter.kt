@@ -1,12 +1,10 @@
 package com.yan.holidaytodo.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.PagerAdapter
 import com.yan.holidaytodo.R
 import com.yan.holidaytodo.bean.CalendarAttr
 import com.yan.holidaytodo.bean.CalendarData
@@ -16,12 +14,8 @@ import com.yan.holidaytodo.callback.OnCalendarStateListener
 import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.util.getDay
 import com.yan.holidaytodo.util.getMonth
-import com.yan.holidaytodo.util.getSaturday
 import com.yan.holidaytodo.util.getYear
 import com.yan.holidaytodo.widget.CalendarView
-import com.yan.holidaytodo.widget.MonthView
-import java.util.*
-import kotlin.collections.HashMap
 
 
 /**
@@ -40,16 +34,21 @@ class CalendarAdapter(
     context: Context,
     private val onSelectDateListener: OnSelectDateListener,
     private val onCalendarStateListener: OnCalendarStateListener,
-    private val iDayDrawer: IDayDrawer) :  RecyclerView.Adapter<CalendarAdapter.ViewHolder>(){
+    private val iDayDrawer: IDayDrawer,
+) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
 
     //日历view
-    private val calendars: HashMap<Int,CalendarView> = HashMap()
+    private val calendars: HashMap<Int, CalendarView> = HashMap()
+
     //周布局
     private var calendarType: CalendarAttr.CalendarType = CalendarAttr.CalendarType.MONTH
+
     //行数
     private var rowCount = CalendarView.TOTAL_ROW
+
     //今天的日期
     private var seedDate = CalendarData(getYear(), getMonth(), getDay())
+
     //Adapter回调
     private val onAdapterSelectListener = object : OnAdapterSelectListener {
         override fun cancelSelectState() {
@@ -62,11 +61,11 @@ class CalendarAdapter(
 
     }
 
-    init{
+    init {
         initCalendar(context, onSelectDateListener)
     }
 
-    companion object{
+    companion object {
         var selectedData: CalendarData = CalendarData(getYear(), getMonth(), getDay())
     }
 
@@ -220,15 +219,17 @@ class CalendarAdapter(
         return calendarType
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
 
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_calendar,parent,false)
-        view.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_calendar, parent, false)
+        view.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT)
         return ViewHolder(view)
     }
 

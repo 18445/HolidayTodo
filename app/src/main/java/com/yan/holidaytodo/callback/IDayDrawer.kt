@@ -17,7 +17,7 @@ import com.yan.holidaytodo.bean.WeekData
  */
 interface IDayDrawer {
 
-    fun drawDay(canvas: Canvas, day: Day, percent : Float)
+    fun drawDay(canvas: Canvas, day: Day, percent: Float)
 
-    fun drawWeek(canvas: Canvas,weekData: WeekData)
+    fun drawWeek(canvas: Canvas, weekData: WeekData)
 }

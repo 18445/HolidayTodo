@@ -11,7 +11,7 @@ package com.yan.holidaytodo.bean
  * @Version:        1.0
  * @Description:    一天的信息
  */
-class Day (var state: State, var data: CalendarData, var posRow : Int, var posCol : Int){
+class Day(var state: State, var data: CalendarData, var posRow: Int, var posCol: Int) {
 }
 
 enum class State {

@@ -2,8 +2,8 @@ package com.yan.holidaytodo.extension
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
-import com.yan.common.network.ApiResponse
 import com.yan.common.base.BaseActivity
+import com.yan.common.network.ApiResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onCompletion
@@ -32,8 +32,10 @@ fun <T> BaseActivity<ViewModel>.launchWithLoadingGetFlow(block: suspend () -> Ap
     }
 }
 
-fun <T> BaseActivity<ViewModel>.launchWithLoadingAndCollect(block: suspend () -> ApiResponse<T>,
-                                                 listenerBuilder: ResultBuilder<T>.() -> Unit) {
+fun <T> BaseActivity<ViewModel>.launchWithLoadingAndCollect(
+    block: suspend () -> ApiResponse<T>,
+    listenerBuilder: ResultBuilder<T>.() -> Unit,
+) {
     lifecycleScope.launch {
         launchWithLoadingGetFlow(block).collect { response ->
             parseResultAndCallback(response, listenerBuilder)

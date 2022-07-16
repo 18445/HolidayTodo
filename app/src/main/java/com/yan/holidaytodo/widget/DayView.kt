@@ -2,14 +2,11 @@ package com.yan.holidaytodo.widget
 
 import android.content.Context
 import android.graphics.Canvas
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
-import com.yan.holidaytodo.R
 import com.yan.holidaytodo.bean.Day
 import com.yan.holidaytodo.bean.WeekData
 import com.yan.holidaytodo.callback.IDayDrawer
-import kotlin.time.Duration.Companion.days
 
 /**
  *
@@ -49,7 +46,7 @@ abstract class DayView(context: Context, layoutResource: Int) :
         layout(0, 0, measuredWidth, measuredHeight)
     }
 
-    override fun drawDay(canvas: Canvas, day: Day ,percent : Float) {
+    override fun drawDay(canvas: Canvas, day: Day, percent: Float) {
         this.day = day
         refreshContent()
         val saveId = canvas.save()
@@ -59,11 +56,11 @@ abstract class DayView(context: Context, layoutResource: Int) :
         canvas.restoreToCount(saveId)
     }
 
-//    fun drawWeekDay(canvas: Canvas,day: Day){
+    //    fun drawWeekDay(canvas: Canvas,day: Day){
 //
 //    }
 //
-    override fun drawWeek(canvas: Canvas,weekData: WeekData){
+    override fun drawWeek(canvas: Canvas, weekData: WeekData) {
 //        for(i in 0 until CalendarView.TOTAl_COLUMN){
 //            drawDay(canvas,weekData)
 //        }
@@ -75,8 +72,6 @@ abstract class DayView(context: Context, layoutResource: Int) :
         val moveX = (canvasWidth - viewWidth) / 2
         return day.posCol * canvasWidth + moveX
     }
-
-
 
 
 }

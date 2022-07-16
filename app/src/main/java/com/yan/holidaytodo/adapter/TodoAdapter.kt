@@ -6,9 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yan.holidaytodo.R
-import com.yan.holidaytodo.callback.IDayDrawer
-import com.yan.holidaytodo.callback.OnSelectDateListener
-import java.util.zip.Inflater
 
 /**
  *
@@ -21,15 +18,15 @@ import java.util.zip.Inflater
  * @Version:        1.0
  * @Description:    Todo清单的列表
  */
-class TodoAdapter (val context: Context)  : RecyclerView.Adapter<TodoAdapter.ViewHolder>(){
+class TodoAdapter(val context: Context) : RecyclerView.Adapter<TodoAdapter.ViewHolder>() {
 
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_todo,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_todo, parent, false)
         return ViewHolder(view)
     }
 

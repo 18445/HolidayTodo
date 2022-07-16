@@ -16,7 +16,7 @@ package com.yan.holidaytodo.bean
 data class DayInfo(
     val code: Int,
     val holiday: Holiday,
-    val type: Type
+    val type: Type,
 )
 
 data class Holiday(
@@ -24,7 +24,7 @@ data class Holiday(
     val holiday: Boolean,
     val name: String,
     val target: String,
-    val wage: Int
+    val wage: Int,
 )
 
 data class Type(
@@ -32,5 +32,5 @@ data class Type(
     val type: Int?,
     val week: Int?,
     val holiday: HolidayType?,
-    val workday: WorkdayType?
+    val workday: WorkdayType?,
 )
