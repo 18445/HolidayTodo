@@ -61,13 +61,14 @@ abstract class DayView(context: Context, layoutResource: Int) :
 
     override fun drawWeek(canvas: Canvas, weekData: WeekData) {
         for(i in 0 until CalendarView.TOTAl_COLUMN){
+            Log.e("currentINdex4",weekData.days[i].data.toString())
             this.day = weekData.days[i]
-            refreshContent()
             drawWeekOfDay(canvas,weekData.days[i])
         }
     }
 
     private fun drawWeekOfDay(canvas: Canvas,day : Day){
+        Log.e("beTransklate",getTranslateX(canvas, day).toString())
         this.day = day
         refreshContent()
         val saveId = canvas.save()

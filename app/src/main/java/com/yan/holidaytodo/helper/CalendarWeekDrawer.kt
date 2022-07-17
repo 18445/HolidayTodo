@@ -80,10 +80,8 @@ class CalendarWeekDrawer (
         onSelectDateListener = listener
     }
 
-    //绘画每一天
+    //绘画一周中的每一天
     fun drawDaysOfWeek(canvas: Canvas) {
-        //写被画出的位置
-        Log.e("currentRow2",selectedRowIndex.toString())
         dayDrawer.drawWeek(canvas,weeks[selectedRowIndex])
         updateWeek(selectedRowIndex)
     }
@@ -95,7 +93,6 @@ class CalendarWeekDrawer (
      */
     fun onClickDate(calendarData: CalendarData,row : Int,col: Int) {
         if (col >= CalendarView.TOTAl_COLUMN || selectedRowIndex >= CalendarView.TOTAL_ROW) return
-
             seedDate = calendarData
             cancelSelectState()
             selectedRowIndex = row
@@ -112,9 +109,7 @@ class CalendarWeekDrawer (
      * @return void
      */
     fun updateWeek(rowIndex: Int) {
-        Log.e("currentRow1",rowIndex.toString())
         val currentWeekLastDay: CalendarData = getSaturday(seedDate)
-
         var day: Int = currentWeekLastDay.day
         for (i in CalendarView.TOTAl_COLUMN - 1 downTo 0) {
             val date = currentWeekLastDay.modifyDay(day)

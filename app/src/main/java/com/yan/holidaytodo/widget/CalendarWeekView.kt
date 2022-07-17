@@ -130,14 +130,19 @@ class CalendarWeekView @JvmOverloads constructor(
         return false
     }
 
-    fun setSelectedRowIndex(rowIndex: Int) {
+    private fun setSelectedRowIndex(rowIndex: Int) {
         this.isVisible = false
         selectedRowIndex = rowIndex
         updateWeek(rowIndex)
     }
 
-    fun onClickItem(calendarData: CalendarData,row : Int,col : Int){
-        setSelectedRowIndex(row)
+    fun onClickItem(calendarData: CalendarData,row : Int,col : Int, type : CalendarAttr.CalendarType){
+        if(type === CalendarAttr.CalendarType.MONTH){
+            setSelectedRowIndex(row)
+        }else{
+            selectedRowIndex = row
+            updateWeek(row)
+        }
         drawer.selectedRowIndex = row
         drawer.onClickDate(calendarData,row,col)
     }

@@ -15,6 +15,7 @@ import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.yan.holidaytodo.R
 import com.yan.holidaytodo.adapter.CalendarAdapter
+import com.yan.holidaytodo.bean.CalendarAttr
 import com.yan.holidaytodo.bean.CalendarData
 import com.yan.holidaytodo.bean.Day
 import com.yan.holidaytodo.bean.State
@@ -91,8 +92,8 @@ class MonthView @JvmOverloads constructor(
                 mCalendarWeekView.changePosition(currentPosition,true)
             }
 
-            override fun onSelectDate(calendarData: CalendarData,row : Int,col : Int) {
-                calendarWeekView.onClickItem(calendarData,row,col)
+            override fun onSelectDate(calendarData: CalendarData,row : Int,col : Int,type : CalendarAttr.CalendarType) {
+                calendarWeekView.onClickItem(calendarData,row,col,type)
                 calendarWeekView.changeSelectedData(calendarData)
             }
 

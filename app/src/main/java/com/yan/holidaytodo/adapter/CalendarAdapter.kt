@@ -51,7 +51,6 @@ class CalendarAdapter(
     //今天的日期
     private var seedDate = CalendarData(getYear(), getMonth(), getDay())
 
-
     //Adapter回调
     private val onAdapterSelectListener = object : OnAdapterSelectListener {
         override fun cancelSelectState() {
