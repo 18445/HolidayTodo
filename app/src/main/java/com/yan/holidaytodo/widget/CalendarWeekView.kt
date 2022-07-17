@@ -13,8 +13,7 @@ import com.yan.holidaytodo.bean.CalendarData
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.helper.CalendarWeekDrawer
-import com.yan.holidaytodo.util.getRowIndexInMonth
-import com.yan.holidaytodo.util.getTheWholeMonth
+import com.yan.holidaytodo.util.*
 import kotlin.reflect.jvm.internal.impl.incremental.components.Position
 
 /**
@@ -39,8 +38,6 @@ class CalendarWeekView @JvmOverloads constructor(
     companion object{
         var shouldBeShownPosition = MonthView.CURRENT_DAY_INDEX
     }
-    //当前被选定的行数
-    private var selectedRowIndex = 0
 
     //日历切换监听
     private lateinit var onSelectListener: OnSelectDateListener
@@ -53,7 +50,6 @@ class CalendarWeekView @JvmOverloads constructor(
             it.initSeedData(shouldBeShownPosition)
             it.setOnSelectDataListener(onSelectListener)
         }
-        drawer.selectedRowIndex = (getRowIndexInMonth(data, getTheWholeMonth(data)))
     }
 
     fun initOnSelectListener(listener: OnSelectDateListener) {
@@ -66,9 +62,11 @@ class CalendarWeekView @JvmOverloads constructor(
         invalidate()
     }
 
+    //当前被选定的行数
+    private var selectedRowIndex = -1
+
     //当前日期
-    val data: CalendarData
-        get() = drawer.seedDate
+    val data: CalendarData = CalendarData(getYear(), getMonth(), getDay())
 
     //周/月类型
     private lateinit var beSelectedData : CalendarData
@@ -144,10 +142,6 @@ class CalendarWeekView @JvmOverloads constructor(
         drawer.onClickDate(calendarData,row,col)
     }
 
-    fun resetSelectedRowIndex() {
-        drawer.resetSelectedRowIndex()
-    }
-
     private fun updateWeek(rowCount: Int) {
         drawer.updateWeek(rowCount)
         invalidate()
@@ -167,8 +161,13 @@ class CalendarWeekView @JvmOverloads constructor(
         drawer.changePosition(position)
 
         if(!beClick){//不是被点击改变
-            selectedRowIndex = 0
-            drawer.selectedRowIndex = 0
+            if(selectedRowIndex == -1){//首次进入
+                setSelectedRowIndex(getRowIndexInMonth(data, getTheWholeMonth(data)))
+                drawer.selectedRowIndex = selectedRowIndex
+            }else{
+                selectedRowIndex = 0
+                drawer.selectedRowIndex = 0
+            }
         }else{
             selectedRowIndex = drawer.changeSelectedData(beSelectedData)
         }

@@ -67,7 +67,7 @@ class CalendarView @JvmOverloads constructor(
         const val TOTAl_COLUMN = 7
 
         //当前被选定的行数
-        private var selectedRowIndex = 0
+        var selectedRowIndex = 0
     }
 
     //是否画当日信息

@@ -52,10 +52,6 @@ class CalendarAdapter(
     private var seedDate = CalendarData(getYear(), getMonth(), getDay())
 
 
-    init {
-        calendarWeekView.setSelectedRowIndex(getRowIndexInMonth(seedDate, getTheWholeMonth(seedDate)))
-    }
-
     //Adapter回调
     private val onAdapterSelectListener = object : OnAdapterSelectListener {
         override fun cancelSelectState() {

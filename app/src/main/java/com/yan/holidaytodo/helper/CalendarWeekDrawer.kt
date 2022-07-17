@@ -29,24 +29,28 @@ class CalendarWeekDrawer (
     private val context: Context,
     private val calendarWeekView: CalendarWeekView,
 ) {
-
-    //这个一个月的日期
+    //一个月总日期
     private lateinit var weeks: Array<WeekData>
     //种子日期
     lateinit var seedDate: CalendarData
     //完整当前日期
     private fun wholeWeeks(position: Int) : Array<WeekData> = getTheWholeMonth(CalendarData(getYear(), getMonth(), getDay()).modifyMonth(position))
+
     //每一天的drawer
     lateinit var dayDrawer: IDayDrawer
+
     //点击回调
     private lateinit var onSelectDateListener: OnSelectDateListener
+
     //被选中的日期
     private lateinit var selectedDate: CalendarData
+
+    //被选中的行数
+    var selectedRowIndex: Int = 0
+
     //当前所在天数
     private val position : Int
         get() = MonthView.currentPosition
-    //被选中的行数
-    var selectedRowIndex: Int = 0
 
     fun initSeedData(position: Int) {
         val offsetMonth = position - MonthView.CURRENT_DAY_INDEX
@@ -79,7 +83,7 @@ class CalendarWeekDrawer (
     //绘画每一天
     fun drawDaysOfWeek(canvas: Canvas) {
         //写被画出的位置
-
+        Log.e("currentRow2",selectedRowIndex.toString())
         dayDrawer.drawWeek(canvas,weeks[selectedRowIndex])
         updateWeek(selectedRowIndex)
     }
@@ -108,6 +112,7 @@ class CalendarWeekDrawer (
      * @return void
      */
     fun updateWeek(rowIndex: Int) {
+        Log.e("currentRow1",rowIndex.toString())
         val currentWeekLastDay: CalendarData = getSaturday(seedDate)
 
         var day: Int = currentWeekLastDay.day
@@ -131,10 +136,6 @@ class CalendarWeekDrawer (
 
         weeks = wholeWeeks(position - MonthView.CURRENT_DAY_INDEX)
 
-    }
-
-    fun resetSelectedRowIndex() {
-        selectedRowIndex = 0
     }
 
     fun getFirstDate(): CalendarData {
