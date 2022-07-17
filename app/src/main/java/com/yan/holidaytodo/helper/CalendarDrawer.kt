@@ -51,7 +51,9 @@ class CalendarDrawer(
         val nowData = CalendarData(getYear(), getMonth(), getDay())
         seedDate = nowData.modifyMonth(offsetMonth)
         weeks = getTheWholeMonth(seedDate)
-        calendarView.setSelectedRowIndex(getRowIndexInMonth(nowData,weeks))
+        if (MonthView.currentPosition == MonthView.CURRENT_DAY_INDEX){
+            calendarView.setSelectedRowIndex(getRowIndexInMonth(nowData,weeks))
+        }
     }
 
     fun setOnSelectDataListener(listener: OnSelectDateListener) {
@@ -109,23 +111,25 @@ class CalendarDrawer(
         if (col >= CalendarView.TOTAl_COLUMN || row >= CalendarView.TOTAL_ROW) return
         if (calendarAttr.calendarType == CalendarAttr.CalendarType.MONTH) {
             //为月份表达的时候
+            selectedDate = weeks[row].days[col].data
             if (weeks[row].days[col].state === State.CURRENT_MONTH) {
                 weeks[row].days[col].state = (State.SELECT)
-                selectedDate = weeks[row].days[col].data
                 CalendarAdapter.selectedData = selectedDate
                 onSelectDateListener.onSelectDate(selectedDate,row,col)
                 seedDate = selectedDate
             } else if (weeks[row].days[col].state === State.PAST_MONTH) {
-                selectedDate = weeks[row].days[col].data
                 CalendarAdapter.selectedData = (selectedDate)
+                calendarView.setSelectedRowIndex(getRowIndexInMonth(selectedDate,getTheWholeMonth(selectedDate)))
                 onSelectDateListener.onSelectDate(selectedDate,row,col)
                 onSelectDateListener.onSelectOtherMonth(-1)
             } else if (weeks[row].days[col].state === State.NEXT_MONTH) {
-                selectedDate = weeks[row].days[col].data
                 CalendarAdapter.selectedData = (selectedDate)
+                calendarView.setSelectedRowIndex(getRowIndexInMonth(selectedDate,getTheWholeMonth(selectedDate)))
                 onSelectDateListener.onSelectDate(selectedDate,row,col)
                 onSelectDateListener.onSelectOtherMonth(1)
             }
+            selectedRowIndex = calendarView.getSelectedRowIndex()
+
         } else {
             //为周表达的时候
             weeks[selectedRowIndex].days[col].state = (State.SELECT)

@@ -12,15 +12,15 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.yan.holidaytodo.bean.CalendarAttr
 import com.yan.holidaytodo.bean.CalendarData
+import com.yan.holidaytodo.bean.Day
+import com.yan.holidaytodo.bean.State
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnAdapterSelectListener
 import com.yan.holidaytodo.callback.OnCalendarStateListener
 import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.helper.CalendarDrawer
 import com.yan.holidaytodo.helper.CalendarMover
-import com.yan.holidaytodo.util.calcOffset
-import com.yan.holidaytodo.util.dpToPx
-import com.yan.holidaytodo.util.getTouchSlop
+import com.yan.holidaytodo.util.*
 import com.yan.holidaytodo.widget.CalendarWeekView.Companion.shouldBeShownPosition
 import kotlin.math.abs
 
@@ -54,14 +54,21 @@ class CalendarView @JvmOverloads constructor(
     //设置日历属性
     private lateinit var calendarAttr: CalendarAttr
 
-    //设置日历所在页面
-    private var currentPosition = -1
-
     //日历的绘画类
     private lateinit var drawer: CalendarDrawer
 
     //提供给日历判断是否隐藏周日历的接口
     private lateinit var onSelectedDateHide: (Boolean) -> Unit
+
+    //设置日历所在页面
+    private var currentPosition = -1
+    companion object {
+        const val TOTAL_ROW = 6
+        const val TOTAl_COLUMN = 7
+
+        //当前被选定的行数
+        private var selectedRowIndex = 0
+    }
 
     //是否画当日信息
     private val dayInfo : Boolean
@@ -112,10 +119,7 @@ class CalendarView @JvmOverloads constructor(
         invalidate()
     }
 
-    companion object {
-        const val TOTAL_ROW = 6
-        const val TOTAl_COLUMN = 7
-    }
+
 
     //单元格的初始高度
     private val cellHeight by lazy {
@@ -146,8 +150,6 @@ class CalendarView @JvmOverloads constructor(
     var mCurrentHeight = -1
         private set
 
-    //当前被选定的行数
-    private var selectedRowIndex = 0
 
     //滑动距离的常量
     private val touchSlop = getTouchSlop(context).toFloat()
@@ -246,8 +248,6 @@ class CalendarView @JvmOverloads constructor(
                         onAdapterSelectListener.cancelSelectState()
                         cancelSelectState()
                         drawer.onClickDate(col, row)
-                        selectedRowIndex = row
-                        drawer.selectedRowIndex = selectedRowIndex
                         onAdapterSelectListener.updateSelectState()
                         update()
                         invalidate()
@@ -319,12 +319,9 @@ class CalendarView @JvmOverloads constructor(
     }
 
     private fun showCalendarWeek() : Boolean{
-        Log.e("selectedRowIndex",selectedRowIndex.toString())
-
         return mNormalHeight - mCurrentHeight > cellHeight * selectedRowIndex - cellHeight * 0.6
                 && shouldBeShownPosition == MonthView.currentPosition
     }
-
 
     fun setSelectedRowIndex(rowIndex: Int) {
         selectedRowIndex = rowIndex

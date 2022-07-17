@@ -39,6 +39,8 @@ class CalendarWeekView @JvmOverloads constructor(
     companion object{
         var shouldBeShownPosition = MonthView.CURRENT_DAY_INDEX
     }
+    //当前被选定的行数
+    private var selectedRowIndex = 0
 
     //日历切换监听
     private lateinit var onSelectListener: OnSelectDateListener
@@ -63,9 +65,6 @@ class CalendarWeekView @JvmOverloads constructor(
         drawer.dayDrawer = dayDrawer
         invalidate()
     }
-
-    //当前被选定的行数
-    private var selectedRowIndex = 0
 
     //当前日期
     val data: CalendarData
