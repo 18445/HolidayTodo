@@ -60,10 +60,6 @@ class CalendarDrawer(
         onSelectDateListener = listener
     }
 
-    fun setAttr(attr: CalendarAttr) {
-        calendarAttr = attr
-    }
-
     //绘画每一天
     fun drawDays(
         canvas: Canvas, percent: Float,

@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.view.isVisible
 import com.yan.holidaytodo.bean.CalendarAttr
 import com.yan.holidaytodo.bean.CalendarData
 import com.yan.holidaytodo.callback.IDayDrawer
@@ -38,11 +39,8 @@ class CalendarWeekView @JvmOverloads constructor(
     //日历切换监听
     private lateinit var onSelectListener: OnSelectDateListener
 
-
     //设置日历所在页面
     private var currentPosition = -1
-
-
 
     //日历的绘画类
     private lateinit var drawer: CalendarWeekDrawer
@@ -68,11 +66,6 @@ class CalendarWeekView @JvmOverloads constructor(
     fun initCurrentPosition(position: Int) {
         currentPosition = position
         invalidate()
-    }
-
-    companion object {
-        const val TOTAL_ROW = 6
-        const val TOTAl_COLUMN = 7
     }
 
     //当前被选定的行数
@@ -147,6 +140,7 @@ class CalendarWeekView @JvmOverloads constructor(
     }
 
     fun setSelectedRowIndex(rowIndex: Int) {
+        this.isVisible = false
         selectedRowIndex = rowIndex
         updateWeek(rowIndex)
     }
@@ -170,15 +164,4 @@ class CalendarWeekView @JvmOverloads constructor(
         drawer.cancelSelectState()
     }
 
-    fun getFirstDate(): CalendarData {
-        return drawer.getFirstDate()
-    }
-
-    fun getLastDate(): CalendarData {
-        return drawer.getLastDate()
-    }
-
-    fun getSelectedRowIndex(): Int {
-        return selectedRowIndex
-    }
 }

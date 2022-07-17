@@ -195,12 +195,10 @@ fun getTheWholeMonth(calendarData: CalendarData) : Array<WeekData> {
  * 获得所在日历的行数
  */
 fun getRowIndexInMonth(data : CalendarData,weeks : Array<WeekData>) : Int{
-    Log.e("rowIndex:",data.year.toString()+","+data.month.toString()+","+data.day.toString())
     for (row in 0 until CalendarView.TOTAL_ROW) {
         for (col in 0 until CalendarView.TOTAl_COLUMN) {
             val day = weeks[row].days[col]
             if(data.year == day.data.year && data.month == day.data.month && data.day == day.data.day){
-                Log.e("rowIndex:",row.toString())
                 return row
             }
         }
