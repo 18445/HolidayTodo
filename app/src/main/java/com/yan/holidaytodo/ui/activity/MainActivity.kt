@@ -4,15 +4,12 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import com.yan.common.base.BaseActivity
 import com.yan.holidaytodo.R
-import com.yan.holidaytodo.bean.CalendarAttr
 import com.yan.holidaytodo.bean.CalendarData
-import com.yan.holidaytodo.callback.OnAdapterSelectListener
 import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.ui.viewmodel.HomeViewModel
 import com.yan.holidaytodo.widget.CalendarWeekView
 import com.yan.holidaytodo.widget.CustomDayView
 import com.yan.holidaytodo.widget.MonthView
-import java.time.Month
 
 
 class MainActivity : BaseActivity<HomeViewModel>() {
@@ -31,7 +28,6 @@ class MainActivity : BaseActivity<HomeViewModel>() {
                 }
 
             })
-            initCurrentPosition(1000)
             initDayDrawer(CustomDayView(context,R.layout.custiom_day))
         }
 

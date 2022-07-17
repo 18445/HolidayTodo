@@ -21,6 +21,7 @@ import com.yan.holidaytodo.helper.CalendarMover
 import com.yan.holidaytodo.util.calcOffset
 import com.yan.holidaytodo.util.dpToPx
 import com.yan.holidaytodo.util.getTouchSlop
+import com.yan.holidaytodo.widget.CalendarWeekView.Companion.shouldBeShownPosition
 import kotlin.math.abs
 
 /**
@@ -318,7 +319,10 @@ class CalendarView @JvmOverloads constructor(
     }
 
     private fun showCalendarWeek() : Boolean{
+        Log.e("selectedRowIndex",selectedRowIndex.toString())
+
         return mNormalHeight - mCurrentHeight > cellHeight * selectedRowIndex - cellHeight * 0.6
+                && shouldBeShownPosition == MonthView.currentPosition
     }
 
 

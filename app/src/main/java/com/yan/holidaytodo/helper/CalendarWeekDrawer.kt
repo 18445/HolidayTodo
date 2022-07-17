@@ -34,8 +34,7 @@ class CalendarWeekDrawer (
     //种子日期
     lateinit var seedDate: CalendarData
     //完整当前日期
-    private val wholeWeeks : Array<WeekData>
-        get() = getTheWholeMonth(CalendarData(getYear(), getMonth(), getDay()))
+    private fun wholeWeeks(position: Int) : Array<WeekData> = getTheWholeMonth(CalendarData(getYear(), getMonth(), getDay()).modifyMonth(position))
 
     //每一天的drawer
     lateinit var dayDrawer: IDayDrawer
@@ -47,16 +46,36 @@ class CalendarWeekDrawer (
     private lateinit var selectedDate: CalendarData
 
     //被选中的行数
-        var selectedRowIndex: Int = 0
+    var selectedRowIndex: Int = 0
+
+    //当前所在天数
+    private val position : Int
+        get() = MonthView.currentPosition
 
     fun initSeedData(position: Int) {
         val offsetMonth = position - MonthView.CURRENT_DAY_INDEX
         val nowData = CalendarData(getYear(), getMonth(), getDay())
         seedDate = nowData.modifyMonth(offsetMonth)
         weeks = getTheWholeMonth(seedDate)
-
     }
 
+    fun changePosition(position : Int){
+        weeks = wholeWeeks(position - MonthView.CURRENT_DAY_INDEX)
+    }
+
+    fun changeSelectedData(calendarData: CalendarData) : Int{
+        selectedRowIndex = getRowIndexInMonth(calendarData,wholeWeeks(MonthView.currentPosition - MonthView.CURRENT_DAY_INDEX))
+        var col = -1
+        for(i in 0 until CalendarView.TOTAl_COLUMN){
+            val day = weeks[selectedRowIndex].days[i]
+            if (calendarData.day == day.data.day && calendarData.month == day.data.month){
+                col = i
+            }
+        }
+        onClickDate(calendarData,selectedRowIndex,col)
+
+        return selectedRowIndex
+    }
     fun setOnSelectDataListener(listener: OnSelectDateListener) {
         onSelectDateListener = listener
     }
@@ -102,7 +121,7 @@ class CalendarWeekDrawer (
                 weeks[rowIndex].days[i].state = State.SELECT
                 weeks[rowIndex].days[i].data = date
             } else {
-                weeks[rowIndex].days[i].state = wholeWeeks[rowIndex].days[i].state
+                weeks[rowIndex].days[i].state = wholeWeeks(position - MonthView.CURRENT_DAY_INDEX)[rowIndex].days[i].state
                 weeks[rowIndex].days[i].data = date
             }
             day--
@@ -113,7 +132,9 @@ class CalendarWeekDrawer (
      * 取消日期的选中状态
      */
     fun cancelSelectState() {
-        weeks = wholeWeeks
+
+        weeks = wholeWeeks(position - MonthView.CURRENT_DAY_INDEX)
+
     }
 
     fun resetSelectedRowIndex() {

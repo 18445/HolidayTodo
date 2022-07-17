@@ -5,11 +5,13 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.yan.holidaytodo.R
 import com.yan.holidaytodo.adapter.CalendarAdapter
@@ -49,6 +51,8 @@ class MonthView @JvmOverloads constructor(
 
     private var viewPager2: ViewPager2
 
+    private lateinit var mCalendarWeekView: CalendarWeekView
+
     init {
         layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -59,20 +63,37 @@ class MonthView @JvmOverloads constructor(
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     currentPosition = position
+                    if (this@MonthView::mCalendarWeekView.isInitialized){
+                        mCalendarWeekView.changePosition(position,false)
+                    }
+                }
+
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                    super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                    if (this@MonthView::mCalendarWeekView.isInitialized){
+                        mCalendarWeekView.isVisible = false
+                    }
                 }
             })
         }
     }
 
     fun initAdapter(context: Context,onSelectedDateHide : (Boolean)->Unit, calendarWeekView: CalendarWeekView, iDayDrawer: IDayDrawer) {
+        mCalendarWeekView = calendarWeekView
         viewPager2.adapter = CalendarAdapter(context, object : OnSelectDateListener {
 
             override fun onSelectOtherMonth(offset: Int) {
                 viewPager2.currentItem = currentPosition + offset
+                mCalendarWeekView.changePosition(currentPosition,true)
             }
 
             override fun onSelectDate(calendarData: CalendarData,row : Int,col : Int) {
                 calendarWeekView.onClickItem(calendarData,row,col)
+                calendarWeekView.changeSelectedData(calendarData)
             }
 
         }, object : OnCalendarStateListener {

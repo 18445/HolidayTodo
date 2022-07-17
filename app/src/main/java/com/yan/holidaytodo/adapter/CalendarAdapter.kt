@@ -88,10 +88,6 @@ class CalendarAdapter(
         }
     }
 
-    fun getCalendarType(): CalendarAttr.CalendarType {
-        return calendarType
-    }
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     }

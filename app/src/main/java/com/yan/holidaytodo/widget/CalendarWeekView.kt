@@ -15,8 +15,7 @@ import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.helper.CalendarWeekDrawer
 import com.yan.holidaytodo.util.getRowIndexInMonth
 import com.yan.holidaytodo.util.getTheWholeMonth
-import com.yan.holidaytodo.util.getTouchSlop
-import kotlin.math.abs
+import kotlin.reflect.jvm.internal.impl.incremental.components.Position
 
 /**
  *
@@ -36,18 +35,20 @@ class CalendarWeekView @JvmOverloads constructor(
     defStyleRes: Int = 0,
 ) : View(context, attrs, defStyleAttr, defStyleRes) {
 
+    //当前应该所属的界面
+    companion object{
+        var shouldBeShownPosition = MonthView.CURRENT_DAY_INDEX
+    }
+
     //日历切换监听
     private lateinit var onSelectListener: OnSelectDateListener
-
-    //设置日历所在页面
-    private var currentPosition = -1
 
     //日历的绘画类
     private lateinit var drawer: CalendarWeekDrawer
 
     private fun initDrawer(context: Context) {
         drawer = CalendarWeekDrawer(context, this).also {
-            it.initSeedData(currentPosition)
+            it.initSeedData(shouldBeShownPosition)
             it.setOnSelectDataListener(onSelectListener)
         }
         drawer.selectedRowIndex = (getRowIndexInMonth(data, getTheWholeMonth(data)))
@@ -63,27 +64,20 @@ class CalendarWeekView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun initCurrentPosition(position: Int) {
-        currentPosition = position
-        invalidate()
-    }
-
     //当前被选定的行数
     private var selectedRowIndex = 0
 
-    //日期
+    //当前日期
     val data: CalendarData
         get() = drawer.seedDate
 
     //周/月类型
-    val type: CalendarAttr.CalendarType
-        get() = CalendarAttr.CalendarType.WEEK
+    private lateinit var beSelectedData : CalendarData
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         //交给drawer画一周的每一天
         if ( this::onSelectListener.isInitialized
-            && currentPosition != -1
         ) {
             drawer.drawDaysOfWeek(canvas)
         }
@@ -162,6 +156,23 @@ class CalendarWeekView @JvmOverloads constructor(
 
     private fun cancelSelectState() {
         drawer.cancelSelectState()
+    }
+
+    fun changeSelectedData(calendarData: CalendarData){
+        beSelectedData = calendarData
+    }
+
+    fun changePosition(position: Int,beClick : Boolean){
+
+        shouldBeShownPosition = position
+        drawer.changePosition(position)
+
+        if(!beClick){//不是被点击改变
+            selectedRowIndex = 0
+            drawer.selectedRowIndex = 0
+        }else{
+            selectedRowIndex = drawer.changeSelectedData(beSelectedData)
+        }
     }
 
 }

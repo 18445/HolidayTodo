@@ -54,11 +54,10 @@ class CalendarDrawer(
         calendarView.setSelectedRowIndex(getRowIndexInMonth(nowData,weeks))
     }
 
-
-
     fun setOnSelectDataListener(listener: OnSelectDateListener) {
         onSelectDateListener = listener
     }
+
 
     //绘画每一天
     fun drawDays(
@@ -76,7 +75,6 @@ class CalendarDrawer(
                 }
             }
         }
-//            dayDrawer.drawWeek(canvas, weeks[5])
 
         update()
     }
@@ -120,13 +118,13 @@ class CalendarDrawer(
             } else if (weeks[row].days[col].state === State.PAST_MONTH) {
                 selectedDate = weeks[row].days[col].data
                 CalendarAdapter.selectedData = (selectedDate)
-                onSelectDateListener.onSelectOtherMonth(-1)
                 onSelectDateListener.onSelectDate(selectedDate,row,col)
+                onSelectDateListener.onSelectOtherMonth(-1)
             } else if (weeks[row].days[col].state === State.NEXT_MONTH) {
                 selectedDate = weeks[row].days[col].data
                 CalendarAdapter.selectedData = (selectedDate)
-                onSelectDateListener.onSelectOtherMonth(1)
                 onSelectDateListener.onSelectDate(selectedDate,row,col)
+                onSelectDateListener.onSelectOtherMonth(1)
             }
         } else {
             //为周表达的时候
