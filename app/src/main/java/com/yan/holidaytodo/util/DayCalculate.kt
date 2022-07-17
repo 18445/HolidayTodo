@@ -1,7 +1,12 @@
 package com.yan.holidaytodo.util
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.yan.holidaytodo.bean.CalendarData
+import com.yan.holidaytodo.bean.Day
+import com.yan.holidaytodo.bean.State
+import com.yan.holidaytodo.bean.WeekData
+import com.yan.holidaytodo.widget.CalendarView
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -112,21 +117,95 @@ fun calculateMonthOffset(
 @SuppressLint("SimpleDateFormat")
 fun getSaturday(seedDate: CalendarData): CalendarData {
     val c = Calendar.getInstance()
-    val dateString: String = seedDate.toString()
-    var date: Date? = null
+    val dateString: String = "${seedDate.year}-${seedDate.month}-${seedDate.day}"
+    var date: Date = Date()
     try {
         val sdf = SimpleDateFormat("yyyy-M-d")
         date = sdf.parse(dateString)
     } catch (e: ParseException) {
         println(e.message)
     }
-    c.time = date!!
+    c.time = date
     c.add(Calendar.DAY_OF_MONTH, 7 - c[Calendar.DAY_OF_WEEK])
     return CalendarData(
         c[Calendar.YEAR],
         c[Calendar.MONTH] + 1,
         c[Calendar.DAY_OF_MONTH]
     )
+
+}
+
+/**
+ * 得到一个月个日历表
+ */
+fun getTheWholeMonth(calendarData: CalendarData) : Array<WeekData> {
+
+    val tempWeeks: Array<WeekData> = Array(CalendarView.TOTAL_ROW) {
+        val days = Array(CalendarView.TOTAl_COLUMN) {
+            Day(State.CURRENT_MONTH, CalendarData(getYear(), getMonth(), getDay()), 0, 0)
+        }
+        WeekData(it, days)
+    }
+
+    val firstDay = getFirstDayWeekPosition(calendarData.year, calendarData.month)
+    val lastCalendarData = calendarData.modifyMonth(-1)
+    val nextCalendarData = calendarData.modifyMonth(1)
+    val lastDuration = getMonthDays(lastCalendarData.year, lastCalendarData.month)
+    val duration = getMonthDays(calendarData.year, calendarData.month)
+    val dayList = mutableListOf<Day>()
+    //上一月的
+    for (i in 0 until firstDay) {
+        dayList.add(
+            Day(State.PAST_MONTH,
+                CalendarData(lastCalendarData.year,
+                    lastCalendarData.month,
+                    lastDuration - (firstDay - 1 - i)), 0, 0
+            ))
+    }
+    //这一月的
+    for (i in firstDay until firstDay + duration) {
+        dayList.add(
+            Day(State.CURRENT_MONTH,
+                CalendarData(calendarData.year, calendarData.month, i - firstDay + 1), 0, 0
+            ))
+    }
+    //下一月的
+    for (i in firstDay + duration until 42) {
+        dayList.add(
+            Day(State.NEXT_MONTH,
+                CalendarData(nextCalendarData.year,
+                    nextCalendarData.month,
+                    i - firstDay - duration + 1), 0, 0)
+        )
+    }
+
+    for (row in 0 until CalendarView.TOTAL_ROW) {
+        for (col in 0 until CalendarView.TOTAl_COLUMN) {
+            tempWeeks[row].days[col] = dayList[(col + row * CalendarView.TOTAl_COLUMN)]
+            tempWeeks[row].days[col].posRow = row
+            tempWeeks[row].days[col].posCol = col
+        }
+    }
+
+    return tempWeeks
+}
+
+
+/**
+ * 获得所在日历的行数
+ */
+fun getRowIndexInMonth(data : CalendarData,weeks : Array<WeekData>) : Int{
+    Log.e("rowIndex:",data.year.toString()+","+data.month.toString()+","+data.day.toString())
+    for (row in 0 until CalendarView.TOTAL_ROW) {
+        for (col in 0 until CalendarView.TOTAl_COLUMN) {
+            val day = weeks[row].days[col]
+            if(data.year == day.data.year && data.month == day.data.month && data.day == day.data.day){
+                Log.e("rowIndex:",row.toString())
+                return row
+            }
+        }
+    }
+    return 0
 }
 
 /**

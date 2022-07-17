@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.util.Log
 import com.yan.holidaytodo.adapter.CalendarAdapter
 import com.yan.holidaytodo.bean.*
 import com.yan.holidaytodo.callback.IDayDrawer
@@ -43,67 +44,17 @@ class CalendarDrawer(
     private lateinit var selectedDate: CalendarData
 
     //被选中的行数
-    private var selectedRowIndex: Int = 0
+    var selectedRowIndex: Int = 0
 
     fun initSeedData(position: Int) {
         val offsetMonth = position - MonthView.CURRENT_DAY_INDEX
         val nowData = CalendarData(getYear(), getMonth(), getDay())
         seedDate = nowData.modifyMonth(offsetMonth)
-        initWeeks(seedDate)
+        weeks = getTheWholeMonth(seedDate)
+        calendarView.setSelectedRowIndex(getRowIndexInMonth(nowData,weeks))
     }
 
-    private fun initWeeks(calendarData: CalendarData) {
 
-        val tempWeeks: Array<WeekData> = Array(CalendarView.TOTAL_ROW) {
-            val days = Array(CalendarView.TOTAl_COLUMN) {
-                Day(State.CURRENT_MONTH, CalendarData(getYear(), getMonth(), getDay()), 0, 0)
-            }
-            WeekData(it, days)
-        }
-
-        val firstDay = getFirstDayWeekPosition(calendarData.year, calendarData.month)
-        val lastCalendarData = calendarData.modifyMonth(-1)
-        val nextCalendarData = calendarData.modifyMonth(1)
-        val lastDuration = getMonthDays(lastCalendarData.year, lastCalendarData.month)
-        val duration = getMonthDays(calendarData.year, calendarData.month)
-        val dayList = mutableListOf<Day>()
-        //上一月的
-        for (i in 0 until firstDay) {
-            dayList.add(
-                Day(State.PAST_MONTH,
-                    CalendarData(lastCalendarData.year,
-                        lastCalendarData.month,
-                        lastDuration - (firstDay - 1 - i)), 0, 0
-                ))
-        }
-        //这一月的
-        for (i in firstDay until firstDay + duration) {
-            dayList.add(
-                Day(State.CURRENT_MONTH,
-                    CalendarData(calendarData.year, calendarData.month, i - firstDay + 1), 0, 0
-                ))
-        }
-        //下一月的
-        for (i in firstDay + duration until 42) {
-            dayList.add(
-                Day(State.NEXT_MONTH,
-                    CalendarData(nextCalendarData.year,
-                        nextCalendarData.month,
-                        i - firstDay - duration + 1), 0, 0)
-            )
-        }
-
-        for (row in 0 until CalendarView.TOTAL_ROW) {
-            for (col in 0 until CalendarView.TOTAl_COLUMN) {
-                tempWeeks[row].days[col] = dayList[(col + row * CalendarView.TOTAl_COLUMN)]
-                tempWeeks[row].days[col].posRow = row
-                tempWeeks[row].days[col].posCol = col
-            }
-        }
-
-        weeks = tempWeeks
-
-    }
 
     fun setOnSelectDataListener(listener: OnSelectDateListener) {
         onSelectDateListener = listener
@@ -129,7 +80,8 @@ class CalendarDrawer(
                 }
             }
         }
-        dayDrawer.drawWeek(canvas, weeks[5])
+//            dayDrawer.drawWeek(canvas, weeks[5])
+
         update()
     }
 
@@ -146,17 +98,13 @@ class CalendarDrawer(
             (row*currentCellHeight+cellHeight).toFloat()+cellWidth*0.05f,Paint().apply {
             color = Color.LTGRAY
         })
-        canvas.drawText("ABC", col*cellWidth + 0.3f * cellWidth,
+        canvas.drawText("", col*cellWidth + 0.3f * cellWidth,
             (row*currentCellHeight + cellHeight*1.3f),
             Paint().apply {
             textSize = 35f
             color = Color.GRAY
         })
     }
-
-
-
-
 
     /**
      * 点击某一天时改变这一天的状态
@@ -171,25 +119,25 @@ class CalendarDrawer(
                 weeks[row].days[col].state = (State.SELECT)
                 selectedDate = weeks[row].days[col].data
                 CalendarAdapter.selectedData = selectedDate
-                onSelectDateListener.onSelectDate(selectedDate)
+                onSelectDateListener.onSelectDate(selectedDate,row,col)
                 seedDate = selectedDate
             } else if (weeks[row].days[col].state === State.PAST_MONTH) {
                 selectedDate = weeks[row].days[col].data
                 CalendarAdapter.selectedData = (selectedDate)
                 onSelectDateListener.onSelectOtherMonth(-1)
-                onSelectDateListener.onSelectDate(selectedDate)
+                onSelectDateListener.onSelectDate(selectedDate,row,col)
             } else if (weeks[row].days[col].state === State.NEXT_MONTH) {
                 selectedDate = weeks[row].days[col].data
                 CalendarAdapter.selectedData = (selectedDate)
                 onSelectDateListener.onSelectOtherMonth(1)
-                onSelectDateListener.onSelectDate(selectedDate)
+                onSelectDateListener.onSelectDate(selectedDate,row,col)
             }
         } else {
             //为周表达的时候
-            weeks[row].days[col].state = (State.SELECT)
+            weeks[selectedRowIndex].days[col].state = (State.SELECT)
             selectedDate = weeks[row].days[col].data
             CalendarAdapter.selectedData = (selectedDate)
-            onSelectDateListener.onSelectDate(selectedDate)
+            onSelectDateListener.onSelectDate(selectedDate,row,col)
             seedDate = selectedDate
         }
 

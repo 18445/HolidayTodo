@@ -3,10 +3,13 @@ package com.yan.holidaytodo.widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.yan.holidaytodo.bean.CalendarAttr
 import com.yan.holidaytodo.bean.CalendarData
 import com.yan.holidaytodo.callback.IDayDrawer
@@ -56,19 +59,27 @@ class CalendarView @JvmOverloads constructor(
     //日历的绘画类
     private lateinit var drawer: CalendarDrawer
 
+    //提供给日历判断是否隐藏周日历的接口
+    private lateinit var onSelectedDateHide: (Boolean) -> Unit
+
     //是否画当日信息
     private val dayInfo : Boolean
         get() {
             return mCurrentHeight >(mNormalHeight + (mMostHeight.dpToPx() - mNormalHeight) / 2.5)
         }
 
-
-
+    /**
+     * 初始化绘画类
+     */
     private fun initDrawer(context: Context) {
         drawer = CalendarDrawer(context, this, calendarAttr).also {
             it.initSeedData(currentPosition)
             it.setOnSelectDataListener(onSelectListener)
         }
+    }
+
+    fun initOnSelectedDateHide(listener: (Boolean)->Unit){
+         onSelectedDateHide = listener
     }
 
     fun initOnCalendarStateListener(listener: OnCalendarStateListener) {
@@ -172,6 +183,7 @@ class CalendarView @JvmOverloads constructor(
         }
         mCurrentHeight = h
         currentCellHeight = h / TOTAl_COLUMN
+        onSelectedDateHide(showCalendarWeek())
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -195,7 +207,7 @@ class CalendarView @JvmOverloads constructor(
     private var moveY = 0f
 
     /**
-     * 确立点击位置的日期
+     * 确立点击位置的日期/
      */
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -227,14 +239,24 @@ class CalendarView @JvmOverloads constructor(
                 val disY = event.y - posY
 
                 if (abs(disX) < touchSlop && abs(disY) < touchSlop) {//点击事件
-                    val col: Int = (posX / cellWidth + 0.5).toInt()
-                    val row: Int = (posY / currentCellHeight).toInt()
-                    onAdapterSelectListener.cancelSelectState()
-                    cancelSelectState()
-                    drawer.onClickDate(col, row)
-                    onAdapterSelectListener.updateSelectState()
-                    update()
-                    invalidate()
+                    if (calendarAttr.calendarType === CalendarAttr.CalendarType.MONTH){
+                        val col: Int = (posX / cellWidth + 0.5).toInt()
+                        val row: Int = (posY / currentCellHeight).toInt()
+                        onAdapterSelectListener.cancelSelectState()
+                        cancelSelectState()
+                        drawer.onClickDate(col, row)
+                        selectedRowIndex = row
+                        drawer.selectedRowIndex = selectedRowIndex
+                        onAdapterSelectListener.updateSelectState()
+                        update()
+                        invalidate()
+                    }else{
+                        val col: Int = (posX / cellWidth + 0.5).toInt()
+                        cancelSelectState()
+                        drawer.onClickDate(col,selectedRowIndex)
+                        updateWeek(selectedRowIndex)
+                        update()
+                    }
                 }
 
                 //普通状态向下滑动
@@ -254,11 +276,13 @@ class CalendarView @JvmOverloads constructor(
                     val success = calendarMover.moveToFoldingTop()
                     onCalendarStateListener.onFoldingState()
                     calendarState = if(success){
+                        calendarAttr.calendarType = CalendarAttr.CalendarType.WEEK
                         CalendarMover.CalendarState.FOLDING
                     }else{
+                        calendarAttr.calendarType = CalendarAttr.CalendarType.MONTH
                         CalendarMover.CalendarState.NORMAL
                     }
-                } else if (calendarState === CalendarMover.CalendarState.NORMAL && -disY > 0 && mCurrentHeight <= mNormalHeight) { //普通状态恢复
+                } else if (calendarState === CalendarMover.CalendarState.NORMAL  && mCurrentHeight <= mNormalHeight) { //普通状态恢复
                     calendarMover.moveToNormalWhenUp()
                 }
                 //拉伸状态向上滑动
@@ -266,6 +290,7 @@ class CalendarView @JvmOverloads constructor(
                     calendarMover.moveToNormal()
                     onCalendarStateListener.onNormalState()
                     calendarState = CalendarMover.CalendarState.NORMAL
+                    calendarAttr.calendarType = CalendarAttr.CalendarType.MONTH
                 } else if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > 0) { //恢复为拉伸状态
                     calendarMover.moveToDown()
                 }
@@ -275,18 +300,25 @@ class CalendarView @JvmOverloads constructor(
                 ) { //恢复为普通状态
                     calendarMover.moveToNormalWhenFolding()
                     onCalendarStateListener.onNormalState()
+                    calendarAttr.calendarType = CalendarAttr.CalendarType.MONTH
                     calendarState = CalendarMover.CalendarState.NORMAL
                 } else if (calendarState === CalendarMover.CalendarState.FOLDING && disY > 0 && mCurrentHeight <= mNormalHeight) {
                     calendarMover.moveToFoldingTop()
+                    calendarAttr.calendarType = CalendarAttr.CalendarType.WEEK
                 } else if (calendarState === CalendarMover.CalendarState.FOLDING && disY > 0) {
                     calendarMover.moveToNormalWhenFolding()
                     onCalendarStateListener.onNormalState()
                     calendarState = CalendarMover.CalendarState.NORMAL
+                    calendarAttr.calendarType = CalendarAttr.CalendarType.MONTH
                 }
                 calendarMover.resetState()
             }
         }
         return true
+    }
+
+    private fun showCalendarWeek() : Boolean{
+        return mNormalHeight - mCurrentHeight > cellHeight * selectedRowIndex - cellHeight * 0.6
     }
 
 

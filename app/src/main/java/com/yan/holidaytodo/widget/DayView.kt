@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import com.yan.holidaytodo.bean.Day
@@ -42,8 +43,6 @@ abstract class DayView(context: Context, layoutResource: Int) :
         setupLayoutResource(layoutResource)
     }
 
-
-
     open fun refreshContent() {
         measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
             MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
@@ -61,9 +60,20 @@ abstract class DayView(context: Context, layoutResource: Int) :
     }
 
     override fun drawWeek(canvas: Canvas, weekData: WeekData) {
-//        for(i in 0 until CalendarView.TOTAl_COLUMN){
-//            drawDay(canvas,weekData)
-//        }
+        for(i in 0 until CalendarView.TOTAl_COLUMN){
+            this.day = weekData.days[i]
+            refreshContent()
+            drawWeekOfDay(canvas,weekData.days[i])
+        }
+    }
+
+    private fun drawWeekOfDay(canvas: Canvas,day : Day){
+        this.day = day
+        refreshContent()
+        val saveId = canvas.save()
+        canvas.translate(getTranslateX(canvas, day).toFloat(), 0f)
+        draw(canvas)
+        canvas.restoreToCount(saveId)
     }
 
     private fun getTranslateX(canvas: Canvas, day: Day): Int {

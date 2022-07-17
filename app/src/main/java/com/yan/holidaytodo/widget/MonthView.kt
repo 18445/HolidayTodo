@@ -2,7 +2,11 @@ package com.yan.holidaytodo.widget
 
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
 import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -10,6 +14,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.yan.holidaytodo.R
 import com.yan.holidaytodo.adapter.CalendarAdapter
 import com.yan.holidaytodo.bean.CalendarData
+import com.yan.holidaytodo.bean.Day
+import com.yan.holidaytodo.bean.State
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnCalendarStateListener
 import com.yan.holidaytodo.callback.OnSelectDateListener
@@ -58,15 +64,15 @@ class MonthView @JvmOverloads constructor(
         }
     }
 
-    fun initAdapter(context: Context, iDayDrawer: IDayDrawer) {
+    fun initAdapter(context: Context,onSelectedDateHide : (Boolean)->Unit, calendarWeekView: CalendarWeekView, iDayDrawer: IDayDrawer) {
         viewPager2.adapter = CalendarAdapter(context, object : OnSelectDateListener {
 
             override fun onSelectOtherMonth(offset: Int) {
                 viewPager2.currentItem = currentPosition + offset
             }
 
-            override fun onSelectDate(calendarData: CalendarData) {
-
+            override fun onSelectDate(calendarData: CalendarData,row : Int,col : Int) {
+                calendarWeekView.onClickItem(calendarData,row,col)
             }
 
         }, object : OnCalendarStateListener {
@@ -82,12 +88,18 @@ class MonthView @JvmOverloads constructor(
                 isAllowSlide(true)
             }
 
-        }, iDayDrawer)
+        }, onSelectedDateHide, calendarWeekView, iDayDrawer)
         viewPager2.setCurrentItem(CURRENT_DAY_INDEX, false)
     }
 
     fun isAllowSlide(state: Boolean) {
         viewPager2.isUserInputEnabled = state
     }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+    }
+
+
 
 }

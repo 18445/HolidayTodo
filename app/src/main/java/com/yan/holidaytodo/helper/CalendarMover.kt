@@ -37,7 +37,7 @@ class CalendarMover(private val calendarView: CalendarView) {
         if (calendarState === CalendarState.NORMAL && offsetY > 0 && calendarView.mCurrentHeight + offsetY <= calendarView.mNormalHeight && !hasDown ) {
             //向上滑动时向下滑动
             calendarNormalDownWhenUp(offsetY)
-        } else if (calendarState === CalendarState.NORMAL && offsetY < 0 && calendarView.mCurrentHeight <= calendarView.mNormalHeight && !hasDown) {
+        } else if (calendarState === CalendarState.NORMAL && offsetY < 0 && calendarView.mCurrentHeight  <= calendarView.mNormalHeight && !hasDown) {
             //向上滑动
             calendarNormalUp(offsetY)
         } else if (calendarState === CalendarState.NORMAL && calendarView.mCurrentHeight >= calendarView.mNormalHeight ) {
@@ -202,7 +202,7 @@ class CalendarMover(private val calendarView: CalendarView) {
             return false
         }
         calendarView.apply {
-            val time = 500
+            val time = 250
             val v1 = ValueAnimator.ofInt(mCurrentHeight, mLeastHeight.dpToPx()).apply {
                 duration = time.toLong()
                 addUpdateListener {
