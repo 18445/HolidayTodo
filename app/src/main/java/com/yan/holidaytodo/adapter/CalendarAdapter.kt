@@ -46,8 +46,8 @@ class CalendarAdapter(
     private var calendarType: CalendarAttr.CalendarType = CalendarAttr.CalendarType.MONTH
 
     //行数
-    private var rowCount = CalendarView.TOTAL_ROW
-
+    private val currentRow
+        get() = CalendarView.selectedRowIndex
     //今天的日期
     private var seedDate = CalendarData(getYear(), getMonth(), getDay())
 
@@ -78,7 +78,7 @@ class CalendarAdapter(
             val calendar: CalendarView = CalendarPair.value
             calendar.update()
             if (calendar.type == CalendarAttr.CalendarType.WEEK) {
-                calendar.updateWeek(rowCount)
+                calendar.updateWeek(currentRow)
             }
         }
     }

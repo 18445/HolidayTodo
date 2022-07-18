@@ -22,6 +22,7 @@ import com.yan.holidaytodo.bean.State
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnCalendarStateListener
 import com.yan.holidaytodo.callback.OnSelectDateListener
+import com.yan.holidaytodo.helper.CalendarMover
 
 
 /**
@@ -92,8 +93,8 @@ class MonthView @JvmOverloads constructor(
                 mCalendarWeekView.changePosition(currentPosition,true)
             }
 
-            override fun onSelectDate(calendarData: CalendarData,row : Int,col : Int,type : CalendarAttr.CalendarType) {
-                calendarWeekView.onClickItem(calendarData,row,col,type)
+            override fun onSelectDate(calendarData: CalendarData,row : Int,col : Int,type : CalendarAttr.CalendarType, state:State) {
+                calendarWeekView.onClickItem(calendarData,row,col,type,state)
                 calendarWeekView.changeSelectedData(calendarData)
             }
 

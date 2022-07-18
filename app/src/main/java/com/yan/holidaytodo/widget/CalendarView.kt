@@ -62,6 +62,7 @@ class CalendarView @JvmOverloads constructor(
 
     //设置日历所在页面
     private var currentPosition = -1
+
     companion object {
         const val TOTAL_ROW = 6
         const val TOTAl_COLUMN = 7
@@ -241,10 +242,11 @@ class CalendarView @JvmOverloads constructor(
                 val disX = event.x - posX
                 val disY = event.y - posY
 
+                val col: Int = (posX / cellWidth + 0.5).toInt()
+                val row: Int = (posY / currentCellHeight).toInt()
+
                 if (abs(disX) < touchSlop && abs(disY) < touchSlop) {//点击事件
                     if (calendarAttr.calendarType === CalendarAttr.CalendarType.MONTH){
-                        val col: Int = (posX / cellWidth + 0.5).toInt()
-                        val row: Int = (posY / currentCellHeight).toInt()
                         onAdapterSelectListener.cancelSelectState()
                         cancelSelectState()
                         drawer.onClickDate(col, row)
@@ -252,13 +254,24 @@ class CalendarView @JvmOverloads constructor(
                         update()
                         invalidate()
                     }else{
-                        val col: Int = (posX / cellWidth + 0.5).toInt()
                         cancelSelectState()
                         drawer.onClickDate(col,selectedRowIndex)
                         updateWeek(selectedRowIndex)
                         update()
                     }
+
                 }
+//                //折叠状态切换页面
+//                if (calendarAttr.calendarType === CalendarAttr.CalendarType.WEEK
+//                    && getTheWholeMonth(CalendarData(getYear(), getMonth(), getDay()).modifyMonth(currentPosition - MonthView.CURRENT_DAY_INDEX))[row].days[col].state
+//                    === State.NEXT_MONTH)
+//                {
+//                    calendarMover.moveToNormalWhenFolding()
+//                    onCalendarStateListener.onNormalState()
+//                    calendarAttr.calendarType = CalendarAttr.CalendarType.MONTH
+//                    calendarState = CalendarMover.CalendarState.NORMAL
+//                }
+
 
                 //普通状态向下滑动
                 if (calendarState === CalendarMover.CalendarState.NORMAL && disY > (mMostHeight.dpToPx() - mNormalHeight) / 2

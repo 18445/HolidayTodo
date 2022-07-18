@@ -2,6 +2,8 @@ package com.yan.holidaytodo.callback
 
 import com.yan.holidaytodo.bean.CalendarAttr
 import com.yan.holidaytodo.bean.CalendarData
+import com.yan.holidaytodo.bean.State
+import com.yan.holidaytodo.helper.CalendarMover
 
 /**
  *
@@ -17,7 +19,7 @@ import com.yan.holidaytodo.bean.CalendarData
 interface OnSelectDateListener {
 
     //点击其他日期
-    fun onSelectDate(calendarData: CalendarData,row:Int,col : Int, type:CalendarAttr.CalendarType)
+    fun onSelectDate(calendarData: CalendarData,row:Int,col : Int, type:CalendarAttr.CalendarType , state : State)
 
     //点击其他月份
     fun onSelectOtherMonth(offset: Int)

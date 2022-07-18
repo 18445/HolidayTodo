@@ -115,29 +115,36 @@ class CalendarDrawer(
             if (weeks[row].days[col].state === State.CURRENT_MONTH) {
                 weeks[row].days[col].state = (State.SELECT)
                 CalendarAdapter.selectedData = selectedDate
-                onSelectDateListener.onSelectDate(selectedDate,row,col,CalendarAttr.CalendarType.WEEK)
+                onSelectDateListener.onSelectDate(selectedDate,row,col,CalendarAttr.CalendarType.WEEK,State.CURRENT_MONTH)
                 calendarView.setSelectedRowIndex(row)
                 seedDate = selectedDate
             } else if (weeks[row].days[col].state === State.PAST_MONTH) {
                 CalendarAdapter.selectedData = (selectedDate)
                 calendarView.setSelectedRowIndex(getRowIndexInMonth(selectedDate,getTheWholeMonth(selectedDate)))
-                onSelectDateListener.onSelectDate(selectedDate,row,col,CalendarAttr.CalendarType.WEEK)
+                onSelectDateListener.onSelectDate(selectedDate,row,col,CalendarAttr.CalendarType.WEEK,State.PAST_MONTH)
                 onSelectDateListener.onSelectOtherMonth(-1)
             } else if (weeks[row].days[col].state === State.NEXT_MONTH) {
                 CalendarAdapter.selectedData = (selectedDate)
                 calendarView.setSelectedRowIndex(getRowIndexInMonth(selectedDate,getTheWholeMonth(selectedDate)))
-                onSelectDateListener.onSelectDate(selectedDate,row,col,CalendarAttr.CalendarType.WEEK)
+                onSelectDateListener.onSelectDate(selectedDate,row,col,CalendarAttr.CalendarType.WEEK,State.NEXT_MONTH)
                 onSelectDateListener.onSelectOtherMonth(1)
             }
             selectedRowIndex = calendarView.getSelectedRowIndex()
 
         } else {
             //为周表达的时候
-            weeks[selectedRowIndex].days[col].state = (State.SELECT)
             selectedDate = weeks[row].days[col].data
-            CalendarAdapter.selectedData = (selectedDate)
-            onSelectDateListener.onSelectDate(selectedDate,row,col,CalendarAttr.CalendarType.WEEK)
-            seedDate = selectedDate
+            if (weeks[row].days[col].state === State.CURRENT_MONTH){
+                weeks[selectedRowIndex].days[col].state = (State.SELECT)
+                selectedDate = weeks[row].days[col].data
+                CalendarAdapter.selectedData = (selectedDate)
+                seedDate = selectedDate
+//            }else if(weeks[row].days[col].state === State.NEXT_MONTH){
+//                CalendarAdapter.selectedData = (selectedDate)
+//                calendarView.setSelectedRowIndex(getRowIndexInMonth(selectedDate,getTheWholeMonth(selectedDate)))
+//                onSelectDateListener.onSelectDate(selectedDate,row,col,CalendarAttr.CalendarType.WEEK)
+            }
+            onSelectDateListener.onSelectDate(selectedDate,row,col,CalendarAttr.CalendarType.WEEK,weeks[row].days[col].state)
         }
 
     }
@@ -149,8 +156,9 @@ class CalendarDrawer(
      * @return void
      */
     fun updateWeek(rowIndex: Int) {
-        val currentWeekLastDay: CalendarData = getSaturday(seedDate)
 
+        Log.e("rowIndexSedd",rowIndex.toString())
+        val currentWeekLastDay: CalendarData = getSaturday(seedDate)
         var day: Int = currentWeekLastDay.day
         for (i in CalendarView.TOTAl_COLUMN - 1 downTo 0) {
             val date = currentWeekLastDay.modifyDay(day)
@@ -158,7 +166,7 @@ class CalendarDrawer(
                 weeks[rowIndex].days[i].state = State.SELECT
                 weeks[rowIndex].days[i].data = date
             } else {
-                weeks[rowIndex].days[i].state = State.CURRENT_MONTH
+                weeks[rowIndex].days[i].state = getTheWholeMonth(seedDate)[rowIndex].days[i].state
                 weeks[rowIndex].days[i].data = date
             }
             day--
