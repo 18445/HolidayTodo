@@ -1,4 +1,4 @@
-package com.yan.holidaytodo.bean
+package com.yan.holidaytodo.bean.view
 
 /**
  *

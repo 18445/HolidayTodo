@@ -3,11 +3,7 @@ package com.yan.holidaytodo.widget
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -15,14 +11,12 @@ import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.yan.holidaytodo.R
 import com.yan.holidaytodo.adapter.CalendarAdapter
-import com.yan.holidaytodo.bean.CalendarAttr
-import com.yan.holidaytodo.bean.CalendarData
-import com.yan.holidaytodo.bean.Day
+import com.yan.holidaytodo.bean.view.CalendarAttr
+import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.bean.State
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnCalendarStateListener
 import com.yan.holidaytodo.callback.OnSelectDateListener
-import com.yan.holidaytodo.helper.CalendarMover
 
 
 /**
@@ -84,16 +78,20 @@ class MonthView @JvmOverloads constructor(
         }
     }
 
-    fun initAdapter(context: Context,onSelectedDateHide : (Boolean)->Unit, calendarWeekView: CalendarWeekView, iDayDrawer: IDayDrawer) {
+    fun initAdapter(
+        onSelectedDateHide: (Boolean) -> Unit,
+        calendarWeekView: CalendarWeekView,
+        iDayDrawer: IDayDrawer
+    ) {
         mCalendarWeekView = calendarWeekView
-        viewPager2.adapter = CalendarAdapter(context, object : OnSelectDateListener {
+        viewPager2.adapter = CalendarAdapter(object : OnSelectDateListener {
 
             override fun onSelectOtherMonth(offset: Int) {
                 viewPager2.currentItem = currentPosition + offset
                 mCalendarWeekView.changePosition(currentPosition,true)
             }
 
-            override fun onSelectDate(calendarData: CalendarData,row : Int,col : Int,type : CalendarAttr.CalendarType, state:State) {
+            override fun onSelectDate(calendarData: CalendarData, row : Int, col : Int, type : CalendarAttr.CalendarType, state:State) {
                 calendarWeekView.onClickItem(calendarData,row,col,type,state)
                 calendarWeekView.changeSelectedData(calendarData)
             }

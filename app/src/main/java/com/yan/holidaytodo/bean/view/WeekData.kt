@@ -1,4 +1,6 @@
-package com.yan.holidaytodo.bean
+package com.yan.holidaytodo.bean.view
+
+import com.yan.holidaytodo.bean.Day
 
 /**
  *

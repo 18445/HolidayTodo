@@ -4,12 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.yan.holidaytodo.R
-import com.yan.holidaytodo.bean.CalendarData
+import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.bean.State
 import com.yan.holidaytodo.util.getDay
 import com.yan.holidaytodo.util.getMonth

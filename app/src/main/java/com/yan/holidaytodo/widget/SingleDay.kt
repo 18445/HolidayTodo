@@ -6,7 +6,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import com.yan.holidaytodo.bean.Day
-import com.yan.holidaytodo.bean.WeekData
+import com.yan.holidaytodo.bean.view.WeekData
 import com.yan.holidaytodo.callback.IDayDrawer
 
 

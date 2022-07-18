@@ -2,13 +2,10 @@ package com.yan.holidaytodo.widget
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import com.yan.holidaytodo.bean.Day
-import com.yan.holidaytodo.bean.WeekData
+import com.yan.holidaytodo.bean.view.WeekData
 import com.yan.holidaytodo.callback.IDayDrawer
 
 /**

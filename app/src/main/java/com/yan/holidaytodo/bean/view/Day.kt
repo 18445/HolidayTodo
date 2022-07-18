@@ -1,5 +1,7 @@
 package com.yan.holidaytodo.bean
 
+import com.yan.holidaytodo.bean.view.CalendarData
+
 /**
  *
  * @ProjectName:    HolidayTodo

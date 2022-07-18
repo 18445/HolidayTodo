@@ -1,8 +1,6 @@
 package com.yan.holidaytodo.net
 
-import com.yan.holidaytodo.bean.Holiday
-import com.yan.holidaytodo.bean.Type
-import com.yan.holidaytodo.bean.Workday
+
 import java.io.Serializable
 
 /**
@@ -20,13 +18,13 @@ import java.io.Serializable
  *                  只好再写一个来统一这种情况
  */
 
-open class DayResponse<out T>(
-    open val code: Int? = null,
-    open val message: String? = null,
-    open val holiday: Holiday? = null,
-    open val workday: Workday? = null,
-    open val type: Type? = null,
-) : Serializable {
-    val isSuccess: Boolean
-        get() = code == 0 || code == 200
-}
+//open class DayResponse<out T>(
+//    open val code: Int? = null,
+//    open val message: String? = null,
+//    open val holiday: Holiday? = null,
+//    open val workday: Workday? = null,
+//    open val type: Type? = null,
+//) : Serializable {
+//    val isSuccess: Boolean
+//        get() = code == 0 || code == 200
+//}

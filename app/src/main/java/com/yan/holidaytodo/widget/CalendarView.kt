@@ -3,17 +3,11 @@ package com.yan.holidaytodo.widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import com.yan.holidaytodo.bean.CalendarAttr
-import com.yan.holidaytodo.bean.CalendarData
-import com.yan.holidaytodo.bean.Day
-import com.yan.holidaytodo.bean.State
+import com.yan.holidaytodo.bean.view.CalendarAttr
+import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnAdapterSelectListener
 import com.yan.holidaytodo.callback.OnCalendarStateListener
@@ -241,6 +235,8 @@ class CalendarView @JvmOverloads constructor(
             MotionEvent.ACTION_UP -> {
                 val disX = event.x - posX
                 val disY = event.y - posY
+                //保证每次重新计算
+                selectedRowIndex = TOTAL_ROW - 1
 
                 val col: Int = (posX / cellWidth + 0.5).toInt()
                 val row: Int = (posY / currentCellHeight).toInt()

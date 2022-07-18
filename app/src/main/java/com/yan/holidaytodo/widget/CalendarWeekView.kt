@@ -4,19 +4,16 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.view.isVisible
-import com.yan.holidaytodo.bean.CalendarAttr
-import com.yan.holidaytodo.bean.CalendarData
+import com.yan.holidaytodo.bean.view.CalendarAttr
+import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.bean.State
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnSelectDateListener
-import com.yan.holidaytodo.helper.CalendarMover
 import com.yan.holidaytodo.helper.CalendarWeekDrawer
 import com.yan.holidaytodo.util.*
-import kotlin.reflect.jvm.internal.impl.incremental.components.Position
 
 /**
  *
@@ -138,7 +135,7 @@ class CalendarWeekView @JvmOverloads constructor(
         updateWeek(rowIndex)
     }
 
-    fun onClickItem(calendarData: CalendarData,row : Int,col : Int, type : CalendarAttr.CalendarType,state : State){
+    fun onClickItem(calendarData: CalendarData, row : Int, col : Int, type : CalendarAttr.CalendarType, state : State){
         if(type === CalendarAttr.CalendarType.MONTH){
             setSelectedRowIndex(row)
         }else{

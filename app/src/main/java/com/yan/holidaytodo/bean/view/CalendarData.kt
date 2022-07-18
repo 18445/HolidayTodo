@@ -1,4 +1,4 @@
-package com.yan.holidaytodo.bean
+package com.yan.holidaytodo.bean.view
 
 import com.yan.holidaytodo.util.getDay
 import com.yan.holidaytodo.util.getMonth

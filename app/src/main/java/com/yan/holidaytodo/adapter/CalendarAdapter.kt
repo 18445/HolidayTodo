@@ -1,14 +1,13 @@
 package com.yan.holidaytodo.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yan.holidaytodo.R
-import com.yan.holidaytodo.bean.CalendarAttr
-import com.yan.holidaytodo.bean.CalendarData
+import com.yan.holidaytodo.bean.view.CalendarAttr
+import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnAdapterSelectListener
 import com.yan.holidaytodo.callback.OnCalendarStateListener
@@ -31,10 +30,9 @@ import com.yan.holidaytodo.widget.CalendarWeekView
  */
 
 class CalendarAdapter(
-    context: Context,
     private val onSelectDateListener: OnSelectDateListener,
     private val onCalendarStateListener: OnCalendarStateListener,
-    private val onSelectedDateHide : (Boolean) -> Unit,
+    private val onSelectedDateHide: (Boolean) -> Unit,
     private val calendarWeekView: CalendarWeekView,
     private val iDayDrawer: IDayDrawer,
 ) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {

@@ -1,11 +1,10 @@
 package com.yan.holidaytodo.util
 
 import android.annotation.SuppressLint
-import android.util.Log
-import com.yan.holidaytodo.bean.CalendarData
+import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.bean.Day
 import com.yan.holidaytodo.bean.State
-import com.yan.holidaytodo.bean.WeekData
+import com.yan.holidaytodo.bean.view.WeekData
 import com.yan.holidaytodo.widget.CalendarView
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -117,11 +116,11 @@ fun calculateMonthOffset(
 @SuppressLint("SimpleDateFormat")
 fun getSaturday(seedDate: CalendarData): CalendarData {
     val c = Calendar.getInstance()
-    val dateString: String = "${seedDate.year}-${seedDate.month}-${seedDate.day}"
-    var date: Date = Date()
+    val dateString = "${seedDate.year}-${seedDate.month}-${seedDate.day}"
+    var date= Date()
     try {
         val sdf = SimpleDateFormat("yyyy-M-d")
-        date = sdf.parse(dateString)
+        date = sdf.parse(dateString)!!
     } catch (e: ParseException) {
         println(e.message)
     }
@@ -194,7 +193,7 @@ fun getTheWholeMonth(calendarData: CalendarData) : Array<WeekData> {
 /**
  * 获得所在日历的行数
  */
-fun getRowIndexInMonth(data : CalendarData,weeks : Array<WeekData>) : Int{
+fun getRowIndexInMonth(data : CalendarData, weeks : Array<WeekData>) : Int{
     for (row in 0 until CalendarView.TOTAL_ROW) {
         for (col in 0 until CalendarView.TOTAl_COLUMN) {
             val day = weeks[row].days[col]

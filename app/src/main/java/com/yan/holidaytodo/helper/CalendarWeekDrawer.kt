@@ -2,11 +2,10 @@ package com.yan.holidaytodo.helper
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.util.Log
 import com.yan.holidaytodo.adapter.CalendarAdapter
 import com.yan.holidaytodo.bean.*
+import com.yan.holidaytodo.bean.view.CalendarData
+import com.yan.holidaytodo.bean.view.WeekData
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.util.*
@@ -91,7 +90,7 @@ class CalendarWeekDrawer (
      *
      * @return void
      */
-    fun onClickDate(calendarData: CalendarData,row : Int,col: Int) {
+    fun onClickDate(calendarData: CalendarData, row : Int, col: Int) {
         if (col >= CalendarView.TOTAl_COLUMN || selectedRowIndex >= CalendarView.TOTAL_ROW) return
             seedDate = calendarData
             cancelSelectState()

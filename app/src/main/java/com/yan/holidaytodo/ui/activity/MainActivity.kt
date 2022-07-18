@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import com.yan.common.base.BaseActivity
 import com.yan.holidaytodo.R
-import com.yan.holidaytodo.bean.CalendarData
+import com.yan.holidaytodo.bean.State
+import com.yan.holidaytodo.bean.view.CalendarAttr
+import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.ui.viewmodel.HomeViewModel
 import com.yan.holidaytodo.widget.CalendarWeekView
@@ -20,7 +22,14 @@ class MainActivity : BaseActivity<HomeViewModel>() {
 
         val calendarWeekView = findViewById<CalendarWeekView>(R.id.calendar_week).apply {
             initOnSelectListener(object : OnSelectDateListener{
-                override fun onSelectDate(calendarData: CalendarData,row  : Int,col : Int) {
+
+                override fun onSelectDate(
+                    calendarData: CalendarData,
+                    row: Int,
+                    col: Int,
+                    type: CalendarAttr.CalendarType,
+                    state: State,
+                ) {
 
                 }
 
@@ -32,9 +41,9 @@ class MainActivity : BaseActivity<HomeViewModel>() {
         }
 
         findViewById<MonthView>(R.id.month_view).apply {
-            initAdapter(context, onSelectedDateHide = {
+            initAdapter(onSelectedDateHide = {
                 calendarWeekView.isVisible = it
-            },calendarWeekView,CustomDayView(baseContext, R.layout.custiom_day))
+            }, calendarWeekView, CustomDayView(baseContext, R.layout.custiom_day))
         }
 
 

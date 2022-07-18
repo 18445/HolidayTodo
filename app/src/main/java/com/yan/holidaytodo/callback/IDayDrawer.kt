@@ -2,7 +2,7 @@ package com.yan.holidaytodo.callback
 
 import android.graphics.Canvas
 import com.yan.holidaytodo.bean.Day
-import com.yan.holidaytodo.bean.WeekData
+import com.yan.holidaytodo.bean.view.WeekData
 
 /**
  *

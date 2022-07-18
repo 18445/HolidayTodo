@@ -1,7 +1,6 @@
 package com.yan.holidaytodo.net
 
 import com.yan.common.network.ApiGenerator
-import com.yan.holidaytodo.bean.Holiday
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -42,10 +41,10 @@ interface ApiService {
     }
     }
      */
-    @GET("/api/holiday/info/{data}")
-    suspend fun getDayInfo(
-        @Path("data") data: String,
-    ): DayResponse<Holiday>
+//    @GET("/api/holiday/info/{data}")
+//    suspend fun getDayInfo(
+//        @Path("data") data: String,
+//    ): DayResponse<Holiday>
 
 
 }
