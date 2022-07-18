@@ -1,6 +1,9 @@
 package com.yan.holidaytodo.net
 
 
+import com.yan.common.network.ApiResponse
+import com.yan.holidaytodo.bean.net.DayInfo
+import com.yan.holidaytodo.bean.net.HolidayNext
 import java.io.Serializable
 
 /**
@@ -18,13 +21,29 @@ import java.io.Serializable
  *                  只好再写一个来统一这种情况
  */
 
-//open class DayResponse<out T>(
-//    open val code: Int? = null,
-//    open val message: String? = null,
-//    open val holiday: Holiday? = null,
-//    open val workday: Workday? = null,
-//    open val type: Type? = null,
-//) : Serializable {
-//    val isSuccess: Boolean
-//        get() = code == 0 || code == 200
-//}
+open class DayResponse<out T>(
+    open val code: Int? = null,
+    open val message: String? = null,
+    open val holiday: DayInfo.Holiday? =null,
+    open val type: DayInfo.Type? = null,
+    open val workday: HolidayNext.Workday? = null,
+    open val error: Throwable? = null,
+) : Serializable {
+    val isSuccess: Boolean
+        get() = code == 0 || code == 200
+}
+
+
+//数据为空
+class EmptyResponse<T> : DayResponse<T>()
+
+//数据返回成功
+data class SuccessResponse<T>(override val holiday: DayInfo.Holiday?,
+                              override val workday: HolidayNext.Workday?,
+                              override val type: DayInfo.Type?) : DayResponse<T>(holiday = holiday, workday = workday, type = type)
+
+//数据返回失败
+data class FailedResponse<T>(override val code: Int?, override val message: String?) : DayResponse<T>(code = code, message = message)
+
+//抛出异常
+data class ErrorResponse<T>(val throwable: Throwable) : DayResponse<T>(error = throwable)

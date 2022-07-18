@@ -1,22 +1,18 @@
-package com.yan.common.base
+package com.yan.holidaytodo.base
 
 import android.graphics.Color
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.yan.common.network.ApiResponse
 import com.yan.common.util.GenericityUtils.getGenericClassFromSuperClass
-import kotlinx.coroutines.flow.Flow
 
 /**
  *
  * @ProjectName:    HolidayTodo
- * @Package:        com.yan.common.base
+ * @Package:        com.yan.holidaytodo.base
  * @ClassName:      BaseActivity
  * @Author:         Yan
  * @CreateDate:     2022年07月14日 14:08:00

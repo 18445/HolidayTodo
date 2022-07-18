@@ -1,4 +1,4 @@
-package com.yan.common.base
+package com.yan.holidaytodo.base
 
 import android.content.Context
 import androidx.annotation.CallSuper
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 /**
  *
  * @ProjectName:    HolidayTodo
- * @Package:        com.yan.common.base
+ * @Package:        com.yan.holidaytodo.base
  * @ClassName:      BaseViewModel
  * @Author:         Yan
  * @CreateDate:     2022年07月14日 15:05:00
@@ -33,6 +33,12 @@ abstract class BaseViewModel : ViewModel() {
         return this
     }
 
+    fun viewModelScopeLaunch(block : suspend()-> Unit){
+        viewModelScope.launch {
+            block.invoke()
+        }
+    }
+
     @CallSuper
     override fun onCleared() {
         super.onCleared()
@@ -40,15 +46,6 @@ abstract class BaseViewModel : ViewModel() {
             .filter { !it.isDisposed }
             .forEach { it.dispose() }
         mDisposableList.clear()
-    }
-
-    /**
-     * 开启协程并收集 Flow
-     */
-    protected fun <T> Flow<T>.collectLaunch(action: suspend (value: T) -> Unit) {
-        viewModelScope.launch {
-            collect{ action.invoke(it) }
-        }
     }
 
 }

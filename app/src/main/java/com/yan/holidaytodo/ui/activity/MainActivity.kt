@@ -1,8 +1,9 @@
 package com.yan.holidaytodo.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.core.view.isVisible
-import com.yan.common.base.BaseActivity
+import com.yan.holidaytodo.base.BaseActivity
 import com.yan.holidaytodo.R
 import com.yan.holidaytodo.bean.State
 import com.yan.holidaytodo.bean.view.CalendarAttr
@@ -19,6 +20,28 @@ class MainActivity : BaseActivity<HomeViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //To Test:
+        viewModel.getHolidayNext("2022-7-18")
+        viewModel.getWorkdayNext("2022-7-18")
+        viewModel.getDayInfo("2022-7-18")
+
+        viewModel.dayInfo.observeState(this){
+            onSuccess {
+                Log.e("dayInfo",it.toString())
+            }
+        }
+        viewModel.dayInfo.observeState(this){
+            onSuccess {
+                Log.e("workdayNext",it.toString())
+            }
+        }
+        viewModel.dayInfo.observeState(this){
+            onSuccess {
+                Log.e("HolidayNext",it.toString())
+            }
+        }
+
 
         val calendarWeekView = findViewById<CalendarWeekView>(R.id.calendar_week).apply {
             initOnSelectListener(object : OnSelectDateListener{

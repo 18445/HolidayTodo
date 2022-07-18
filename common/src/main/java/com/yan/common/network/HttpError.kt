@@ -25,12 +25,12 @@ enum class HttpError(var code: Int, var errorMsg: String) {
     PARAMS_ERROR(4003, "params is error")
 }
 //处理网络请求返回的参数异常
-internal fun handlingApiExceptions(code: Int?, errorMsg: String?) = when (code) {
+fun handlingApiExceptions(code: Int?, errorMsg: String?) = when (code) {
     HttpError.PARAMS_ERROR.code -> toast(HttpError.PARAMS_ERROR.errorMsg)
     else -> errorMsg?.let { toast(it) }
 }
 //处理网络请求过程中抛出的异常
-internal fun handlingExceptions(e: Throwable) = when (e) {
+fun handlingExceptions(e: Throwable) = when (e) {
     is HttpException -> toast(e.message())
 
     is CancellationException -> {

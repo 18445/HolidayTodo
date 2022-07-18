@@ -1,8 +1,8 @@
-package com.yan.common.base
+package com.yan.holidaytodo.base
 
-import androidx.lifecycle.Observer
 import com.yan.common.BuildConfig
 import com.yan.common.network.*
+import com.yan.holidaytodo.net.*
 
 /**
  *
@@ -16,7 +16,7 @@ import com.yan.common.network.*
  * @Description:    BaseRepository
  */
 open class BaseRepository {
-    suspend fun <T> executeHttp(block : suspend() -> ApiResponse<T>) : ApiResponse<T> {
+    suspend fun <T> executeHttp(block : suspend() -> DayResponse<T>) : DayResponse<T> {
         kotlin.runCatching {
             block.invoke()
         }.onSuccess {
@@ -24,38 +24,38 @@ open class BaseRepository {
         }.onFailure {
             return handleHttpError(it)
         }
-        return ApiEmptyResponse()
+        return EmptyResponse()
     }
 
     /**
      * 捕获到的异常
      */
-    private fun <T> handleHttpError(e : Throwable) : ApiResponse<T>{
+    private fun <T> handleHttpError(e : Throwable) : DayResponse<T>{
         if (BuildConfig.DEBUG) e.printStackTrace()
-
-        return ApiErrorResponse(e)
+        handlingExceptions(e)
+        return ErrorResponse(e)
     }
 
     /**
      * 返回200，但是还要判断isSuccess
      */
-    private fun <T> handleHttpOk(data: ApiResponse<T>): ApiResponse<T> {
+    private fun <T> handleHttpOk(data: DayResponse<T>): DayResponse<T> {
         return if (data.isSuccess) {
             getHttpSuccessResponse(data)
         } else {
             handlingApiExceptions(data.code, data.message)
-            ApiFailedResponse(data.code, data.message)
+            FailedResponse(data.code, data.message)
         }
     }
 
     /**
      * 成功和数据为空的处理
      */
-    private fun <T> getHttpSuccessResponse(response: ApiResponse<T>): ApiResponse<T> {
-        return if (response.data == null || response.data is List<*> && (response.data as List<*>).isEmpty()) {
-            ApiEmptyResponse()
+    private fun <T> getHttpSuccessResponse(response: DayResponse<T>): DayResponse<T> {
+        return if (response.holiday == null && response.type == null && response.workday == null) {
+            EmptyResponse()
         } else {
-            ApiSuccessResponse(response.data!!)
+            SuccessResponse(response.holiday,response.workday,response.type)
         }
     }
 
