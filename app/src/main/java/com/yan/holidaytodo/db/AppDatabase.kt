@@ -18,13 +18,14 @@ import com.yan.holidaytodo.bean.db.HolidayDB
  * @Description:    全局数据库
  */
 
-@Database(entities = [HolidayDB::class],version = 1)
+@Database(entities = [HolidayDB::class],version = 2)
 abstract class AppDatabase : RoomDatabase(){
     abstract fun holidayDao() : HolidayDao
 
     companion object{
         val INSTANCE by lazy {
-            Room.databaseBuilder(App.appContext,AppDatabase::class.java,"")
+            Room.databaseBuilder(App.appContext,AppDatabase::class.java,"holiday_db")
+                .fallbackToDestructiveMigration()
                 .build()
         }
     }

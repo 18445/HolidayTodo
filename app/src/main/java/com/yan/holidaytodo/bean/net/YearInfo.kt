@@ -49,22 +49,6 @@ package com.yan.holidaytodo.bean.net
 
  */
 
-//data class YearInfo(
-//    val code: Int,
-//    val holiday: Holiday,
-//) {
-//    data class Holiday(
-//        val hashMap: HashMap<String,Date>,
-//    ) {
-//        data class Date(
-//            val name: String,
-//            val holiday: Boolean,
-//            val date: String,
-//            val wage: Int
-//        )
-//
-//    }
-//}
 
 data class YearInfo(
     val code: Int,
@@ -403,6 +387,4 @@ data class HolidayData(
     val date: String,
     val holiday: Boolean,
     val name: String,
-    val rest: Int,
-    val wage: Int
 )

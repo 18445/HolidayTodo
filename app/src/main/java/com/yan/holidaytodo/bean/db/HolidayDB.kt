@@ -20,5 +20,9 @@ import androidx.room.PrimaryKey
 data class HolidayDB(
     @PrimaryKey val date : String,
     val name : String,
-    val wage : Int,
+    val year : Int,
+    val month : Int,
+    val day : Int,
+    val holiday : Boolean,
+
 )

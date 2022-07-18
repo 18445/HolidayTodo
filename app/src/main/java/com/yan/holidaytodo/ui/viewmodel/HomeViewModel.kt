@@ -1,8 +1,10 @@
 package com.yan.holidaytodo.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.yan.common.extension.toast
 import com.yan.holidaytodo.base.BaseViewModel
 import com.yan.holidaytodo.bean.Day
@@ -13,6 +15,9 @@ import com.yan.holidaytodo.bean.net.YearInfo
 import com.yan.holidaytodo.net.DayResponse
 import com.yan.holidaytodo.net.StateLiveData
 import com.yan.holidaytodo.repository.HomeRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.time.Year
 
 /**
@@ -36,26 +41,26 @@ class HomeViewModel : BaseViewModel() {
 
     private val yearInfo = StateLiveData<YearInfo>()
     fun getDayInfo(date : String){
-        viewModelScopeLaunch {
-            dayInfo.value = HomeRepository.getDayInfo(date)
+        viewModelScopeLaunch{
+            dayInfo.postValue(HomeRepository.getDayInfo(date))
         }
     }
 
     fun getHolidayNext(date : String){
         viewModelScopeLaunch {
-            holidayNext.value = HomeRepository.getHolidayNext(date)
+            holidayNext.postValue(HomeRepository.getHolidayNext(date))
         }
     }
 
     fun getWorkdayNext(date : String){
         viewModelScopeLaunch {
-            workdayNext.value = HomeRepository.getWorkdayNext(date)
+            workdayNext.postValue(HomeRepository.getWorkdayNext(date))
         }
     }
 
     fun getYearInfo(date : String){
         viewModelScopeLaunch {
-            yearInfo.value = HomeRepository.getYearInfo(date)
+            yearInfo.postValue(HomeRepository.getYearInfo(date))
         }
     }
 

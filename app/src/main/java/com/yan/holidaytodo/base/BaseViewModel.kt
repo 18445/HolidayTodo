@@ -10,6 +10,7 @@ import com.yan.common.App
 import com.yan.holidaytodo.bean.net.DayInfo
 import com.yan.holidaytodo.net.StateLiveData
 import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
@@ -38,7 +39,7 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     fun viewModelScopeLaunch(block : suspend()-> Unit){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             block.invoke()
         }
     }

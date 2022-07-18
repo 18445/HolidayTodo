@@ -26,6 +26,7 @@ open class DayResponse<out T>(
     open val code: Int? = null,
     open val message: String? = null,
     open val holiday: Map<String, HolidayData>? =null,
+    open val holidayData : HolidayData? = null,
     open val type: DayInfo.Type? = null,
     open val workday: HolidayNext.Workday? = null,
     open val error: Throwable? = null,
@@ -40,8 +41,9 @@ class EmptyResponse<T> : DayResponse<T>()
 
 //数据返回成功
 data class SuccessResponse<T>(override val holiday: Map<String, HolidayData>?,
+                              override val holidayData : HolidayData?,
                               override val workday: HolidayNext.Workday?,
-                              override val type: DayInfo.Type?) : DayResponse<T>(holiday = holiday, workday = workday, type = type)
+                              override val type: DayInfo.Type?) : DayResponse<T>(holiday = holiday, workday = workday, type = type, holidayData = holidayData)
 
 //数据返回失败
 data class FailedResponse<T>(override val code: Int?, override val message: String?) : DayResponse<T>(code = code, message = message)

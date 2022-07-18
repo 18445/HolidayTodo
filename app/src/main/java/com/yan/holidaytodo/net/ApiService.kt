@@ -48,11 +48,14 @@ interface ApiService {
      * @params type: 是否返回日期类型，默认不返回。可选值：’Y’ 返回，’N’ 不返回。
      * @params week: 节假日是否包含周末，默认不包含。可选值：’Y’ 包含周末，’N’ 不包含。
      * @return json: 返回指定日期的下一个最近的节假日，如果在放假之前要调休，则会一起返回调休的信息。如果包含周末，则节日和周末冲突时，以节日为优先级。 比如特殊情
+     *
+     * !!接口不统一！！
+     * 字段重名但类型不一样，真的要吐了
      */
     @GET("/api/holiday/next/{date}")
     suspend fun getHolidayNext(
         @Path("date") date : String,
-    ) : DayResponse<HolidayNext>
+    ) : HolidayNext
 
     /**
      * 获取指定日期的下一个工作日（工作日包含正常工作日、调休）不包含当天

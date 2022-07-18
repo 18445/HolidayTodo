@@ -25,6 +25,12 @@ interface HolidayDao {
     fun insertAll(vararg holidayDB : HolidayDB)
 
     @Query("SELECT * FROM HolidayDB")
-    fun getAllHolidays() : Array<HolidayDB>
+    fun getAllHolidays() : List<HolidayDB>
+
+    @Query("SELECT * FROM HolidayDB WHERE year = :year")
+    fun getHolidayByYear(year : String) : List<HolidayDB>?
+
+    @Query("SELECT * FROM HolidayDB WHERE date = :date")
+    fun getHolidayByDate(date : String) : HolidayDB?
 
 }

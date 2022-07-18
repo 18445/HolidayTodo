@@ -225,3 +225,10 @@ fun getMonth(): Int {
 fun getDay(): Int {
     return Calendar.getInstance()[Calendar.DAY_OF_MONTH]
 }
+
+/**
+ * 判断是否是节假日
+ */
+fun judgeHoliday(des : String) : Boolean{
+    return !(des === "周末" || des === "周一" || des === "周二" || des === "周三" || des === "周四" || des === "周五" || des === "周六")
+}
