@@ -1,10 +1,11 @@
 package com.yan.holidaytodo.net
 
 
+import com.google.gson.annotations.SerializedName
 import com.yan.common.network.ApiResponse
-import com.yan.holidaytodo.bean.net.DayInfo
-import com.yan.holidaytodo.bean.net.HolidayNext
+import com.yan.holidaytodo.bean.net.*
 import java.io.Serializable
+import java.time.Year
 
 /**
  *
@@ -24,7 +25,7 @@ import java.io.Serializable
 open class DayResponse<out T>(
     open val code: Int? = null,
     open val message: String? = null,
-    open val holiday: DayInfo.Holiday? =null,
+    open val holiday: Map<String, HolidayData>? =null,
     open val type: DayInfo.Type? = null,
     open val workday: HolidayNext.Workday? = null,
     open val error: Throwable? = null,
@@ -38,7 +39,7 @@ open class DayResponse<out T>(
 class EmptyResponse<T> : DayResponse<T>()
 
 //数据返回成功
-data class SuccessResponse<T>(override val holiday: DayInfo.Holiday?,
+data class SuccessResponse<T>(override val holiday: Map<String, HolidayData>?,
                               override val workday: HolidayNext.Workday?,
                               override val type: DayInfo.Type?) : DayResponse<T>(holiday = holiday, workday = workday, type = type)
 

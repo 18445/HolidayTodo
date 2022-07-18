@@ -49,30 +49,360 @@ package com.yan.holidaytodo.bean.net
 
  */
 
+//data class YearInfo(
+//    val code: Int,
+//    val holiday: Holiday,
+//) {
+//    data class Holiday(
+//        val hashMap: HashMap<String,Date>,
+//    ) {
+//        data class Date(
+//            val name: String,
+//            val holiday: Boolean,
+//            val date: String,
+//            val wage: Int
+//        )
+//
+//    }
+//}
+
 data class YearInfo(
     val code: Int,
-    val holiday: Holiday,
-    val type: Type
+    val holiday: Map<String,HolidayData>
 ) {
-    data class Holiday(
-        val hashMap: HashMap<String,Date>,
-    ) {
-        data class Date(
-            val date: String,
-            val holiday: Boolean,
-            val name: String,
-            val wage: Int
-        )
-
-    }
-
-    data class Type(
-        val hashMap: HashMap<String,Date>
-    ) {
-        data class Date(
-            val name: String,
-            val type: Int,
-            val week: Int
-        )
-    }
+    /**
+     * 以下是自动生成的数据
+     * 找了半天解决方法
+     * 第一次遇到这种接口
+     * 人真的麻了
+     */
+    /**
+//    data class Holiday(
+//        val datas : Map<String,Data>
+//    ) {
+//        data class Data(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0102(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0103(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0129(
+//            val after: Boolean,
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val target: String,
+//            val wage: Int
+//        )
+//
+//        data class X0130(
+//            val after: Boolean,
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val target: String,
+//            val wage: Int
+//        )
+//
+//        data class X0131(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0201(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0202(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0203(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0204(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0205(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0206(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0402(
+//            val after: Boolean,
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val target: String,
+//            val wage: Int
+//        )
+//
+//        data class X0403(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0404(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0405(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0424(
+//            val after: Boolean,
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val target: String,
+//            val wage: Int
+//        )
+//
+//        data class X0430(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0501(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0502(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0503(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0504(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0507(
+//            val after: Boolean,
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val target: String,
+//            val wage: Int
+//        )
+//
+//        data class X0603(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0604(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0605(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0910(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0911(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X0912(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X1001(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X1002(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X1003(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X1004(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X1005(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X1006(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X1007(
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val rest: Int,
+//            val wage: Int
+//        )
+//
+//        data class X1008(
+//            val after: Boolean,
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val target: String,
+//            val wage: Int
+//        )
+//
+//        data class X1009(
+//            val after: Boolean,
+//            val date: String,
+//            val holiday: Boolean,
+//            val name: String,
+//            val target: String,
+//            val wage: Int
+//        )
+//    }
+*/
 }
+
+data class HolidayData(
+    val date: String,
+    val holiday: Boolean,
+    val name: String,
+    val rest: Int,
+    val wage: Int
+)

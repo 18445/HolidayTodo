@@ -9,9 +9,11 @@ import com.yan.holidaytodo.bean.Day
 import com.yan.holidaytodo.bean.net.DayInfo
 import com.yan.holidaytodo.bean.net.HolidayNext
 import com.yan.holidaytodo.bean.net.WorkdayNext
+import com.yan.holidaytodo.bean.net.YearInfo
 import com.yan.holidaytodo.net.DayResponse
 import com.yan.holidaytodo.net.StateLiveData
 import com.yan.holidaytodo.repository.HomeRepository
+import java.time.Year
 
 /**
  *
@@ -26,12 +28,13 @@ import com.yan.holidaytodo.repository.HomeRepository
  */
 class HomeViewModel : BaseViewModel() {
 
-    private val dayInfo = StateLiveData<DayInfo>()
+     val dayInfo = StateLiveData<DayInfo>()
 
     private val holidayNext = StateLiveData<HolidayNext>()
 
     private val workdayNext = StateLiveData<WorkdayNext>()
 
+    private val yearInfo = StateLiveData<YearInfo>()
     fun getDayInfo(date : String){
         viewModelScopeLaunch {
             dayInfo.value = HomeRepository.getDayInfo(date)
@@ -50,23 +53,28 @@ class HomeViewModel : BaseViewModel() {
         }
     }
 
+    fun getYearInfo(date : String){
+        viewModelScopeLaunch {
+            yearInfo.value = HomeRepository.getYearInfo(date)
+        }
+    }
+
 
     fun observeDayInfo(owner: LifecycleOwner, listenerBuilder: StateLiveData<DayInfo>.ListenerBuilder.() -> Unit){
-        dayInfo.observeState(owner){
-            this.also(listenerBuilder)
-        }
+        observeStateLiveData(dayInfo,owner,listenerBuilder)
     }
 
     fun observeHolidayNext(owner : LifecycleOwner,listenerBuilder: StateLiveData<HolidayNext>.ListenerBuilder.() -> Unit){
-        holidayNext.observeState(owner){
-            this.also(listenerBuilder)
-        }
+        observeStateLiveData(holidayNext,owner,listenerBuilder)
     }
 
     fun observeWorkdayNext(owner: LifecycleOwner,listenerBuilder: StateLiveData<WorkdayNext>.ListenerBuilder.() -> Unit){
-        workdayNext.observeState(owner){
-            this.also(listenerBuilder)
-        }
+        observeStateLiveData(workdayNext,owner,listenerBuilder)
+    }
+
+    fun observeYearInfo(owner: LifecycleOwner,listenerBuilder: StateLiveData<YearInfo>.ListenerBuilder.() -> Unit){
+        observeStateLiveData(yearInfo,owner,listenerBuilder)
+
     }
 
 }

@@ -21,13 +21,21 @@ class MainActivity : BaseActivity<HomeViewModel>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //To Test:
-        viewModel.getHolidayNext("2022-7-18")
-        viewModel.getWorkdayNext("2022-7-18")
+        viewModel.getYearInfo("2022")
+        viewModel.observeYearInfo(this){
+            onSuccess {
+                Log.e("yearInfo",it.toString())
+            }
+            onComplete {
+                Log.e("yearInfo","complete")
+            }
+        }
         viewModel.getDayInfo("2022-7-18")
-
-
-
+        viewModel.observeDayInfo(this){
+            onSuccess {
+                Log.e("yearInfo",it.toString())
+            }
+        }
 
         val calendarWeekView = findViewById<CalendarWeekView>(R.id.calendar_week).apply {
             initOnSelectListener(object : OnSelectDateListener{

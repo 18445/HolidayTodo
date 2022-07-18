@@ -5,6 +5,7 @@ import com.yan.holidaytodo.base.BaseRepository
 import com.yan.holidaytodo.bean.net.DayInfo
 import com.yan.holidaytodo.bean.net.HolidayNext
 import com.yan.holidaytodo.bean.net.WorkdayNext
+import com.yan.holidaytodo.bean.net.YearInfo
 import com.yan.holidaytodo.net.ApiService
 import com.yan.holidaytodo.net.DayResponse
 
@@ -44,11 +45,19 @@ object HomeRepository : BaseRepository() {
     /**
      * 获得工作日信息
      */
-    suspend fun getWorkdayNext(date: String) : DayResponse<WorkdayNext>{
+    suspend fun getWorkdayNext(date : String) : DayResponse<WorkdayNext>{
         return executeHttp {
             mApiService.getWorkDayNext(date)
         }
     }
 
+    /**
+     * 获得当前年份信息
+     */
+    suspend fun getYearInfo(date : String) : DayResponse<YearInfo>{
+        return executeHttp {
+            mApiService.getYearInfo(date)
+        }
+    }
 
 }

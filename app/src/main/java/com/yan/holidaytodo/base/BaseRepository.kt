@@ -52,7 +52,8 @@ open class BaseRepository {
      * 成功和数据为空的处理
      */
     private fun <T> getHttpSuccessResponse(response: DayResponse<T>): DayResponse<T> {
-        return if (response.holiday == null && response.type == null && response.workday == null) {
+        return if (response.holiday == null && response.type == null
+            && response.workday == null ) {
             EmptyResponse()
         } else {
             SuccessResponse(response.holiday,response.workday,response.type)

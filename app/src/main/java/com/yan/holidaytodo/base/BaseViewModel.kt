@@ -57,8 +57,8 @@ abstract class BaseViewModel : ViewModel() {
      * 同时将StateLiveData不对外暴露
      * 保证MVVM的数据流通
      */
-    private inline fun <T : StateLiveData<G>,G>
-            BaseViewModel.observeStateLiveData(data : T, owner: LifecycleOwner, crossinline listenerBuilder: StateLiveData<G>.ListenerBuilder.() -> Unit)
+    inline fun <T : StateLiveData<G>,G>
+            observeStateLiveData(data : T, owner: LifecycleOwner, crossinline listenerBuilder: StateLiveData<G>.ListenerBuilder.() -> Unit)
     {
         data.observeState(owner){
             this.also(listenerBuilder)
