@@ -26,21 +26,7 @@ class MainActivity : BaseActivity<HomeViewModel>() {
         viewModel.getWorkdayNext("2022-7-18")
         viewModel.getDayInfo("2022-7-18")
 
-        viewModel.dayInfo.observeState(this){
-            onSuccess {
-                Log.e("dayInfo",it.toString())
-            }
-        }
-        viewModel.dayInfo.observeState(this){
-            onSuccess {
-                Log.e("workdayNext",it.toString())
-            }
-        }
-        viewModel.dayInfo.observeState(this){
-            onSuccess {
-                Log.e("HolidayNext",it.toString())
-            }
-        }
+
 
 
         val calendarWeekView = findViewById<CalendarWeekView>(R.id.calendar_week).apply {

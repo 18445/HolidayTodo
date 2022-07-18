@@ -1,9 +1,15 @@
 package com.yan.holidaytodo.ui.viewmodel
 
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.yan.common.extension.toast
 import com.yan.holidaytodo.base.BaseViewModel
+import com.yan.holidaytodo.bean.Day
 import com.yan.holidaytodo.bean.net.DayInfo
 import com.yan.holidaytodo.bean.net.HolidayNext
 import com.yan.holidaytodo.bean.net.WorkdayNext
+import com.yan.holidaytodo.net.DayResponse
 import com.yan.holidaytodo.net.StateLiveData
 import com.yan.holidaytodo.repository.HomeRepository
 
@@ -20,11 +26,11 @@ import com.yan.holidaytodo.repository.HomeRepository
  */
 class HomeViewModel : BaseViewModel() {
 
-    val dayInfo = StateLiveData<DayInfo>()
+    private val dayInfo = StateLiveData<DayInfo>()
 
-    val holidayNext = StateLiveData<HolidayNext>()
+    private val holidayNext = StateLiveData<HolidayNext>()
 
-    val workdayNext = StateLiveData<WorkdayNext>()
+    private val workdayNext = StateLiveData<WorkdayNext>()
 
     fun getDayInfo(date : String){
         viewModelScopeLaunch {
@@ -41,6 +47,25 @@ class HomeViewModel : BaseViewModel() {
     fun getWorkdayNext(date : String){
         viewModelScopeLaunch {
             workdayNext.value = HomeRepository.getWorkdayNext(date)
+        }
+    }
+
+
+    fun observeDayInfo(owner: LifecycleOwner, listenerBuilder: StateLiveData<DayInfo>.ListenerBuilder.() -> Unit){
+        dayInfo.observeState(owner){
+            this.also(listenerBuilder)
+        }
+    }
+
+    fun observeHolidayNext(owner : LifecycleOwner,listenerBuilder: StateLiveData<HolidayNext>.ListenerBuilder.() -> Unit){
+        holidayNext.observeState(owner){
+            this.also(listenerBuilder)
+        }
+    }
+
+    fun observeWorkdayNext(owner: LifecycleOwner,listenerBuilder: StateLiveData<WorkdayNext>.ListenerBuilder.() -> Unit){
+        workdayNext.observeState(owner){
+            this.also(listenerBuilder)
         }
     }
 
