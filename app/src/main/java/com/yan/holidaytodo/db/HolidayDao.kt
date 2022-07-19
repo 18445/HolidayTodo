@@ -27,8 +27,8 @@ interface HolidayDao {
     @Query("SELECT * FROM HolidayDB")
     fun getAllHolidays() : List<HolidayDB>
 
-    @Query("SELECT * FROM HolidayDB WHERE year = :year")
-    fun getHolidayByYear(year : String) : List<HolidayDB>?
+    @Query("SELECT * FROM HolidayDB WHERE year = :year and holiday = :holiday")
+    fun getHolidayByYear(year : String,holiday : Boolean) : List<HolidayDB>?
 
     @Query("SELECT * FROM HolidayDB WHERE date = :date")
     fun getHolidayByDate(date : String) : HolidayDB?

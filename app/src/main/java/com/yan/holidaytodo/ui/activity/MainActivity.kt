@@ -24,18 +24,30 @@ class MainActivity : BaseActivity<HomeViewModel>() {
 
         viewModel.getYearInfo("2022")
         viewModel.observeYearInfo(this){
+            onSuccess {
+                Log.e("onSuccessYearInfo",it.toString())
+            }
         }
 
-        viewModel.getWorkdayNext("2022-7-19")
+        viewModel.getWorkdayNext("2022-7-11")
+        viewModel.observeWorkdayNext(this){
+            onSuccess {
+                Log.e("onSuccessWorkdayNext",it.toString())
+            }
+        }
+
+        viewModel.getHolidayNext("2022-7-11")
         viewModel.observeHolidayNext(this){
+            onSuccess {
+                Log.e("onSuccessHolidayNext",it.toString())
+            }
         }
 
-        viewModel.getHolidayNext("2022-7-19")
-        viewModel.observeHolidayNext(this){
-        }
-
-        viewModel.getDayInfo("2022-7-18")
+        viewModel.getDayInfo("2022-7-11")
         viewModel.observeDayInfo(this){
+            onSuccess {
+                Log.e("onSuccessDayInfo",it.toString())
+            }
         }
 
         val calendarWeekView = findViewById<CalendarWeekView>(R.id.calendar_week).apply {

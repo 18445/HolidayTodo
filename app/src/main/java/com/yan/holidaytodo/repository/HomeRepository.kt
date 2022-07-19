@@ -46,7 +46,6 @@ object HomeRepository : BaseRepository() {
             AppDatabase.INSTANCE.holidayDao().insertAll(HolidayDB(date,dayResponse.type!!.name,dates[0].toInt(),dates[1].toInt(),dates[2].toInt(),
                 judgeHoliday(dayResponse.type!!.name)))
         }
-        Log.e("holidayToday",dayResponse.toString())
         return dayResponse
 
     }
@@ -81,13 +80,13 @@ object HomeRepository : BaseRepository() {
 
     /**
      * 获得工作日信息
-     * 使用HolidayData
+     * 使用WorkdayNext
      */
     suspend fun getWorkdayNext(date : String) : DayResponse<WorkdayNext>{
         val localDate = AppDatabase.INSTANCE.holidayDao().getHolidayByDate(date)
         if(localDate != null){
             return SuccessResponse(holidayData = HolidayData(localDate.date,localDate.holiday,localDate.name)
-                ,holiday = null, workday = null, type = null)
+                ,holiday = null, workday = HolidayNext.Workday(after = false,localDate.date,false,localDate.name,0,"",0), type = null)
         }
 
         val workdayNext = executeHttp {
@@ -107,8 +106,8 @@ object HomeRepository : BaseRepository() {
      */
     suspend fun getYearInfo(date : String) : DayResponse<YearInfo>{
 
-        val localDates = AppDatabase.INSTANCE.holidayDao().getHolidayByYear(date)
-        if(localDates != null){
+        val localDates = AppDatabase.INSTANCE.holidayDao().getHolidayByYear(date,true)
+        if(localDates != null && localDates.size > 7 ){
             val hashMap : HashMap<String,HolidayData> = HashMap()
             for(i in localDates.indices){
                 val day = localDates[i]
@@ -119,10 +118,10 @@ object HomeRepository : BaseRepository() {
                 ,holiday = hashMap, workday = null, type = null)
         }
 
-
         val yearInfo =  executeHttp {
             mApiService.getYearInfo(date)
         }
+
         if(yearInfo is SuccessResponse){
             val list = mutableListOf<HolidayDB>()
             for(day in yearInfo.holiday!!){
