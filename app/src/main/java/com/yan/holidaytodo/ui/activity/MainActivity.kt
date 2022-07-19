@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.yan.holidaytodo.base.BaseActivity
@@ -33,6 +34,8 @@ class MainActivity : BaseActivity<HomeViewModel>() {
     private lateinit var tabLayout: TabLayout
     private lateinit var toolbar: Toolbar
     private lateinit var viewPager2: ViewPager2
+    private lateinit var todoButton : FloatingActionButton
+    private lateinit var backButton : FloatingActionButton
 
     private val mFragments : List<Fragment> by lazy {
         mutableListOf(CalendarFragment(),TodoFragment())
@@ -45,6 +48,7 @@ class MainActivity : BaseActivity<HomeViewModel>() {
         initTabLayout()
         initToolbar()
         initVp2()
+        initButton()
     }
 
     private fun initTabLayout(){
@@ -54,8 +58,8 @@ class MainActivity : BaseActivity<HomeViewModel>() {
     private fun initToolbar(){
         //初始化Toolbar相关的事件
         toolbar = findViewById<Toolbar>(R.id.tb_main).apply {
-            viewModel.onSelectedDate(CalendarData(getYear(), getMonth(), getDay()))
             moveDownSmooth(tabLayout,125,100)
+            viewModel.onSelectedDate(CalendarData(getYear(), getMonth(), getDay()))
             setOnClickListener {
                 if(tabIsShown){
                     moveUpSmooth(tabLayout,125,275)
@@ -93,5 +97,15 @@ class MainActivity : BaseActivity<HomeViewModel>() {
                 view.tooltipText = ""
             }
         } }.attach()
+    }
+
+    private fun initButton(){
+        todoButton = findViewById(R.id.fa_btn_todo)
+        backButton = findViewById<FloatingActionButton>(R.id.fa_btn_back).apply {
+            setOnClickListener {
+                (mFragments[0] as CalendarFragment).backToday()
+
+            }
+        }
     }
 }

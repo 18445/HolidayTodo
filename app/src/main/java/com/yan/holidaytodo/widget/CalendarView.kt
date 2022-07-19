@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.yan.holidaytodo.bean.view.CalendarAttr
@@ -355,6 +356,29 @@ class CalendarView @JvmOverloads constructor(
 
     fun getSelectedRowIndex(): Int {
         return selectedRowIndex
+    }
+
+    //手动设置点击当日时间
+    fun performClickToday(){
+        val today = CalendarData(getYear(), getMonth(), getDay())
+        val month = getTheWholeMonth(today)
+        var beClickedCol = 0
+        var beClickedRow = 0
+        for(row in 0 until TOTAL_ROW){
+            for(col in 0 until TOTAl_COLUMN){
+                val day = month[row].days[col]
+                if(data.year == day.data.year && data.month == day.data.month && data.day == day.data.day){
+                    beClickedCol = col
+                    beClickedRow = row
+                }
+            }
+        }
+        onAdapterSelectListener.cancelSelectState()
+        cancelSelectState()
+        drawer.onClickDate(beClickedCol, beClickedRow,true)
+        onAdapterSelectListener.updateSelectState()
+        update()
+        invalidate()
     }
 
 }

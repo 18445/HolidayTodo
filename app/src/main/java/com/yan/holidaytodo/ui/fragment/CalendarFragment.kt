@@ -22,6 +22,7 @@ import com.yan.holidaytodo.util.getYear
 import com.yan.holidaytodo.widget.CalendarWeekView
 import com.yan.holidaytodo.widget.CustomDayView
 import com.yan.holidaytodo.widget.MonthView
+import kotlinx.coroutines.delay
 
 /**
  *
@@ -41,6 +42,7 @@ class CalendarFragment : BaseFragment() {
     private lateinit var calendarWeekView: CalendarWeekView
 
     private lateinit var monthView: MonthView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -104,6 +106,10 @@ class CalendarFragment : BaseFragment() {
                 }
         }
 
+    }
+
+    fun backToday(){
+        monthView.backToday()
     }
 
 }

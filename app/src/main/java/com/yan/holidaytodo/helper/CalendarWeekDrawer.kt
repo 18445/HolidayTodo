@@ -2,6 +2,7 @@ package com.yan.holidaytodo.helper
 
 import android.content.Context
 import android.graphics.Canvas
+import android.util.Log
 import com.yan.holidaytodo.adapter.CalendarAdapter
 import com.yan.holidaytodo.bean.*
 import com.yan.holidaytodo.bean.view.CalendarData
@@ -64,13 +65,16 @@ class CalendarWeekDrawer (
 
     fun changeSelectedData(calendarData: CalendarData) : Int{
         selectedRowIndex = getRowIndexInMonth(calendarData,wholeWeeks(MonthView.currentPosition - MonthView.CURRENT_DAY_INDEX))
+        val month = getTheWholeMonth(calendarData)
         var col = -1
-        for(i in 0 until CalendarView.TOTAl_COLUMN){
-            val day = weeks[selectedRowIndex].days[i]
-            if (calendarData.day == day.data.day && calendarData.month == day.data.month){
-                col = i
+        for(row in 0 until CalendarView.TOTAL_ROW)
+            for(i in 0 until CalendarView.TOTAl_COLUMN){
+                val day = month[row].days[i]
+                Log.e("thisWholeWeek",day.data.toString())
+                if (calendarData.day == day.data.day && calendarData.month == day.data.month && calendarData.year == day.data.year){
+                    col = i
+                }
             }
-        }
         onClickDate(calendarData,selectedRowIndex,col)
 
         return selectedRowIndex

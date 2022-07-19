@@ -15,6 +15,7 @@ import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.util.*
 import com.yan.holidaytodo.widget.CalendarView
 import com.yan.holidaytodo.widget.CalendarWeekView
+import com.yan.holidaytodo.widget.MonthView
 
 
 /**
@@ -40,12 +41,10 @@ class CalendarAdapter(
     //日历view
     private val calendars: HashMap<Int, CalendarView> = HashMap()
 
-    //周布局
-    private var calendarType: CalendarAttr.CalendarType = CalendarAttr.CalendarType.MONTH
-
     //行数
     private val currentRow
         get() = CalendarView.selectedRowIndex
+
     //今天的日期
     private var seedDate = CalendarData(getYear(), getMonth(), getDay())
 
@@ -81,9 +80,7 @@ class CalendarAdapter(
         }
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-    }
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
@@ -111,4 +108,10 @@ class CalendarAdapter(
     override fun getItemCount(): Int {
         return Int.MAX_VALUE
     }
+
+    fun backToday(){
+        calendars[MonthView.CURRENT_DAY_INDEX]?.performClickToday()
+    }
+
+
 }

@@ -49,12 +49,14 @@ class MonthView @JvmOverloads constructor(
 
     private lateinit var mCalendarWeekView: CalendarWeekView
 
+    private lateinit var mCalendarAdapter: CalendarAdapter
+
     init {
         layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT)
         orientation = VERTICAL
         View.inflate(getContext(), R.layout.calendar_pager, this)
-        viewPager2 = findViewById<ViewPager2?>(R.id.calendar_pager).apply {
+        viewPager2 = findViewById<ViewPager2>(R.id.calendar_pager).apply {
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
@@ -85,7 +87,7 @@ class MonthView @JvmOverloads constructor(
         iDayDrawer: IDayDrawer
     ) {
         mCalendarWeekView = calendarWeekView
-        viewPager2.adapter = CalendarAdapter(object : OnSelectDateListener {
+        mCalendarAdapter = CalendarAdapter(object : OnSelectDateListener {
 
             override fun onSelectOtherMonth(offset: Int) {
                 onSelectDateListener.onSelectOtherMonth(offset)
@@ -113,6 +115,7 @@ class MonthView @JvmOverloads constructor(
             }
 
         }, onSelectedDateHide, calendarWeekView, iDayDrawer)
+        viewPager2.adapter = mCalendarAdapter
         viewPager2.setCurrentItem(CURRENT_DAY_INDEX, false)
     }
 
@@ -124,6 +127,10 @@ class MonthView @JvmOverloads constructor(
         super.onDraw(canvas)
     }
 
+    fun backToday(){
+        mCalendarAdapter.backToday()
+        viewPager2.currentItem = CURRENT_DAY_INDEX
+    }
 
 
 }

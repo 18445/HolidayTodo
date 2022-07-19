@@ -108,13 +108,20 @@ class CalendarDrawer(
     /**
      * 点击某一天时改变这一天的状态
      *
+     * @param autoBack 代表是否是自动返回到今天 默认为false
      * @return void
      */
-    fun onClickDate(col: Int, row: Int) {
+    fun onClickDate(col: Int, row: Int,autoBack : Boolean = false) {
         if (col >= CalendarView.TOTAl_COLUMN || row >= CalendarView.TOTAL_ROW) return
         if (calendarAttr.calendarType == CalendarAttr.CalendarType.MONTH) {
             //为月份表达的时候
-            selectedDate = weeks[row].days[col].data
+            selectedDate = if(autoBack){
+                val today = CalendarData(getYear(), getMonth(), getDay())
+                weeks = getTheWholeMonth(today)
+                today
+            }else{
+                weeks[row].days[col].data
+            }
             if (weeks[row].days[col].state === State.CURRENT_MONTH) {
                 weeks[row].days[col].state = (State.SELECT)
                 CalendarAdapter.selectedData = selectedDate
