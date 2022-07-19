@@ -79,6 +79,7 @@ class MonthView @JvmOverloads constructor(
     }
 
     fun initAdapter(
+        onSelectDateListener: OnSelectDateListener,
         onSelectedDateHide: (Boolean) -> Unit,
         calendarWeekView: CalendarWeekView,
         iDayDrawer: IDayDrawer
@@ -87,11 +88,13 @@ class MonthView @JvmOverloads constructor(
         viewPager2.adapter = CalendarAdapter(object : OnSelectDateListener {
 
             override fun onSelectOtherMonth(offset: Int) {
+                onSelectDateListener.onSelectOtherMonth(offset)
                 viewPager2.currentItem = currentPosition + offset
                 mCalendarWeekView.changePosition(currentPosition,true)
             }
 
             override fun onSelectDate(calendarData: CalendarData, row : Int, col : Int, type : CalendarAttr.CalendarType, state:State) {
+                onSelectDateListener.onSelectDate(calendarData,row, col, type, state)
                 calendarWeekView.onClickItem(calendarData,row,col,type,state)
                 calendarWeekView.changeSelectedData(calendarData)
             }

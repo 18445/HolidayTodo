@@ -2,6 +2,7 @@ package com.yan.holidaytodo.ui.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toolbar
 import androidx.core.view.isVisible
 import com.yan.holidaytodo.base.BaseActivity
 import com.yan.holidaytodo.R
@@ -10,6 +11,9 @@ import com.yan.holidaytodo.bean.view.CalendarAttr
 import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.ui.viewmodel.HomeViewModel
+import com.yan.holidaytodo.util.getDay
+import com.yan.holidaytodo.util.getMonth
+import com.yan.holidaytodo.util.getYear
 import com.yan.holidaytodo.widget.CalendarWeekView
 import com.yan.holidaytodo.widget.CustomDayView
 import com.yan.holidaytodo.widget.MonthView
@@ -21,6 +25,13 @@ class MainActivity : BaseActivity<HomeViewModel>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val toolbar = findViewById<Toolbar>(R.id.tb_main).apply {
+            viewModel.onSelectedDate(CalendarData(getYear(), getMonth(), getDay()))
+        }
+
+        viewModel.todayDate.observe(this){
+            toolbar.title = it
+        }
 
         viewModel.getYearInfo("2022")
         viewModel.observeYearInfo(this){
@@ -32,7 +43,7 @@ class MainActivity : BaseActivity<HomeViewModel>() {
         viewModel.getWorkdayNext("2022-7-11")
         viewModel.observeWorkdayNext(this){
             onSuccess {
-                Log.e("onSuccessWorkdayNext",it.toString())
+                Log.e("3",it.toString())
             }
         }
 
@@ -60,7 +71,6 @@ class MainActivity : BaseActivity<HomeViewModel>() {
                     type: CalendarAttr.CalendarType,
                     state: State,
                 ) {
-
                 }
 
                 override fun onSelectOtherMonth(offset: Int) {
@@ -71,7 +81,22 @@ class MainActivity : BaseActivity<HomeViewModel>() {
         }
 
         findViewById<MonthView>(R.id.month_view).apply {
-            initAdapter(onSelectedDateHide = {
+            initAdapter(onSelectDateListener = object : OnSelectDateListener{
+                override fun onSelectDate(
+                    calendarData: CalendarData,
+                    row: Int,
+                    col: Int,
+                    type: CalendarAttr.CalendarType,
+                    state: State,
+                ) {
+                    viewModel.onSelectedDate(calendarData)
+                }
+
+                override fun onSelectOtherMonth(offset: Int) {
+
+                }
+
+            }, onSelectedDateHide = {
                 calendarWeekView.isVisible = it
             }, calendarWeekView, CustomDayView(baseContext, R.layout.custiom_day))
         }

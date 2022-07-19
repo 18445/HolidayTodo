@@ -12,6 +12,7 @@ import com.yan.holidaytodo.bean.net.DayInfo
 import com.yan.holidaytodo.bean.net.HolidayNext
 import com.yan.holidaytodo.bean.net.WorkdayNext
 import com.yan.holidaytodo.bean.net.YearInfo
+import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.net.DayResponse
 import com.yan.holidaytodo.net.StateLiveData
 import com.yan.holidaytodo.repository.HomeRepository
@@ -40,6 +41,12 @@ class HomeViewModel : BaseViewModel() {
     private val workdayNext = StateLiveData<WorkdayNext>()
 
     private val yearInfo = StateLiveData<YearInfo>()
+
+    private val _todayDate = MutableLiveData<String>()
+
+    val todayDate : LiveData<String>
+        get() = _todayDate
+
     fun getDayInfo(date : String){
         viewModelScopeLaunch{
             dayInfo.postValue(HomeRepository.getDayInfo(date))
@@ -62,6 +69,10 @@ class HomeViewModel : BaseViewModel() {
         viewModelScopeLaunch {
             yearInfo.postValue(HomeRepository.getYearInfo(date))
         }
+    }
+
+    fun onSelectedDate(calendarData: CalendarData){
+        _todayDate.value = "${calendarData.year}-${calendarData.month}-${calendarData.day}"
     }
 
 
