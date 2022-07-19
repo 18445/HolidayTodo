@@ -92,9 +92,9 @@ class CalendarDrawer(
         cellHeight: Int,
         cellWidth: Int,
         currentCellHeight: Int){
-        canvas.drawRect((col*cellWidth).toFloat(),
-            (row*currentCellHeight).toFloat()+cellWidth-cellWidth*0.05f,(col+1f)*cellWidth,
-            (row*currentCellHeight+cellHeight).toFloat()+cellWidth*0.05f,Paint().apply {
+        canvas.drawRect((col*cellWidth).toFloat() - cellWidth * 0.5f,
+            (row*currentCellHeight).toFloat()+cellWidth,(col+1f)*cellWidth + cellWidth * 0.5f,
+            (row*currentCellHeight+cellHeight).toFloat()+cellWidth*0.02f,Paint().apply {
             color = Color.LTGRAY
         })
         canvas.drawText("", col*cellWidth + 0.3f * cellWidth,

@@ -28,7 +28,7 @@ import com.yan.holidaytodo.widget.MonthView
 class MainActivity : BaseActivity<HomeViewModel>() {
 
     //TabLayout是否显示
-    private var tabIsShown= false
+    private var tabIsShown= true
 
     private lateinit var tabLayout: TabLayout
     private lateinit var toolbar: Toolbar
@@ -45,46 +45,6 @@ class MainActivity : BaseActivity<HomeViewModel>() {
         initTabLayout()
         initToolbar()
         initVp2()
-//        val calendarWeekView = findViewById<CalendarWeekView>(R.id.calendar_week).apply {
-//            initOnSelectListener(object : OnSelectDateListener{
-//
-//                override fun onSelectDate(
-//                    calendarData: CalendarData,
-//                    row: Int,
-//                    col: Int,
-//                    type: CalendarAttr.CalendarType,
-//                    state: State,
-//                ) {
-//                }
-//
-//                override fun onSelectOtherMonth(offset: Int) {
-//                }
-//
-//            })
-//            initDayDrawer(CustomDayView(context,R.layout.custiom_day))
-//        }
-//
-//        findViewById<MonthView>(R.id.month_view).apply {
-//            initAdapter(onSelectDateListener = object : OnSelectDateListener{
-//                override fun onSelectDate(
-//                    calendarData: CalendarData,
-//                    row: Int,
-//                    col: Int,
-//                    type: CalendarAttr.CalendarType,
-//                    state: State,
-//                ) {
-//                    viewModel.onSelectedDate(calendarData)
-//                }
-//
-//                override fun onSelectOtherMonth(offset: Int) {
-//
-//                }
-//
-//            }, onSelectedDateHide = {
-//                calendarWeekView.isVisible = it
-//            }, calendarWeekView, CustomDayView(baseContext, R.layout.custiom_day))
-//        }
-
     }
 
     private fun initTabLayout(){
@@ -95,6 +55,7 @@ class MainActivity : BaseActivity<HomeViewModel>() {
         //初始化Toolbar相关的事件
         toolbar = findViewById<Toolbar>(R.id.tb_main).apply {
             viewModel.onSelectedDate(CalendarData(getYear(), getMonth(), getDay()))
+            moveDownSmooth(tabLayout,125,100)
             setOnClickListener {
                 if(tabIsShown){
                     moveUpSmooth(tabLayout,125,275)

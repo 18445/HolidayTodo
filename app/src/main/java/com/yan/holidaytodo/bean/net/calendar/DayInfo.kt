@@ -1,4 +1,4 @@
-package com.yan.holidaytodo.bean.net
+package com.yan.holidaytodo.bean.net.calendar
 
 /**
  *

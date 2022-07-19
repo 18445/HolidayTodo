@@ -1,10 +1,11 @@
 package com.yan.holidaytodo.net
 
 import com.yan.common.network.ApiGenerator
-import com.yan.holidaytodo.bean.net.DayInfo
-import com.yan.holidaytodo.bean.net.HolidayNext
-import com.yan.holidaytodo.bean.net.WorkdayNext
-import com.yan.holidaytodo.bean.net.YearInfo
+import com.yan.common.network.getHolidayBaseUrl
+import com.yan.holidaytodo.bean.net.calendar.DayInfo
+import com.yan.holidaytodo.bean.net.calendar.HolidayNext
+import com.yan.holidaytodo.bean.net.calendar.WorkdayNext
+import com.yan.holidaytodo.bean.net.calendar.YearInfo
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -20,11 +21,11 @@ import retrofit2.http.Path
  * @Version:        1.0
  * @Description:    日历Api
  */
-interface ApiService {
+interface CalendarService {
 
     companion object {
         val Instance by lazy {
-            ApiGenerator.getApiService(ApiService::class)
+            ApiGenerator.getApiService(CalendarService::class, getHolidayBaseUrl())
         }
     }
 

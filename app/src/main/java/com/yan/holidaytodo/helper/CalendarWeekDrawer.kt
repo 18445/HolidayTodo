@@ -132,16 +132,4 @@ class CalendarWeekDrawer (
 
     }
 
-    fun getFirstDate(): CalendarData {
-        val week: WeekData = weeks[0]
-        val day: Day = week.days[0]
-        return day.data
-    }
-
-    fun getLastDate(): CalendarData {
-        val week: WeekData = weeks[weeks.size - 1]
-        val day: Day = week.days[week.days.size - 1]
-        return day.data
-    }
-
 }

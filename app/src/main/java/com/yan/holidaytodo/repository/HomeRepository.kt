@@ -1,15 +1,14 @@
 package com.yan.holidaytodo.repository
 
-import android.util.Log
 import com.yan.common.network.ApiGenerator
+import com.yan.common.network.getHolidayBaseUrl
 import com.yan.common.network.handlingExceptions
 import com.yan.holidaytodo.base.BaseRepository
 import com.yan.holidaytodo.bean.db.HolidayDB
-import com.yan.holidaytodo.bean.net.*
+import com.yan.holidaytodo.bean.net.calendar.*
 import com.yan.holidaytodo.db.AppDatabase
 import com.yan.holidaytodo.net.*
 import com.yan.holidaytodo.util.judgeHoliday
-import okhttp3.internal.notifyAll
 
 /**
  *
@@ -24,8 +23,8 @@ import okhttp3.internal.notifyAll
  */
 object HomeRepository : BaseRepository() {
 
-    private val mApiService by lazy {
-        ApiGenerator.getApiService(ApiService::class)
+    private val mCalendarService by lazy {
+        ApiGenerator.getApiService(CalendarService::class, getHolidayBaseUrl())
     }
 
     /**
@@ -39,7 +38,7 @@ object HomeRepository : BaseRepository() {
                 ,holiday = null, workday = null, type = null)
         }
         val dayResponse =  executeHttp {
-            mApiService.getDayInfo(date)
+            mCalendarService.getDayInfo(date)
         }
         if (dayResponse is SuccessResponse){
             val dates = date.split("-")
@@ -65,12 +64,13 @@ object HomeRepository : BaseRepository() {
         }
 
         kotlin.runCatching {
-            mApiService.getHolidayNext(date)
+            mCalendarService.getHolidayNext(date)
         }.onSuccess {
             val dates = date.split("-")
             AppDatabase.INSTANCE.holidayDao().insertAll(HolidayDB(it.holiday.date,it.holiday.name,dates[0].toInt(),dates[1].toInt(),dates[2].toInt(),
                 it.holiday.holiday))
-            return SuccessResponse(null,HolidayData(it.holiday.date,it.holiday.holiday,it.holiday.name),null,null)
+            return SuccessResponse(null,
+                HolidayData(it.holiday.date,it.holiday.holiday,it.holiday.name),null,null)
         }.onFailure {
             handlingExceptions(it)
             return ErrorResponse(it)
@@ -90,7 +90,7 @@ object HomeRepository : BaseRepository() {
         }
 
         val workdayNext = executeHttp {
-            mApiService.getWorkDayNext(date)
+            mCalendarService.getWorkDayNext(date)
         }
 
         if (workdayNext is SuccessResponse){
@@ -108,7 +108,7 @@ object HomeRepository : BaseRepository() {
 
         val localDates = AppDatabase.INSTANCE.holidayDao().getHolidayByYear(date,true)
         if(localDates != null && localDates.size > 7 ){
-            val hashMap : HashMap<String,HolidayData> = HashMap()
+            val hashMap : HashMap<String, HolidayData> = HashMap()
             for(i in localDates.indices){
                 val day = localDates[i]
                 val dayString = day.date
@@ -119,7 +119,7 @@ object HomeRepository : BaseRepository() {
         }
 
         val yearInfo =  executeHttp {
-            mApiService.getYearInfo(date)
+            mCalendarService.getYearInfo(date)
         }
 
         if(yearInfo is SuccessResponse){

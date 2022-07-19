@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HolidayTodo</string>
+    <string name="today">今天</string>
 </resources>

@@ -1,11 +1,10 @@
 package com.yan.holidaytodo.net
 
 
-import com.google.gson.annotations.SerializedName
-import com.yan.common.network.ApiResponse
-import com.yan.holidaytodo.bean.net.*
+import com.yan.holidaytodo.bean.net.calendar.DayInfo
+import com.yan.holidaytodo.bean.net.calendar.HolidayData
+import com.yan.holidaytodo.bean.net.calendar.HolidayNext
 import java.io.Serializable
-import java.time.Year
 
 /**
  *

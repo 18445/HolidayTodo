@@ -1,4 +1,4 @@
-package com.yan.holidaytodo.bean.net
+package com.yan.holidaytodo.bean.net.calendar
 
 /**
  *
@@ -52,7 +52,7 @@ package com.yan.holidaytodo.bean.net
 
 data class YearInfo(
     val code: Int,
-    val holiday: Map<String,HolidayData>
+    val holiday: Map<String, HolidayData>
 ) {
     /**
      * 以下是自动生成的数据

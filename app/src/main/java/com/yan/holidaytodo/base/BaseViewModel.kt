@@ -1,17 +1,14 @@
 package com.yan.holidaytodo.base
 
-import android.app.Activity
 import android.content.Context
 import androidx.annotation.CallSuper
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yan.common.App
-import com.yan.holidaytodo.bean.net.DayInfo
 import com.yan.holidaytodo.net.StateLiveData
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 /**

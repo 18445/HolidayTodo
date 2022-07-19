@@ -353,18 +353,6 @@ class CalendarView @JvmOverloads constructor(
         drawer.cancelSelectState()
     }
 
-    fun showDate(calendarData: CalendarData) {
-        drawer.showDate(calendarData)
-    }
-
-    fun getFirstDate(): CalendarData {
-        return drawer.getFirstDate()
-    }
-
-    fun getLastDate(): CalendarData {
-        return drawer.getLastDate()
-    }
-
     fun getSelectedRowIndex(): Int {
         return selectedRowIndex
     }

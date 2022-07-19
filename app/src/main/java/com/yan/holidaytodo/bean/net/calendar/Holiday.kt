@@ -1,4 +1,4 @@
-package com.yan.holidaytodo.bean.net
+package com.yan.holidaytodo.bean.net.calendar
 
 /**
  *
@@ -17,7 +17,7 @@ data class Holiday(
     val name: String,
     val target: String,
     val wage: Int,
-    val hashMap : HashMap<String,HolidayInner>
+    val hashMap : HashMap<String, HolidayInner>
 ){
     data class HolidayInner(
         val after: Boolean,

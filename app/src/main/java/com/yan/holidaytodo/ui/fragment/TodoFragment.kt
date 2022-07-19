@@ -1,7 +1,11 @@
 package com.yan.holidaytodo.ui.fragment
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.yan.holidaytodo.R
 import com.yan.holidaytodo.base.BaseFragment
-import com.yan.holidaytodo.ui.viewmodel.HomeViewModel
 
 /**
  *
@@ -15,4 +19,15 @@ import com.yan.holidaytodo.ui.viewmodel.HomeViewModel
  * @Description:    任务Fragment
  */
 class TodoFragment : BaseFragment() {
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = inflater.inflate(R.layout.fragment_todo,container,false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
 }

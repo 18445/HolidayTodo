@@ -28,7 +28,6 @@ class CalendarMover(private val calendarView: CalendarView) {
     //解决向下滑动时能向上滑动带着整体View一起向下的BUG
     private var hasDown = false
 
-
     /**
      * 提供给外部的滑动方法
      */

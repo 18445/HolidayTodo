@@ -14,10 +14,12 @@ import com.airbnb.lottie.BuildConfig
  * @Description:    基础BaseUrl
  */
 
-const val DEBUG_URL = "https://timor.tech"
-const val RELEASE_URL = DEBUG_URL
+const val HOLIDAY_URL = "https://timor.tech"
+const val TODO_URL = "https://www.wanandroid.com"
 const val DEFAULT_CONNECT_TIME = 10L
 const val DEFAULT_WRITE_TIME = 30L
 const val DEFAULT_READ_TIME = 30L
 
-fun getBaseUrl() = if (BuildConfig.DEBUG) DEBUG_URL else RELEASE_URL
+fun getHolidayBaseUrl() = HOLIDAY_URL
+
+fun getTodoBaseUrl() = TODO_URL

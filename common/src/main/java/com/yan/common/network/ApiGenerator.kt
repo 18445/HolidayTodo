@@ -23,19 +23,18 @@ import kotlin.reflect.KClass
  */
 object ApiGenerator {
 
-    private val retrofit = getNewRetrofit{}
-
-    fun <T : Any> getApiService(clazz: KClass<T>): T {
-        return retrofit.create(clazz.java)
+    fun <T : Any> getApiService(clazz: KClass<T>,baseUrl : String): T {
+        return getNewRetrofit(baseUrl) {}.create(clazz.java)
     }
 
 
     private fun getNewRetrofit(
+        baseUrl: String,
         config: Retrofit.Builder.() -> Unit
     ): Retrofit {
         return Retrofit
             .Builder()
-            .baseUrl(getBaseUrl())
+            .baseUrl(baseUrl)
             .client(getOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create())
             .apply { config.invoke(this) }
