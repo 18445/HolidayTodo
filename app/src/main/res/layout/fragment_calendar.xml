@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.yan.holidaytodo.widget.WeekView
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.yan.holidaytodo.widget.MonthView
+            android:id="@+id/month_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.yan.holidaytodo.widget.CalendarWeekView
+            android:longClickable="false"
+            android:background="@color/white"
+            android:id="@+id/calendar_week"
+            android:layout_width="match_parent"
+            android:layout_height="47.5dp"
+            android:focusable="true" />
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

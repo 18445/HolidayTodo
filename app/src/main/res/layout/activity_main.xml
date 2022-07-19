@@ -2,39 +2,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <Toolbar
-        android:fitsSystemWindows="true"
         android:id="@+id/tb_main"
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.yan.holidaytodo.widget.WeekView
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tl_main"
+        android:layout_gravity="center"
+        app:tabIndicatorFullWidth="false"
+        android:layout_width="wrap_content"
+        app:tabSelectedTextColor="@color/light_blue"
+        app:tabIndicatorColor="@color/blue"
+        android:layout_height="0dp"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        />
+<!--    <com.yan.holidaytodo.widget.WeekView-->
+<!--        android:paddingStart="8dp"-->
+<!--        android:paddingEnd="8dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content" />-->
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
 
-        <com.yan.holidaytodo.widget.MonthView
-            android:id="@+id/month_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+<!--        <com.yan.holidaytodo.widget.MonthView-->
+<!--            android:id="@+id/month_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
 
-        <com.yan.holidaytodo.widget.CalendarWeekView
-            android:longClickable="false"
-            android:background="@color/white"
-            android:id="@+id/calendar_week"
-            android:layout_width="match_parent"
-            android:layout_height="47.5dp"
-            android:focusable="true" />
+<!--        <com.yan.holidaytodo.widget.CalendarWeekView-->
+<!--            android:longClickable="false"-->
+<!--            android:background="@color/white"-->
+<!--            android:id="@+id/calendar_week"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="47.5dp"-->
+<!--            android:focusable="true" />-->
 
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+<!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 </LinearLayout>

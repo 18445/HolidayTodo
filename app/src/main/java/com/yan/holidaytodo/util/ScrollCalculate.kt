@@ -1,12 +1,18 @@
 package com.yan.holidaytodo.util
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.view.View
 import android.view.ViewConfiguration
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Scroller
+import android.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.animation.doOnEnd
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.yan.holidaytodo.R
+import com.yan.holidaytodo.bean.view.CalendarData
 
 /**
  *
@@ -63,58 +69,40 @@ fun getTouchSlop(context: Context): Int {
     return ViewConfiguration.get(context).scaledTouchSlop
 }
 
-var ScrollToBottom = false
-
 /**
- * 判断上一次滑动改变周月日历是向下滑还是向上滑 向下滑表示切换为月日历模式 向上滑表示切换为周日历模式
- *
- * @return boolean 是否是在向下滑动。(true: 已经收缩; false: 已经打开）
+ * view向下滑动
  */
-fun isCalendarScrollToBottom(): Boolean {
-    return ScrollToBottom
-}
-
-/**
- * 设置上一次滑动改变周月日历是向下滑还是向上滑 向下滑表示切换为月日历模式 向上滑表示切换为周日历模式
- */
-fun setCalendarScrollToBottom(ifScrollToBottom: Boolean) {
-    ScrollToBottom = ifScrollToBottom
-}
-
-
-/**
- * 通过scrollTo方法完成协调布局的滑动，其中主要使用了ViewCompat.postOnAnimation
- *
- * @param parent   协调布局parent
- * @param child    协调布局协调滑动的child
- * @param y        滑动目标位置y轴数值
- * @param duration 滑动执行时间
- * @return void
- */
-
-fun calendarScrollTo(parent: CoordinatorLayout, child: RecyclerView, y: Int, duration: Int) {
-    var top = 0
-    val scroller = Scroller(parent.context)
-    scroller.startScroll(
-        0,
-        top,
-        0,
-        y - top,
-        duration
-    ) //设置scroller的滚动偏移量
-    ViewCompat.postOnAnimation(child, object : Runnable {
-        override fun run() {
-            //返回值为boolean，true说明滚动尚未完成，false说明滚动已经完成。
-            //用来判断是否滚动是否结束
-            if (scroller.computeScrollOffset()) {
-                val delta: Int = scroller.currY - child.top
-                child.offsetTopAndBottom(delta)
-                top = (child.top)
-                parent.dispatchDependentViewsChanged(child)
-                ViewCompat.postOnAnimation(child, this)
-            }
+fun moveDownSmooth(view : View,value : Int,time : Int = 500){
+    view.isClickable = false
+    ValueAnimator.ofInt(0,value).apply {
+        duration = time.toLong()
+        addUpdateListener {
+            val adjustedHeight = it.animatedValue as Int
+            view.layoutParams.height = adjustedHeight
+            view.requestLayout()
         }
-    })
+        doOnEnd {
+            view.isClickable = true
+        }
+        interpolator = AccelerateDecelerateInterpolator()
+    }.start()
 }
 
-
+/**
+ * view向下滑动
+ */
+fun moveUpSmooth(view : View,value : Int,time : Int = 500){
+    view.isClickable = false
+    ValueAnimator.ofInt(value,0).apply {
+        duration = time.toLong()
+        addUpdateListener {
+            val adjustedHeight = it.animatedValue as Int
+            view.layoutParams.height = adjustedHeight
+            view.requestLayout()
+        }
+        doOnEnd {
+            view.isClickable = true
+        }
+        interpolator = AccelerateDecelerateInterpolator()
+    }.start()
+}
