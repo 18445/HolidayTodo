@@ -50,9 +50,33 @@ object ApiGenerator {
             .writeTimeout(DEFAULT_WRITE_TIME, TimeUnit.SECONDS)//设置写操作超时时间
             .readTimeout(DEFAULT_READ_TIME, TimeUnit.SECONDS)//设置读操作超时时间
             .addInterceptor(getHttpLoggingInterceptor())
+            .addInterceptor { //Cookie拦截
+                val response = it.proceed(it.request())
+                if(response.headers("Set-Cookie").isNotEmpty()){
+                    val sb = StringBuilder()
+                    for(i in response.headers("Set-Cookie")){
+                        sb.append(i).append(";")
+                    }
+                    //加入到SP
+//                    Sp
+                }
+
+                return@addInterceptor response
+            }
+            .addInterceptor {
+                val request = it.request().newBuilder().apply {
+//                    val cookie = Sp
+//                    if(cookie != null){
+//                          addHeader("Cookie",cookie)
+//                    }
+                }.build()
+                return@addInterceptor it.proceed(request)
+            }
 
         return builder.build()
     }
+
+
 
     private fun getHttpLoggingInterceptor(): HttpLoggingInterceptor {
         val logging = HttpLoggingInterceptor()

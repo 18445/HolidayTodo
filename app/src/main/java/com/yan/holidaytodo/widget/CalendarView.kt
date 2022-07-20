@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.yan.holidaytodo.bean.view.CalendarAttr
@@ -151,7 +150,7 @@ class CalendarView @JvmOverloads constructor(
     private val touchSlop = getTouchSlop(context).toFloat()
 
     //现在的view状态
-    private var calendarState = CalendarMover.CalendarState.NORMAL
+    var calendarState = CalendarMover.CalendarState.NORMAL
 
     //日期
     val data: CalendarData
@@ -224,10 +223,10 @@ class CalendarView @JvmOverloads constructor(
 
                 if (totalOffsetY < -moveUpOrDown && layoutParams.height >= mLeastHeight.dpToPx()) {//view 向上滑动 (折叠)
                     parent.requestDisallowInterceptTouchEvent(true)
-                    calendarMover.calendarMove(calendarState, distanceY)
+                    calendarMover.calendarMove(calendarState, distanceY.toInt())
                 } else if (totalOffsetY > moveUpOrDown && layoutParams.height <= mMostHeight.dpToPx()) {//view 普通状态向下滑动 (展开)
                     parent.requestDisallowInterceptTouchEvent(true)
-                    calendarMover.calendarMove(calendarState, distanceY)
+                    calendarMover.calendarMove(calendarState, distanceY.toInt())
                 }
                 moveY = event.y
             }
@@ -269,63 +268,71 @@ class CalendarView @JvmOverloads constructor(
 //                    calendarState = CalendarMover.CalendarState.NORMAL
 //                }
 
+                moveByMover(disY.toInt())
 
-                //普通状态向下滑动
-                if (calendarState === CalendarMover.CalendarState.NORMAL && disY > (mMostHeight.dpToPx() - mNormalHeight) / 2
-                    && mCurrentHeight >= mNormalHeight
-                ) { //普通状态拉伸
-                    calendarMover.moveToDown()
-                    calendarState = CalendarMover.CalendarState.STRETCHING
-                    onCalendarStateListener.onStretchingState()
-                } else if (calendarState === CalendarMover.CalendarState.NORMAL && disY > 0 && mCurrentHeight >= mNormalHeight) { //普通状态恢复
-                    calendarMover.moveToNormal()
-                }
-                //普通状态向上滑动
-                else if (calendarState === CalendarMover.CalendarState.NORMAL && -disY > (mNormalHeight - mLeastHeight.dpToPx()) / 2
-                    && mCurrentHeight <= mNormalHeight
-                ) { //普通状态收缩
-                    val success = calendarMover.moveToFoldingTop()
-                    onCalendarStateListener.onFoldingState()
-                    calendarState = if(success){
-                        calendarAttr.calendarType = CalendarAttr.CalendarType.WEEK
-                        CalendarMover.CalendarState.FOLDING
-                    }else{
-                        calendarAttr.calendarType = CalendarAttr.CalendarType.MONTH
-                        CalendarMover.CalendarState.NORMAL
-                    }
-                } else if (calendarState === CalendarMover.CalendarState.NORMAL  && mCurrentHeight <= mNormalHeight) { //普通状态恢复
-                    calendarMover.moveToNormalWhenUp()
-                }
-                //拉伸状态向上滑动
-                else if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > (mMostHeight.dpToPx() - mNormalHeight) / 2) { //恢复为普通状态
-                    calendarMover.moveToNormal()
-                    onCalendarStateListener.onNormalState()
-                    calendarState = CalendarMover.CalendarState.NORMAL
-                    calendarAttr.calendarType = CalendarAttr.CalendarType.MONTH
-                } else if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > 0) { //恢复为拉伸状态
-                    calendarMover.moveToDown()
-                }
-                //折叠状态向下滑动
-                else if (calendarState === CalendarMover.CalendarState.FOLDING && disY >= cellHeight * 2
-                    && mCurrentHeight <= mNormalHeight
-                ) { //恢复为普通状态
-                    calendarMover.moveToNormalWhenFolding()
-                    onCalendarStateListener.onNormalState()
-                    calendarAttr.calendarType = CalendarAttr.CalendarType.MONTH
-                    calendarState = CalendarMover.CalendarState.NORMAL
-                } else if (calendarState === CalendarMover.CalendarState.FOLDING && disY > 0 && mCurrentHeight <= mNormalHeight) {
-                    calendarMover.moveToFoldingTop()
-                    calendarAttr.calendarType = CalendarAttr.CalendarType.WEEK
-                } else if (calendarState === CalendarMover.CalendarState.FOLDING && disY > 0) {
-                    calendarMover.moveToNormalWhenFolding()
-                    onCalendarStateListener.onNormalState()
-                    calendarState = CalendarMover.CalendarState.NORMAL
-                    calendarAttr.calendarType = CalendarAttr.CalendarType.MONTH
-                }
-                calendarMover.resetState()
+
             }
         }
         return true
+    }
+
+    /**
+     * 将需要移动的设置全部交给CalendarMover
+     */
+    private fun moveByMover(disY: Int){
+        //普通状态向下滑动
+        if (calendarState === CalendarMover.CalendarState.NORMAL && disY > (mMostHeight.dpToPx() - mNormalHeight) / 2
+            && mCurrentHeight >= mNormalHeight
+        ) { //普通状态拉伸
+            calendarMover.moveToDown()
+            calendarState = CalendarMover.CalendarState.STRETCHING
+            onCalendarStateListener.onStretchingState()
+        } else if (calendarState === CalendarMover.CalendarState.NORMAL && disY > 0 && mCurrentHeight >= mNormalHeight) { //普通状态恢复
+            calendarMover.moveToNormal()
+        }
+        //普通状态向上滑动
+        else if (calendarState === CalendarMover.CalendarState.NORMAL && -disY > (mNormalHeight - mLeastHeight.dpToPx()) / 2
+            && mCurrentHeight <= mNormalHeight
+        ) { //普通状态收缩
+            val success = calendarMover.moveToFoldingTop()
+            onCalendarStateListener.onFoldingState()
+            calendarState = if(success){
+                calendarAttr.calendarType = CalendarAttr.CalendarType.WEEK
+                CalendarMover.CalendarState.FOLDING
+            }else{
+                calendarAttr.calendarType = CalendarAttr.CalendarType.MONTH
+                CalendarMover.CalendarState.NORMAL
+            }
+        } else if (calendarState === CalendarMover.CalendarState.NORMAL  && mCurrentHeight <= mNormalHeight) { //普通状态恢复
+            calendarMover.moveToNormalWhenUp()
+        }
+        //拉伸状态向上滑动
+        else if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > (mMostHeight.dpToPx() - mNormalHeight) / 2) { //恢复为普通状态
+            calendarMover.moveToNormal()
+            onCalendarStateListener.onNormalState()
+            calendarState = CalendarMover.CalendarState.NORMAL
+            calendarAttr.calendarType = CalendarAttr.CalendarType.MONTH
+        } else if (calendarState === CalendarMover.CalendarState.STRETCHING && -disY > 0) { //恢复为拉伸状态
+            calendarMover.moveToDown()
+        }
+        //折叠状态向下滑动
+        else if (calendarState === CalendarMover.CalendarState.FOLDING && disY >= cellHeight * 2
+            && mCurrentHeight <= mNormalHeight
+        ) { //恢复为普通状态
+            calendarMover.moveToNormalWhenFolding()
+            onCalendarStateListener.onNormalState()
+            calendarAttr.calendarType = CalendarAttr.CalendarType.MONTH
+            calendarState = CalendarMover.CalendarState.NORMAL
+        } else if (calendarState === CalendarMover.CalendarState.FOLDING && disY > 0 && mCurrentHeight <= mNormalHeight) {
+            calendarMover.moveToFoldingTop()
+            calendarAttr.calendarType = CalendarAttr.CalendarType.WEEK
+        } else if (calendarState === CalendarMover.CalendarState.FOLDING && disY > 0) {
+            calendarMover.moveToNormalWhenFolding()
+            onCalendarStateListener.onNormalState()
+            calendarState = CalendarMover.CalendarState.NORMAL
+            calendarAttr.calendarType = CalendarAttr.CalendarType.MONTH
+        }
+        calendarMover.resetState()
     }
 
     private fun showCalendarWeek() : Boolean{
@@ -379,6 +386,21 @@ class CalendarView @JvmOverloads constructor(
         onAdapterSelectListener.updateSelectState()
         update()
         invalidate()
+    }
+
+    /**
+     * 外部移动内部视图
+     */
+    fun moveByOutside(offset : Int){
+
+            calendarMover.calendarMove(calendarState, offset )
+
+            moveByMover(offset - mNormalHeight)
+
+            if(mCurrentHeight > mNormalHeight && mCurrentHeight < mNormalHeight + (mMostHeight - mNormalHeight) / 2){
+                calendarMover.moveToNormalWhenUp()
+            }
+
     }
 
 }

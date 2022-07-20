@@ -2,6 +2,8 @@ package com.yan.common
 
 import android.app.Application
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import androidx.annotation.CallSuper
 
 /**
@@ -25,5 +27,14 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = this
+        Handler(mainLooper).post {
+            while (true) {
+                try {
+                    Looper.loop()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 }

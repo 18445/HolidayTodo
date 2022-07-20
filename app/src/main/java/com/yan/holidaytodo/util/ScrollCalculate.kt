@@ -1,7 +1,12 @@
 package com.yan.holidaytodo.util
 
 import android.animation.ValueAnimator
+import android.app.Activity
 import android.content.Context
+import android.icu.text.CaseMap
+import android.os.Message
+import android.os.SystemClock
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -13,6 +18,8 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.yan.holidaytodo.R
 import com.yan.holidaytodo.bean.view.CalendarData
+import com.yan.holidaytodo.bean.view.GestureBean
+import com.yan.holidaytodo.bean.view.ViewHandler
 
 /**
  *
@@ -105,4 +112,43 @@ fun moveUpSmooth(view : View,value : Int,time : Int = 500){
         }
         interpolator = AccelerateDecelerateInterpolator()
     }.start()
+}
+
+
+/**
+ * 手势点击
+ */
+private fun clickPointer(any : Any,x : Float,y : Float){
+    val downEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, x, y, 0);
+    val upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, x, y, 0);
+    // 处理和分发
+    if (any is View) {
+        any.onTouchEvent(downEvent)
+        any.onTouchEvent(upEvent)
+    } else if (any is Activity) {
+        any.dispatchTouchEvent(downEvent);
+        any.dispatchTouchEvent(upEvent);
+    }
+    // 事件回收
+    downEvent.recycle();
+    upEvent.recycle();
+}
+
+/**
+ * View点击
+ */
+private fun moveView(view : View,x : Float,y : Float){
+    clickPointer(view,x,y)
+}
+
+/**
+ * 手势滑动
+ */
+fun movePointer(view : View,downTime : Long,startX : Float ,startY : Float,endX : Float,endY : Float,duration : Long, period : Int){
+
+        val handler = ViewHandler(view);
+        view.onTouchEvent(MotionEvent.obtain(downTime, downTime, MotionEvent.ACTION_DOWN, startX, startY, 0));
+        val bean = GestureBean(startX, startY, endX, endY, duration, period);
+        Message.obtain(handler, 1, bean).sendToTarget();
+
 }

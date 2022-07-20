@@ -31,7 +31,7 @@ class CalendarMover(private val calendarView: CalendarView) {
     /**
      * 提供给外部的滑动方法
      */
-    fun calendarMove(calendarState: CalendarState, offsetY: Float) {
+    fun calendarMove(calendarState: CalendarState, offsetY: Int) {
 
         if (calendarState === CalendarState.NORMAL && offsetY > 0 && calendarView.mCurrentHeight + offsetY <= calendarView.mNormalHeight && !hasDown ) {
             //向上滑动时向下滑动
@@ -59,9 +59,9 @@ class CalendarMover(private val calendarView: CalendarView) {
     /**
      * 普通状态向上滑动
      */
-    private fun calendarNormalUp(offsetY: Float) {
+    private fun calendarNormalUp(offsetY: Int) {
         calendarView.apply {
-            layoutParams.height += offsetY.toInt()
+            layoutParams.height += offsetY
             requestLayout()
             mScrollOffset -= offsetY
             scrollTo(0, mScrollOffset.toInt())
@@ -72,9 +72,9 @@ class CalendarMover(private val calendarView: CalendarView) {
     /**
      * 普通状态向下滑动
      */
-    private fun calendarNormalDown(offsetY: Float) {
+    private fun calendarNormalDown(offsetY: Int) {
         calendarView.apply {
-            layoutParams.height += offsetY.toInt()
+            layoutParams.height += offsetY
             downPercent = (layoutParams.height - mNormalHeight) / (mMostHeight.dpToPx()
                 .toFloat() - mNormalHeight)
             requestLayout()
@@ -84,9 +84,9 @@ class CalendarMover(private val calendarView: CalendarView) {
     /**
      * 普通状态上拉时下滑
      */
-    private fun calendarNormalDownWhenUp(offsetY: Float) {
+    private fun calendarNormalDownWhenUp(offsetY: Int) {
         calendarView.apply {
-            layoutParams.height += offsetY.toInt()
+            layoutParams.height += offsetY
             requestLayout()
             mScrollOffset -= offsetY
             scrollTo(0, mScrollOffset.toInt())
@@ -96,9 +96,9 @@ class CalendarMover(private val calendarView: CalendarView) {
     /**
      * 拉伸状态向上滑动
      */
-    private fun calendarStretchingUp(offsetY: Float) {
+    private fun calendarStretchingUp(offsetY: Int) {
         calendarView.apply {
-            layoutParams.height += offsetY.toInt()
+            layoutParams.height += offsetY
             requestLayout()
             downPercent = (layoutParams.height - mNormalHeight) / (mMostHeight.dpToPx()
                 .toFloat() - mNormalHeight)
@@ -108,9 +108,9 @@ class CalendarMover(private val calendarView: CalendarView) {
     /**
      * 收缩状态向下滑动
      */
-    private fun calendarFoldingDown(offsetY: Float) {
+    private fun calendarFoldingDown(offsetY: Int) {
         calendarView.apply {
-            layoutParams.height += offsetY.toInt()
+            layoutParams.height += offsetY
             requestLayout()
             mScrollOffset -= offsetY
             scrollTo(0, mScrollOffset.toInt())

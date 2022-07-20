@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.yan.holidaytodo.widget.MyNestedView
+    android:id="@+id/nsv_calendar"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-
-
     <com.yan.holidaytodo.widget.WeekView
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
@@ -14,54 +15,61 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:visibility="visible"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <com.yan.holidaytodo.widget.MyFrameLayout
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.yan.holidaytodo.widget.MonthView
-                android:id="@+id/month_view"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent">
+                <com.yan.holidaytodo.widget.MonthView
+                    app:layout_behavior="@string/behavior_calendar"
+                    android:id="@+id/month_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <com.yan.holidaytodo.widget.CalendarWeekView
+                    android:longClickable="false"
+                    android:background="@color/white"
+                    android:id="@+id/calendar_week"
+                    android:layout_width="match_parent"
+                    android:layout_height="47.5dp"
+                    android:focusable="true" />
+            </FrameLayout>
 
-            <com.yan.holidaytodo.widget.CalendarWeekView
-                android:longClickable="false"
-                android:background="@color/white"
-                android:id="@+id/calendar_week"
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_marginStart="16dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:text="@string/today"
+                        android:textSize="18sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_today"
+                        tools:text="2022-7-19"
+                        android:textSize="15sp"
+                        android:textColor="@color/deep_gray"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_rv_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_calendar"
                 android:layout_width="match_parent"
-                android:layout_height="47.5dp"
-                android:focusable="true" />
-
-        </com.yan.holidaytodo.widget.MyFrameLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_marginStart="16dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="@string/today"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_today"
-            tools:text="2022-7-19"
-            android:textSize="15sp"
-            android:textColor="@color/deep_gray"
-            android:layout_marginStart="12dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
 
-</LinearLayout>
+</com.yan.holidaytodo.widget.MyNestedView>

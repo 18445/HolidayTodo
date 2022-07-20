@@ -4,6 +4,8 @@ package com.yan.holidaytodo.widget
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
+import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -17,6 +19,8 @@ import com.yan.holidaytodo.bean.State
 import com.yan.holidaytodo.callback.IDayDrawer
 import com.yan.holidaytodo.callback.OnCalendarStateListener
 import com.yan.holidaytodo.callback.OnSelectDateListener
+import com.yan.holidaytodo.helper.CalendarMover
+import kotlin.math.abs
 
 
 /**
@@ -130,6 +134,46 @@ class MonthView @JvmOverloads constructor(
     fun backToday(){
         mCalendarAdapter.backToday()
         viewPager2.currentItem = CURRENT_DAY_INDEX
+    }
+
+
+    //解决主页面内层Vp和外层Vp滑动冲突
+    private var mInitialTouchX = 0F
+    private var mInitialTouchY = 0F
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        when (ev.action) {
+            MotionEvent.ACTION_DOWN -> {
+                mInitialTouchX = ev.x
+                mInitialTouchY = ev.y
+            }
+            MotionEvent.ACTION_MOVE -> {
+                val dx = ev.rawX - mInitialTouchX
+                val dy = ev.rawY - mInitialTouchY
+
+                val angle = abs(dy) / abs(dx)
+                if (angle < 0.8f) {
+                    //拦截父类
+                    requestDisallowInterceptTouchEvent(true)
+                }
+            }
+            MotionEvent.ACTION_UP -> {
+                requestDisallowInterceptTouchEvent(false)
+            }
+            MotionEvent.ACTION_CANCEL -> {
+                requestDisallowInterceptTouchEvent(false)
+            }
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
+    fun moveOffset(offset : Int){
+        val view = mCalendarAdapter.getCalendarView(currentPosition) ?: return
+        view.moveByOutside(offset)
+    }
+
+    fun ifFold() : Boolean{
+        val view = mCalendarAdapter.getCalendarView(currentPosition) ?: return false
+        return view.calendarState === CalendarMover.CalendarState.FOLDING
     }
 
 

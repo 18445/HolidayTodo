@@ -3,4 +3,5 @@
     <string name="today">今天</string>
     <string name="addTodo">AddTodo</string>
     <string name="returnToday">returnToday</string>
+    <string name="behavior_calendar">com.yan.holidaytodo.widget.behavior.CalendarBehavior</string>
 </resources>

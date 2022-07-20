@@ -113,5 +113,10 @@ class CalendarAdapter(
         calendars[MonthView.CURRENT_DAY_INDEX]?.performClickToday()
     }
 
+    fun getCalendarView(currentPosition : Int) : CalendarView?{
+        return calendars[currentPosition]
+    }
+
+
 
 }

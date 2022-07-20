@@ -2,6 +2,8 @@ package com.yan.holidaytodo.ui.activity
 
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Toolbar
 import androidx.core.view.isVisible
@@ -36,6 +38,7 @@ class MainActivity : BaseActivity<HomeViewModel>() {
     private lateinit var viewPager2: ViewPager2
     private lateinit var todoButton : FloatingActionButton
     private lateinit var backButton : FloatingActionButton
+    private var mSelectedDate : CalendarData = CalendarData(getYear(), getMonth(), getDay())
 
     private val mFragments : List<Fragment> by lazy {
         mutableListOf(CalendarFragment(),TodoFragment())
@@ -100,12 +103,33 @@ class MainActivity : BaseActivity<HomeViewModel>() {
     }
 
     private fun initButton(){
+
         todoButton = findViewById(R.id.fa_btn_todo)
         backButton = findViewById<FloatingActionButton>(R.id.fa_btn_back).apply {
-            setOnClickListener {
-                (mFragments[0] as CalendarFragment).backToday()
 
+            (mFragments[0] as CalendarFragment).setOnDateListener { //设置隐藏时间
+                isVisible = it.day != getDay() || it.month != getMonth() || it.year != getYear()
+                mSelectedDate = it
+            }
+
+            setOnClickListener {
+                viewPager2.currentItem = 0
+                (mFragments[0] as CalendarFragment).backToday()
             }
         }
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if(position != 0){
+                    backButton.isVisible = true
+                }else if(position == 0){
+                    if(mSelectedDate.day == getDay()
+                        && mSelectedDate.month == getMonth()
+                        && mSelectedDate.year == getYear()){
+                        backButton.isVisible = false
+                    }
+                }
+            }
+        })
     }
 }

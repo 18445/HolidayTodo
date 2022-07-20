@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:id="@+id/tv_todo_title"
+        android:textSize="21sp"
+        tools:text="2022-7-20"
+        android:textColor="@color/deep_gray"
+        android:textStyle="italic"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        />
+
+
+</LinearLayout>
