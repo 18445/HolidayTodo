@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_back.xml" value="0.286" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_task.xml" value="0.286" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/selected_background.xml" value="0.1855" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/today_background.xml" value="0.1855" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_active_mark_background.xml" value="0.19" />

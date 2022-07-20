@@ -70,6 +70,12 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fa_btn_todo"
+        android:elevation="15dp"
+        app:borderWidth="0dp"
+        android:background="@android:color/holo_orange_light"
+        android:backgroundTint="@android:color/holo_orange_light"
+        app:rippleColor="@android:color/holo_orange_dark"
+        android:src="@drawable/ic_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
@@ -81,8 +87,13 @@
         app:layout_constraintStart_toStartOf="@+id/gl_main_left" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:elevation="15dp"
+        app:borderWidth="0dp"
+        android:background="@android:color/holo_blue_bright"
+        android:backgroundTint="@android:color/holo_blue_bright"
+        app:rippleColor="@android:color/holo_blue_light"
+        android:src="@drawable/ic_back"
         android:id="@+id/fa_btn_back"
-        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"

@@ -392,15 +392,14 @@ class CalendarView @JvmOverloads constructor(
      * 外部移动内部视图
      */
     fun moveByOutside(offset : Int){
-
             calendarMover.calendarMove(calendarState, offset )
+    }
 
-            moveByMover(offset - mNormalHeight)
-
-            if(mCurrentHeight > mNormalHeight && mCurrentHeight < mNormalHeight + (mMostHeight - mNormalHeight) / 2){
-                calendarMover.moveToNormalWhenUp()
-            }
-
+    /**
+     * 点击事件完成
+     */
+    fun notifyClickDone(offset: Int) {
+            moveByMover(offset)
     }
 
 }

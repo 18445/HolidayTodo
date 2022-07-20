@@ -4,7 +4,6 @@ package com.yan.holidaytodo.widget
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -174,6 +173,11 @@ class MonthView @JvmOverloads constructor(
     fun ifFold() : Boolean{
         val view = mCalendarAdapter.getCalendarView(currentPosition) ?: return false
         return view.calendarState === CalendarMover.CalendarState.FOLDING
+    }
+
+    fun notifyClickDone(offset: Int) {
+        val view = mCalendarAdapter.getCalendarView(currentPosition) ?: return
+        view.notifyClickDone(offset)
     }
 
 

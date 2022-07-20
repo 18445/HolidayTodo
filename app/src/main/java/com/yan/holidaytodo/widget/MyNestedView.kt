@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.core.view.NestedScrollingParent3
 import androidx.recyclerview.widget.RecyclerView
+import com.yan.holidaytodo.util.dpToPx
 
 /**
  *
@@ -32,15 +33,16 @@ class MyNestedView @JvmOverloads constructor(
 
     private lateinit var mRecyclerView : RecyclerView
 
-    private var mTotalOffset = 0
-
     private var mDiffRawY = 0
 
     private var mLastRawY = 0
 
-    private val mShownHeight by lazy {
-        mMonthView.height / CalendarView.TOTAL_ROW
-    }
+    //判断是否RV移动了
+    private var isMoved = false
+
+    //判断是否向上或向下滑动了
+    private var rvIsMoveUp = false
+    private var rvIsMoveDown = false
 
     fun initMonthView(monthView: MonthView){
         mMonthView = monthView
@@ -87,19 +89,52 @@ class MyNestedView @JvmOverloads constructor(
 
     override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
 
-//        if(mTotalOffset + dy < mShownHeight && !mMonthView.ifFold() && dy > 0){
-//            mTotalOffset += dy
-//            mMonthView.moveOffset(mDiffRawY)
-//            consumed[1] = dy
-//        }else if(dy < 0 && mMonthView.ifFold()){
-//            mTotalOffset += dy
-            mMonthView.moveOffset(mDiffRawY)
-//        }
+            if(mRecyclerView.scrollY != 0 && dy < 0){
+                return
+            }
+
+            if( mMonthView.height > 125 && !mMonthView.ifFold()){
+                mMonthView.moveOffset(mDiffRawY)
+                consumed[1] = dy
+//                rvIsMoveDown = true
+            }else if ( mMonthView.height < 850 && mMonthView.ifFold()){
+                mMonthView.moveOffset(mDiffRawY)
+                consumed[1] = dy
+            }else{
+                isMoved = true
+            }
+//            else if(mRecyclerView.scrollY == 0 || rvIsMoveUp && mMonthView.height < 750 && !rvIsMoveDown){
+//                rvIsMoveUp = true
+//                mMonthView.moveOffset(mDiffRawY)
+//                consumed[1] = dy
+//            }else{
+//                isMoved = true
+//            }
+
+
+
     }
+
+
+    private var mPosY = 0f
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         mDiffRawY = ev.rawY.toInt() - mLastRawY
         mLastRawY = ev.rawY.toInt()
+        when(ev.action){
+            MotionEvent.ACTION_DOWN -> {
+                mPosY = ev.y
+            }
+
+            MotionEvent.ACTION_UP -> {
+                val disY = ev.y - mPosY
+                if (!isMoved || mRecyclerView.scrollY == 0){
+                    mMonthView.notifyClickDone(disY.toInt())
+                }
+                isMoved = false
+                rvIsMoveUp = false
+            }
+        }
         return super.dispatchTouchEvent(ev)
     }
 
