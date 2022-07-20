@@ -25,7 +25,7 @@ import com.yan.holidaytodo.repository.HomeRepository
  */
 class HomeViewModel : BaseViewModel() {
 
-     val dayInfo = StateLiveData<DayInfo>()
+     private val dayInfo = StateLiveData<DayInfo>()
 
     private val holidayNext = StateLiveData<HolidayNext>()
 

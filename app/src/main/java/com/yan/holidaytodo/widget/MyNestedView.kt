@@ -138,7 +138,12 @@ class MyNestedView @JvmOverloads constructor(
                     return super.dispatchTouchEvent(ev)
                 }
                 if (!isMoved || mRecyclerView.scrollY == 0){
-                    val state = mMonthView.notifyClickDone(disY.toInt())
+
+                    val state = if(disY > 0 && mState === CalendarMover.CalendarState.NORMAL){
+                        mMonthView.notifyClickDone(disY.toInt()/1.5f.toInt())
+                    }else{
+                        mMonthView.notifyClickDone(disY.toInt())
+                    }
                     if(state != null){
                         mState = state
                     }

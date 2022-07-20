@@ -15,7 +15,7 @@ import androidx.annotation.CallSuper
  * @CreateDate:     2022年07月14日 15:02:00
  * @UpdateRemark:   更新说明：
  * @Version:        1.0
- * @Description:     //TODO
+ * @Description:    App
  */
 class App : Application() {
     companion object {
@@ -27,14 +27,14 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = this
-        Handler(mainLooper).post {
-            while (true) {
-                try {
-                    Looper.loop()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }
+//        Handler(mainLooper).post {
+//            while (true) {
+//                try {
+//                    Looper.loop()
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//            }
+//        }
     }
 }
