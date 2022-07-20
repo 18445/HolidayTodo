@@ -1,6 +1,9 @@
 package com.yan.common.network
 
 
+import com.yan.common.App
+import com.yan.holidaytodo.util.defaultSp
+import com.yan.holidaytodo.util.put
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.greenrobot.eventbus.android.BuildConfig
@@ -58,17 +61,19 @@ object ApiGenerator {
                         sb.append(i).append(";")
                     }
                     //加入到SP
-//                    Sp
+                    defaultSp.put {
+                        putString("Cookie",sb.toString())
+                    }
                 }
 
                 return@addInterceptor response
             }
             .addInterceptor {
                 val request = it.request().newBuilder().apply {
-//                    val cookie = Sp
-//                    if(cookie != null){
-//                          addHeader("Cookie",cookie)
-//                    }
+                    val cookie = defaultSp.getString("Cookie",null)
+                    if(cookie != null){
+                          addHeader("Cookie",cookie)
+                    }
                 }.build()
                 return@addInterceptor it.proceed(request)
             }

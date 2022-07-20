@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.core.view.NestedScrollingParent3
 import androidx.recyclerview.widget.RecyclerView
+import com.yan.holidaytodo.helper.CalendarMover
 import com.yan.holidaytodo.util.dpToPx
 
 /**
@@ -40,9 +41,11 @@ class MyNestedView @JvmOverloads constructor(
     //判断是否RV移动了
     private var isMoved = false
 
-    //判断是否向上或向下滑动了
-    private var rvIsMoveUp = false
-    private var rvIsMoveDown = false
+    //判断整体是否是上移了 解决上移不回复的BUG
+    private var isMoveUp = false
+
+    //判断View的状态
+    private var mState = CalendarMover.CalendarState.NORMAL
 
     fun initMonthView(monthView: MonthView){
         mMonthView = monthView
@@ -89,29 +92,31 @@ class MyNestedView @JvmOverloads constructor(
 
     override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
 
-            if(mRecyclerView.scrollY != 0 && dy < 0){
+            if (mState === CalendarMover.CalendarState.FOLDING && mDiffRawY < 0){
+//                isMoveUp = false
+//                isMoved = true
                 return
             }
 
-            if( mMonthView.height > 125 && !mMonthView.ifFold()){
+            if( mMonthView.height > 125 && mState === CalendarMover.CalendarState.NORMAL && mDiffRawY < 0){ //普通状态向上
                 mMonthView.moveOffset(mDiffRawY)
                 consumed[1] = dy
-//                rvIsMoveDown = true
-            }else if ( mMonthView.height < 850 && mMonthView.ifFold()){
+                isMoveUp = true
+            }else if (mMonthView.height < 850 && mState === CalendarMover.CalendarState.FOLDING && mDiffRawY > 0){ //折叠状态向下
+                isMoveUp = false
                 mMonthView.moveOffset(mDiffRawY)
                 consumed[1] = dy
-            }else{
-                isMoved = true
-            }
-//            else if(mRecyclerView.scrollY == 0 || rvIsMoveUp && mMonthView.height < 750 && !rvIsMoveDown){
-//                rvIsMoveUp = true
+            }else if (mRecyclerView.scrollY == 0 && mState === CalendarMover.CalendarState.FOLDING){
+                isMoveUp = false
+                mMonthView.moveOffset(mDiffRawY)
+//                consumed[1] = dy
+//            }else if(mState === CalendarMover.CalendarState.FOLDING && mDiffRawY > 0){
+//                isMoveUp = false
 //                mMonthView.moveOffset(mDiffRawY)
 //                consumed[1] = dy
-//            }else{
-//                isMoved = true
-//            }
-
-
+            }else {
+                isMoved = true
+            }
 
     }
 
@@ -128,11 +133,19 @@ class MyNestedView @JvmOverloads constructor(
 
             MotionEvent.ACTION_UP -> {
                 val disY = ev.y - mPosY
-                if (!isMoved || mRecyclerView.scrollY == 0){
-                    mMonthView.notifyClickDone(disY.toInt())
+                if (mRecyclerView.scrollY == 0 && disY < 0 && mState === CalendarMover.CalendarState.NORMAL && !isMoveUp){
+                    isMoved = false
+                    return super.dispatchTouchEvent(ev)
                 }
+                if (!isMoved || mRecyclerView.scrollY == 0){
+                    val state = mMonthView.notifyClickDone(disY.toInt())
+                    if(state != null){
+                        mState = state
+                    }
+                }
+                isMoveUp = false
                 isMoved = false
-                rvIsMoveUp = false
+
             }
         }
         return super.dispatchTouchEvent(ev)

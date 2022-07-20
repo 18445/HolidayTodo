@@ -170,14 +170,9 @@ class MonthView @JvmOverloads constructor(
         view.moveByOutside(offset)
     }
 
-    fun ifFold() : Boolean{
-        val view = mCalendarAdapter.getCalendarView(currentPosition) ?: return false
-        return view.calendarState === CalendarMover.CalendarState.FOLDING
-    }
-
-    fun notifyClickDone(offset: Int) {
-        val view = mCalendarAdapter.getCalendarView(currentPosition) ?: return
-        view.notifyClickDone(offset)
+    fun notifyClickDone(offset: Int) : CalendarMover.CalendarState?{
+        val view = mCalendarAdapter.getCalendarView(currentPosition) ?: return null
+        return view.notifyClickDone(offset)
     }
 
 

@@ -279,14 +279,14 @@ class CalendarView @JvmOverloads constructor(
     /**
      * 将需要移动的设置全部交给CalendarMover
      */
-    private fun moveByMover(disY: Int){
+    private fun moveByMover(disY: Int) : CalendarMover.CalendarState{
         //普通状态向下滑动
         if (calendarState === CalendarMover.CalendarState.NORMAL && disY > (mMostHeight.dpToPx() - mNormalHeight) / 2
             && mCurrentHeight >= mNormalHeight
         ) { //普通状态拉伸
             calendarMover.moveToDown()
-            calendarState = CalendarMover.CalendarState.STRETCHING
             onCalendarStateListener.onStretchingState()
+            calendarState = CalendarMover.CalendarState.STRETCHING
         } else if (calendarState === CalendarMover.CalendarState.NORMAL && disY > 0 && mCurrentHeight >= mNormalHeight) { //普通状态恢复
             calendarMover.moveToNormal()
         }
@@ -333,6 +333,7 @@ class CalendarView @JvmOverloads constructor(
             calendarAttr.calendarType = CalendarAttr.CalendarType.MONTH
         }
         calendarMover.resetState()
+        return calendarState
     }
 
     private fun showCalendarWeek() : Boolean{
@@ -398,8 +399,8 @@ class CalendarView @JvmOverloads constructor(
     /**
      * 点击事件完成
      */
-    fun notifyClickDone(offset: Int) {
-            moveByMover(offset)
+    fun notifyClickDone(offset: Int) : CalendarMover.CalendarState {
+        return moveByMover(offset)
     }
 
 }
