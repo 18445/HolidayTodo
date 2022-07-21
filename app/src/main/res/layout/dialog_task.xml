@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_task_dialog"
+        android:orientation="vertical"
+        android:background="@drawable/shape_sheet_dialog_bg"
+        android:layout_width="match_parent"
+        android:layout_height="680dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" >
+
+        <TextView
+            android:text="@string/add_task"
+            android:id="@+id/tv_dialog_title"
+            android:textColor="#333333"
+            android:layout_marginTop="21dp"
+            android:layout_marginStart="36dp"
+            android:textSize="21sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:background="@android:color/darker_gray"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            />
+
+        <EditText
+            android:inputType="text"
+            android:id="@+id/et_dialog_title"
+            android:gravity="top"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:hint="@string/example_task_add"
+            android:textSize="16sp"
+            android:maxLines="2"
+            android:background="@null"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"/>
+        <View
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:background="@android:color/darker_gray"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            />
+
+        <EditText
+            android:inputType="text"
+            android:id="@+id/et_dialog_text"
+            android:gravity="top"
+            android:hint="@string/example_task_detail"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:maxLines="5"
+            android:background="@null"
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:textSize="15sp" />
+        <View
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/darker_gray"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            />
+        <TextView
+            android:id="@+id/tv_dialog_time"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            tools:text="2022-7-21"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:drawableLeftCompat="@drawable/ic_time_clock" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_dialog_save"
+            android:shadowRadius="15"
+            android:text="@string/save"
+            android:textSize="16sp"
+            android:backgroundTint="#0abde3"
+            app:cornerRadius="12dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="21dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
