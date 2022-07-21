@@ -24,7 +24,7 @@ import com.yan.holidaytodo.util.judgeHoliday
 object HomeRepository : BaseRepository() {
 
     private val mCalendarService by lazy {
-        ApiGenerator.getApiService(CalendarService::class, getHolidayBaseUrl())
+        CalendarService.Instance
     }
 
     /**

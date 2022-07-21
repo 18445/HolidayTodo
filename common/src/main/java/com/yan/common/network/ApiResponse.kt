@@ -16,7 +16,7 @@ import java.io.Serializable
 open class ApiResponse<out T>(
     open val data: T? = null,
     open val errorCode: Int? = null,
-    open val message: String? = null,
+    open val errorMsg: String? = null,
     open val error: Throwable? = null,
 ) : Serializable {
     val isSuccess: Boolean
@@ -29,6 +29,6 @@ class ApiEmptyResponse<T> : ApiResponse<T>()
 //数据返回成功
 data class ApiSuccessResponse<T>(val response: T) : ApiResponse<T>(data = response)
 //数据返回失败
-data class ApiFailedResponse<T>(override val errorCode: Int?, override val message: String?) : ApiResponse<T>(errorCode = errorCode, message = message)
+data class ApiFailedResponse<T>(override val errorCode: Int?, override val errorMsg: String?) : ApiResponse<T>(errorCode = errorCode, errorMsg = errorMsg)
 //抛出异常
 data class ApiErrorResponse<T>(val throwable: Throwable) : ApiResponse<T>(error = throwable)

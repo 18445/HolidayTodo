@@ -5,6 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <Toolbar
+        android:id="@+id/tb_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_login_top"
         android:layout_width="0dp"
@@ -42,6 +52,11 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_login_account"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="@color/black"
+        app:endIconMode="clear_text"
+        app:hintTextColor="@color/black"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_width="0dp"
@@ -52,14 +67,22 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_login_account"
+            android:inputType="text"
+            android:maxLines="1"
+            android:hint="@string/account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="@color/black"
+        app:endIconMode="clear_text"
+        app:hintTextColor="@color/black"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:id="@+id/textInputLayout"
+        android:id="@+id/til_login_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -70,25 +93,47 @@
         app:layout_constraintVertical_bias="0.6">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:maxLines="1"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            tools:text=""
+            android:id="@+id/tie_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:backgroundTint="@android:color/holo_blue_dark"
+        android:id="@+id/btn_login"
         android:layout_width="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:text="@string/login_in"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/gl_login_bottom"
         app:layout_constraintEnd_toStartOf="@+id/gl_login_right"
         app:layout_constraintStart_toStartOf="@+id/gl_login_left"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/til_login_password" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@android:color/holo_blue_dark"
+        app:layout_constraintBottom_toTopOf="@+id/gl_login_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
     <TextView
+        android:id="@+id/tv_login_toRegister"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="16sp"
-        tools:text="还没账号，点击注册"
+        android:text="@string/pleaseRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@+id/gl_login_right"

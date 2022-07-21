@@ -1,5 +1,6 @@
 package com.yan.holidaytodo.ui.activity
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -10,16 +11,19 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.yan.holidaytodo.base.BaseActivity
 import com.yan.holidaytodo.R
+import com.yan.holidaytodo.bean.Session
 import com.yan.holidaytodo.bean.State
 import com.yan.holidaytodo.bean.view.CalendarAttr
 import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.ui.fragment.CalendarFragment
+import com.yan.holidaytodo.ui.fragment.TaskBottomSheetDialog
 import com.yan.holidaytodo.ui.fragment.TodoFragment
 import com.yan.holidaytodo.ui.viewmodel.HomeViewModel
 import com.yan.holidaytodo.util.*
@@ -104,9 +108,18 @@ class MainActivity : BaseActivity<HomeViewModel>() {
 
     private fun initButton(){
 
-        todoButton = findViewById(R.id.fa_btn_todo)
-        backButton = findViewById<FloatingActionButton>(R.id.fa_btn_back).apply {
+        todoButton = findViewById<FloatingActionButton>(R.id.fa_btn_todo).apply {
+            setOnClickListener {
+                if(!Session.state){ //跳转登录界面
+                    startActivity(Intent(this@MainActivity,LoginActivity::class.java))
+                    return@setOnClickListener
+                }
+                val bottomSheetDialog = TaskBottomSheetDialog()
+                bottomSheetDialog.show(supportFragmentManager,"TaskBottomSheetDialog")
 
+            }
+        }
+        backButton = findViewById<FloatingActionButton>(R.id.fa_btn_back).apply {
             (mFragments[0] as CalendarFragment).setOnDateListener { //设置隐藏时间
                 isVisible = it.day != getDay() || it.month != getMonth() || it.year != getYear()
                 mSelectedDate = it

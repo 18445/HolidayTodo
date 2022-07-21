@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yan.common.App
 import com.yan.holidaytodo.net.StateLiveData
+import com.yan.holidaytodo.net.StateTaskLiveData
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,8 +26,6 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 
-    val appContext: Context
-        get() = App.appContext
 
     private val mDisposableList = mutableListOf<Disposable>()
 
@@ -57,6 +56,14 @@ abstract class BaseViewModel : ViewModel() {
      */
     inline fun <T : StateLiveData<G>,G>
             observeStateLiveData(data : T, owner: LifecycleOwner, crossinline listenerBuilder: StateLiveData<G>.ListenerBuilder.() -> Unit)
+    {
+        data.observeState(owner){
+            this.also(listenerBuilder)
+        }
+    }
+
+    inline fun <T : StateTaskLiveData<G>,G>
+            observeStateTaskLiveData(data : T, owner: LifecycleOwner, crossinline listenerBuilder: StateTaskLiveData<G>.ListenerBuilder.() -> Unit)
     {
         data.observeState(owner){
             this.also(listenerBuilder)

@@ -1,7 +1,12 @@
 package com.yan.holidaytodo.net
 
 import com.yan.common.network.ApiGenerator
-import com.yan.common.network.getHolidayBaseUrl
+import com.yan.common.network.ApiResponse
+import com.yan.common.network.getTodoBaseUrl
+import com.yan.holidaytodo.bean.net.wanandroid.LoginInfo
+import com.yan.holidaytodo.bean.net.wanandroid.RegisterInfo
+import com.yan.holidaytodo.bean.net.wanandroid.TaskInfo
+import com.yan.holidaytodo.bean.net.wanandroid.TaskList
 import retrofit2.http.*
 
 /**
@@ -15,11 +20,11 @@ import retrofit2.http.*
  * @Version:        1.0
  * @Description:    任务Api
  */
-interface TodoService {
+interface TaskService {
 
     companion object {
         val Instance by lazy {
-            ApiGenerator.getApiService(TodoService::class, getHolidayBaseUrl())
+            ApiGenerator.getApiService(TaskService::class, getTodoBaseUrl())
         }
     }
 
@@ -35,7 +40,7 @@ interface TodoService {
     suspend fun login(
         @Field("username") username : String,
         @Field("password") password : String,
-    )
+    ) : ApiResponse<LoginInfo>
 
     /**
      * 注册
@@ -50,7 +55,7 @@ interface TodoService {
         @Field("username") username:String,
         @Field("password") password: String,
         @Field("repassword") repassword : String,
-    )
+    ) : ApiResponse<RegisterInfo>
 
     /**
      * 退出
@@ -97,7 +102,7 @@ interface TodoService {
         @Field("date") date: String,
         @Field("type") type: Long,
         @Field("priority") priority: Int = 0
-    )
+    ) : ApiResponse<TaskInfo>
 
     /**
      * 更新一个Todo
@@ -128,7 +133,7 @@ interface TodoService {
         @Field("status") status: Int,
         @Field("type") type: Long,
         @Field("priority") priority: Int = 0,
-    )
+    ) : ApiResponse<TaskInfo>
 
     /**
      * 删除一个TODO
@@ -159,7 +164,7 @@ interface TodoService {
         @Field("type") type: Long,
         @Field("priority") priority: Int,
         @Path("index") index: Int
-    )
+    ) : ApiResponse<TaskList>
 
 
 }

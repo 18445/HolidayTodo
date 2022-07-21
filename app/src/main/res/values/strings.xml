@@ -4,4 +4,14 @@
     <string name="addTodo">AddTodo</string>
     <string name="returnToday">returnToday</string>
     <string name="behavior_calendar">com.yan.holidaytodo.widget.behavior.CalendarBehavior</string>
+    <string name="password">请输入密码</string>
+    <string name="account">请输入账号</string>
+    <string name="pleaseRegister">还没账号，点击注册</string>
+    <string name="login_in">登录</string>
+    <string name="repassword">请输入确认密码</string>
+    <string name="register">注册</string>
+    <string name="add_task">添加待办清单</string>
+    <string name="example_task_detail">输入代办详情，如：\n1、制作演示PPT\n2、指定会议室\n3、通知参加会议人缘\n4、提前10分钟准备会议环境</string>
+    <string name="example_task_add">输入待办名称，如：准备演示PPT</string>
+    <string name="save">保存</string>
 </resources>

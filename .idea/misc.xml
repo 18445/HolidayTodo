@@ -5,8 +5,10 @@
       <map>
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_back.xml" value="0.286" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_task.xml" value="0.286" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_time_clock.xml" value="0.286" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_todo_info.xml" value="0.286" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/selected_background.xml" value="0.1855" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/shape_sheet_dialog_bg.xml" value="0.286" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/today_background.xml" value="0.1855" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_active_mark_background.xml" value="0.19" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_mark_background.xml" value="0.19" />
@@ -16,8 +18,10 @@
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_unactive_mark_background.xml" value="0.19" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/activity_login.xml" value="0.3619791666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/activity_main.xml" value="0.3619791666666667" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/activity_register.xml" value="0.3609375" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/calendar_pager.xml" value="0.3463541666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/custiom_day.xml" value="0.3619791666666667" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/dialog_task.xml" value="0.3609375" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/fragment_calendar.xml" value="0.3619791666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/fragment_todo.xml" value="0.3619791666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/item_calendar.xml" value="0.3619791666666667" />
