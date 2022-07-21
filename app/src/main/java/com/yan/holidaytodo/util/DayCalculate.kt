@@ -1,9 +1,9 @@
 package com.yan.holidaytodo.util
 
 import android.annotation.SuppressLint
-import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.bean.Day
 import com.yan.holidaytodo.bean.State
+import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.bean.view.WeekData
 import com.yan.holidaytodo.widget.CalendarView
 import java.text.ParseException
@@ -231,4 +231,16 @@ fun getDay(): Int {
  */
 fun judgeHoliday(des : String) : Boolean{
     return !(des == "周末" || des == "周一" || des == "周二" || des == "周三" || des == "周四" || des == "周五" || des == "周六")
+}
+
+@SuppressLint("SimpleDateFormat")
+fun getWeek(calendarData: CalendarData) : String{
+    val weeks = arrayOf("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六")
+    val day = "${calendarData.year}-${calendarData.month}-${calendarData.day}"
+    val format = SimpleDateFormat("yyyy-MM-dd")
+    val date = format.parse(day)
+    val calendar = Calendar.getInstance()
+    calendar.firstDayOfWeek = Calendar.MONDAY
+    calendar.time = date!!
+    return weeks[calendar[Calendar.DAY_OF_WEEK] - 1]
 }

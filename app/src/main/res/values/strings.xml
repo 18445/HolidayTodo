@@ -14,4 +14,5 @@
     <string name="example_task_detail">输入代办详情，如：\n1、制作演示PPT\n2、指定会议室\n3、通知参加会议人缘\n4、提前10分钟准备会议环境</string>
     <string name="example_task_add">输入待办名称，如：准备演示PPT</string>
     <string name="save">保存</string>
+    <string name="no_task">还没有创建任务呢</string>
 </resources>

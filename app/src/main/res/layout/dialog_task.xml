@@ -52,7 +52,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_width="match_parent"
-            android:layout_height="56dp"/>
+            android:layout_height="56dp"
+            android:autofillHints="" />
         <View
             android:layout_marginStart="6dp"
             android:layout_marginEnd="6dp"
@@ -76,7 +77,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:autofillHints="" />
         <View
             android:layout_marginStart="6dp"
             android:layout_marginEnd="6dp"
