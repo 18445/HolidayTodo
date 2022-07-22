@@ -2,10 +2,12 @@ package com.yan.holidaytodo.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.media.Image
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.yan.holidaytodo.R
@@ -50,6 +52,10 @@ class TaskAdapter (val context : Context): RecyclerView.Adapter<RecyclerView.Vie
 
     inner class ViewHolderContext(itemView: View) : RecyclerView.ViewHolder(itemView){
         //内容
+        val taskImage = itemView.findViewById<ImageView>(R.id.iv_task_done)
+        val taskDes = itemView.findViewById<TextView>(R.id.tv_task_done)
+        val taskTitle = itemView.findViewById<TextView>(R.id.tv_task_content_title)
+        val taskContent = itemView.findViewById<TextView>(R.id.tv_task_content_content)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -78,7 +84,11 @@ class TaskAdapter (val context : Context): RecyclerView.Adapter<RecyclerView.Vie
                 }
         }else if(holder is ViewHolderContext){
             //绑定context
-
+            val taskInfo = (mItems[position] as TaskContent).taskInfo
+            holder.taskTitle.text = taskInfo.title
+            holder.taskContent.text = taskInfo.content
+            holder.taskDes.text = if(taskInfo.status == 1){"已完成"}else{"未完成"}
+            holder.taskImage.setImageResource(if (taskInfo.status == 1){R.drawable.ic_todo_list}else{R.drawable.ic_task_unfinish})
         }
     }
 
@@ -102,7 +112,6 @@ class TaskAdapter (val context : Context): RecyclerView.Adapter<RecyclerView.Vie
         mShownItems.add(item)
         expandedItemsCache[mTotalItems] = item is TaskTitle
         mTotalItems++
-        Log.e("ITEMS",mItems.size.toString())
     }
 
 

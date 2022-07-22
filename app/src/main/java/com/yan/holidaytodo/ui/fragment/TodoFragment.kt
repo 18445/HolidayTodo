@@ -25,6 +25,8 @@ import com.yan.holidaytodo.ui.viewmodel.TaskViewModel
 import com.yan.holidaytodo.util.getDay
 import com.yan.holidaytodo.util.getMonth
 import com.yan.holidaytodo.util.getYear
+import java.util.*
+import kotlin.collections.HashMap
 import kotlin.concurrent.timerTask
 
 /**
@@ -58,7 +60,7 @@ class TodoFragment : BaseFragment() {
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
 
     private val mAllTasks = mutableListOf<TaskInfo>()
-    private val readyToAddTasks : HashMap<String,MutableList<TaskInfo>> = hashMapOf()
+    private val readyToAddTasks : HashMap<String,MutableList<TaskInfo>> = HashMap()
     private var mTaskOver = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -130,7 +132,11 @@ class TodoFragment : BaseFragment() {
     private fun addToRecyclerView(){
         mAdapter.clearObj()
         var total = 0
-        for(date in readyToAddTasks){
+        //降序排列
+        val tempMap = readyToAddTasks.toSortedMap(compareByDescending{
+            it
+        })
+        for(date in tempMap){
             val dateArray = date.key.split("-")
             mAdapter.addObj(TaskTitle(CalendarData(dateArray[0].toInt(),dateArray[1].toInt(),dateArray[2].toInt())))
             total++
