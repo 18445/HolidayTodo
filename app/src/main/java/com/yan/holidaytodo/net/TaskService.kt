@@ -166,5 +166,14 @@ interface TaskService {
         @Path("index") index: Int
     ) : ApiResponse<TaskList>
 
+    /**
+     * orderby 1:完成日期顺序；2.完成日期逆序；3.创建日期顺序；4.创建日期逆序(默认)；
+     */
+    @FormUrlEncoded
+    @POST("lg/todo/v2/list/{index}/json")
+    suspend fun queryTodoList(
+        @Field("orderby") orderby : Int,
+        @Path("index") index: Int
+    ) : ApiResponse<TaskList>
 
 }

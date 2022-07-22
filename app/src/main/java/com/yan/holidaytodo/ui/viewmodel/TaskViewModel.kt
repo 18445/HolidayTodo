@@ -36,6 +36,8 @@ class TaskViewModel : BaseViewModel() {
 
     private val mTaskInfoLists = StateTaskLiveData<TaskList>()
 
+    private val mAllTaskList = StateTaskLiveData<TaskList>()
+
     fun loginIn(username : String,password : String){
         viewModelScope.launch {
             mLoginInfo.value = TaskRepository.login(username, password)
@@ -72,12 +74,26 @@ class TaskViewModel : BaseViewModel() {
         }
     }
 
+    fun queryAllTodoList(index : Int){
+        viewModelScope.launch {
+            mAllTaskList.value = TaskRepository.queryAllTodoList(index)
+        }
+    }
+
     fun observeAddTaskInfo(owner : LifecycleOwner, listenerBuilder: StateTaskLiveData<TaskInfo>.ListenerBuilder.() -> Unit){
         observeStateTaskLiveData(mAddTaskInfo,owner,listenerBuilder)
     }
 
     fun observeUpdateTaskInfo(owner : LifecycleOwner, listenerBuilder: StateTaskLiveData<TaskInfo>.ListenerBuilder.() -> Unit){
         observeStateTaskLiveData(mUpdateTaskInfo,owner,listenerBuilder)
+    }
+
+    fun observeTaskList(owner: LifecycleOwner,listenerBuilder: StateTaskLiveData<TaskList>.ListenerBuilder.() -> Unit){
+        observeStateTaskLiveData(mTaskInfoLists,owner,listenerBuilder)
+    }
+
+    fun observeAllTasks(owner: LifecycleOwner,listenerBuilder: StateTaskLiveData<TaskList>.ListenerBuilder.() -> Unit){
+        observeStateTaskLiveData(mAllTaskList,owner,listenerBuilder)
     }
 
     fun observeLoginInfo(owner : LifecycleOwner, listenerBuilder: StateTaskLiveData<LoginInfo>.ListenerBuilder.() -> Unit){

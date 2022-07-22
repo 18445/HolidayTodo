@@ -1,7 +1,10 @@
 package com.yan.common.network
 
+import android.util.Log
 import com.google.gson.JsonParseException
 import com.yan.common.extension.toast
+import com.yan.holidaytodo.util.defaultSp
+import com.yan.holidaytodo.util.put
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import java.util.concurrent.CancellationException
@@ -21,11 +24,17 @@ import java.util.concurrent.CancellationException
 //返回的不同类型抛出不同结果
 enum class HttpError(var code: Int, var errorMsg: String) {
     //XXX_ERROR(code = xxx,errorMsg = "xxx")
-
+    ACCOUNT_ERROR(-1001,"登录失效，请重新登录"),
     PARAMS_ERROR(4003, "params is error")
 }
 //处理网络请求返回的参数异常
 fun handlingApiExceptions(code: Int?, errorMsg: String?) = when (code) {
+    HttpError.ACCOUNT_ERROR.code -> {
+        defaultSp.put {
+            putString("Cookie",null)
+        }
+        toast(HttpError.ACCOUNT_ERROR.errorMsg)
+    }
     HttpError.PARAMS_ERROR.code -> toast(HttpError.PARAMS_ERROR.errorMsg)
     else -> errorMsg?.let { toast(it) }
 }

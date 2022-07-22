@@ -83,9 +83,9 @@ class ExpandableRecyclerView(val context : Context): RecyclerView.Adapter<Recycl
 
     override fun getItemViewType(position: Int): Int {
 
-        if(mShownItems[position] is TaskTitle){
+        if(mShownItems[position] is ItemTitle){
             return ITEM_TITLE
-        }else if (mShownItems[position] is TaskContent){
+        }else if (mShownItems[position] is ItemContext){
             return ITEM_CONTEXT
         }
 

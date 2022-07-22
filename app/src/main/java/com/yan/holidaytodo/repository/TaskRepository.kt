@@ -1,5 +1,6 @@
 package com.yan.holidaytodo.repository
 
+import android.util.Log
 import com.yan.common.network.ApiResponse
 import com.yan.holidaytodo.base.BaseRepository
 import com.yan.holidaytodo.bean.net.wanandroid.LoginInfo
@@ -42,7 +43,7 @@ object TaskRepository : BaseRepository(){
     }
 
     suspend fun addTodo(title: String,content: String,date: String,type: Long,priority: Int = 0) : ApiResponse<TaskInfo>{
-        return executeTaskHttp {
+        return  executeTaskHttp {
             mTaskService.addTodo(title, content, date, type, priority)
         }
     }
@@ -60,6 +61,12 @@ object TaskRepository : BaseRepository(){
     suspend fun queryTodoList(status: Int, type: Long, priority: Int, index: Int) : ApiResponse<TaskList>{
         return executeTaskHttp {
             mTaskService.queryTodoList(status, type, priority, index)
+        }
+    }
+
+    suspend fun queryAllTodoList(index : Int) : ApiResponse<TaskList>{
+        return executeTaskHttp {
+            mTaskService.queryTodoList(1,index)
         }
     }
 

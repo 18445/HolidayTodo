@@ -1,6 +1,8 @@
 package com.yan.holidaytodo.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +45,7 @@ class TaskAdapter (val context : Context): RecyclerView.Adapter<RecyclerView.Vie
 
     inner class ViewHolderTitle(itemView: View) : RecyclerView.ViewHolder(itemView){
         //标题
-        val taskTitle = itemView.findViewById<TextView>(R.id.tv_task_title)
+        val taskTitle: TextView = itemView.findViewById(R.id.tv_task_title)
     }
 
     inner class ViewHolderContext(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -100,6 +102,15 @@ class TaskAdapter (val context : Context): RecyclerView.Adapter<RecyclerView.Vie
         mShownItems.add(item)
         expandedItemsCache[mTotalItems] = item is TaskTitle
         mTotalItems++
+        Log.e("ITEMS",mItems.size.toString())
+    }
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun clearObj(){
+        mItems.clear()
+        mShownItems.clear()
+        notifyDataSetChanged()
     }
 
     fun closeList(){
