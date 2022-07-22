@@ -62,7 +62,14 @@ class TaskViewModel : BaseViewModel() {
         }
     }
 
-    fun update(id: Int){
+    fun finishTodo(taskInfo : TaskInfo, status : Int){
+        viewModelScope.launch {
+            mUpdateTaskInfo.value = TaskRepository.updateTodo(taskInfo.id,taskInfo.title,taskInfo.content,taskInfo.dateStr,status,taskInfo.type.toLong(),taskInfo.priority)
+        }
+    }
+
+    fun deleteTask(id: Int){
+        //删除接口好像不好使了 寄
         viewModelScope.launch{
             TaskRepository.deleteTodo(id)
         }

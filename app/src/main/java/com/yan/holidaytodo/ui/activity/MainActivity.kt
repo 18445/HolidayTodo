@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.MotionEvent
 import android.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -145,4 +146,30 @@ class MainActivity : BaseActivity<HomeViewModel>() {
             }
         })
     }
+
+    /*
+    private var mLastY = 0
+    private var mDiffY = 0
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        when(event.action){
+            MotionEvent.ACTION_DOWN -> {
+                mLastY = event.y.toInt()
+                return true
+            }
+            MotionEvent.ACTION_MOVE ->{
+                mDiffY = event.y.toInt() - mLastY
+                Log.e("mDiffy",mDiffY.toString())
+                mLastY = event.y.toInt()
+                if(mDiffY > 0){
+                    todoButton.isVisible = false
+                    backButton.isVisible = false
+                }
+            }
+        }
+
+        return super.onTouchEvent(event)
+    }
+    */
+
 }

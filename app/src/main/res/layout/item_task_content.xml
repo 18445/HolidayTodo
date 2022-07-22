@@ -115,6 +115,17 @@
                 app:layout_constraintStart_toStartOf="@+id/gl_task_divide"
                 app:layout_constraintTop_toTopOf="@+id/gl_task_text_dive" />
 
+            <ImageView
+                android:id="@+id/iv_task_finish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_task_finish"
+                app:layout_constraintBottom_toTopOf="@+id/gl_task_text_dive"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintStart_toStartOf="@+id/gl_task_divide"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.65" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

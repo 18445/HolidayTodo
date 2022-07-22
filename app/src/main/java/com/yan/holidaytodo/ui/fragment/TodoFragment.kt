@@ -88,7 +88,7 @@ class TodoFragment : BaseFragment() {
 
     private fun initRecyclerView(view : View){
         mRecyclerView = view.findViewById(R.id.rv_task)
-        mAdapter = TaskAdapter(requireContext())
+        mAdapter = TaskAdapter(requireContext()) { viewModel.finishTodo(it,1) }
         mRecyclerView.adapter = mAdapter
         mRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
@@ -107,6 +107,12 @@ class TodoFragment : BaseFragment() {
                     mAllTasks.add(info)
                 }
                 requestDone()
+                mEmptyText.isVisible = false
+                mEmptyImage.isVisible = false
+            }
+            onEmpty {
+                mEmptyImage.isVisible = true
+                mEmptyText.isVisible = true
             }
             onComplete {
                 mSwipeRefreshLayout.isRefreshing = false

@@ -6,6 +6,9 @@
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_back.xml" value="0.286" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_no_data.xml" value="0.193" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_task.xml" value="0.286" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_task_delete.xml" value="0.279" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_task_expand.xml" value="0.279" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_task_finish.xml" value="0.279" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_task_unfinish.xml" value="0.279" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_time_clock.xml" value="0.286" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_todo_info.xml" value="0.286" />
