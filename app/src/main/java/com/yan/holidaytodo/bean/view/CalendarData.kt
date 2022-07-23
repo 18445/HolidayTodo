@@ -1,5 +1,6 @@
 package com.yan.holidaytodo.bean.view
 
+import android.util.Log
 import com.yan.holidaytodo.util.getDay
 import com.yan.holidaytodo.util.getMonth
 import com.yan.holidaytodo.util.getMonthDays
