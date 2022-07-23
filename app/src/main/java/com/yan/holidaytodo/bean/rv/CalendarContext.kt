@@ -12,5 +12,7 @@ package com.yan.holidaytodo.bean.rv
  * @Description:    RecycleView的Item 内容项
  */
 data class CalendarContext (
-    val year : String
+    val name : String,
+    val date : String,
+    val future : Boolean
 )

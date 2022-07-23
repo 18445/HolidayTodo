@@ -1,14 +1,20 @@
 package com.yan.holidaytodo.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.yan.holidaytodo.R
 import com.yan.holidaytodo.bean.rv.CalendarContext
 import com.yan.holidaytodo.bean.rv.CalendarTitle
+import com.yan.holidaytodo.util.calDayTime
+import com.yan.holidaytodo.util.getDay
+import com.yan.holidaytodo.util.getMonth
+import com.yan.holidaytodo.util.getYear
 
 /**
  *
@@ -42,11 +48,14 @@ class ExpandableRecyclerView(val context : Context): RecyclerView.Adapter<Recycl
 
     inner class ViewHolderTitle(itemView: View) : RecyclerView.ViewHolder(itemView){
         //标题
-        val itemTitle : TextView = itemView.findViewById(R.id.tv_todo_title)
+        val calendarTitle : TextView = itemView.findViewById(R.id.tv_todo_title)
     }
 
     inner class ViewHolderContext(itemView: View) : RecyclerView.ViewHolder(itemView){
         //内容
+        val calendarImageView : ImageView = itemView.findViewById(R.id.iv_calendar_content)
+        val calendarContext : TextView = itemView.findViewById(R.id.tv_calendar_content)
+        val calendarTime : TextView = itemView.findViewById(R.id.tv_time_when)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -62,10 +71,19 @@ class ExpandableRecyclerView(val context : Context): RecyclerView.Adapter<Recycl
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ViewHolderTitle){
             //绑定Title
-            holder.itemTitle.text =(mShownItems[position] as CalendarTitle).title
+            holder.calendarTitle.text =(mShownItems[position] as CalendarTitle).title
         }else if(holder is ViewHolderContext){
             //绑定context
-
+            val calendar = mShownItems[position] as CalendarContext
+            holder.calendarImageView.setBackgroundResource(if(calendar.future) R.drawable.ic_holiday_future else R.drawable.ic_holiday_past)
+            holder.calendarContext.text = calendar.name
+            holder.calendarTime.text = if (!calendar.future){"已过"} else {
+                if (calDayTime("${getYear()}-${getMonth()}-${getDay()}",calendar.date).toInt() == -1){
+                    ""
+                }else{
+                    "距离今天还有:${calDayTime("${getYear()}-${getMonth()}-${getDay()}",calendar.date)} 天"
+                }
+            }
         }
     }
 

@@ -96,6 +96,7 @@ class MainActivity : BaseActivity<HomeViewModel>() {
                     return mFragments[position]
                 }
             }
+            setPageTransformer(ViewPagerScale())
         }
         TabLayoutMediator(tabLayout,viewPager2,true
         ) { tab, position -> tab.apply {

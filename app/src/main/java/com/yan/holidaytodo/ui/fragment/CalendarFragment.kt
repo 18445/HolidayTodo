@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -24,6 +25,7 @@ import com.yan.holidaytodo.ui.viewmodel.HomeViewModel
 import com.yan.holidaytodo.util.getDay
 import com.yan.holidaytodo.util.getMonth
 import com.yan.holidaytodo.util.getYear
+import com.yan.holidaytodo.util.judgeIfDateFuture
 import com.yan.holidaytodo.widget.CalendarWeekView
 import com.yan.holidaytodo.widget.CustomDayView
 import com.yan.holidaytodo.widget.MonthView
@@ -148,12 +150,12 @@ class CalendarFragment : BaseFragment() {
             }
             for(calendar in tasks){
                 addObj(CalendarTitle(calendar.date))
-                addObj(CalendarContext(calendar.name))
+                addObj(CalendarContext(calendar.name,calendar.date,judgeIfDateFuture(calendar.date)))
             }
         }
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
-        view.findViewById<Button>(R.id.btn_rv_test).setOnClickListener {
+        view.findViewById<ImageButton>(R.id.btn_rv_test).setOnClickListener {
             if(adapter.isExpanded){
                 adapter.closeList()
             }else{

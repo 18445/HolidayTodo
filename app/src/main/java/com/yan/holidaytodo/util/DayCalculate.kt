@@ -6,6 +6,7 @@ import com.yan.holidaytodo.bean.State
 import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.bean.view.WeekData
 import com.yan.holidaytodo.widget.CalendarView
+import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -243,4 +244,59 @@ fun getWeek(calendarData: CalendarData) : String{
     calendar.firstDayOfWeek = Calendar.MONDAY
     calendar.time = date!!
     return weeks[calendar[Calendar.DAY_OF_WEEK] - 1]
+}
+
+
+/**
+ * 日期在之前还是在之后
+ *
+ * @return false -> 之前   true -> 之后
+ */
+fun judgeIfDateFuture(date : String) : Boolean{
+    val dates = date.split("-")
+    val year = dates[0].toInt()
+    val month = dates[1].toInt()
+    val day = dates[2].toInt()
+
+    if(getYear() < year){
+        return true
+    }else if(getYear() > year){
+        return false
+    }
+
+    if(getMonth() < month){
+        return true
+    }else if(getMonth() > month){
+        return false
+    }
+
+    if(getDay() < day){
+        return true
+    }else if(getDay() > day){
+        return false
+    }
+
+    return true
+}
+
+/**
+ * 计算两个日期相差的  天数
+ * @param fromDate
+ * @param toDate
+ * @return
+ */
+@SuppressLint("SimpleDateFormat")
+fun calDayTime(fromDate: String, toDate: String) : Long {
+        val dft: DateFormat = SimpleDateFormat("yyyy-M-dd")
+//        try {
+            val star: Date = dft.parse(fromDate)!! //开始时间
+            val endDay: Date = dft.parse(toDate)!! //结束时间
+            val starTime = star.time
+            val endTime = endDay.time
+            val num = endTime - starTime //时间戳相差的毫秒数
+            return  num / 24 / 60 / 60 / 1000
+//        } catch (e: ParseException) {
+//            e.printStackTrace()
+//        }
+//    return -1
 }

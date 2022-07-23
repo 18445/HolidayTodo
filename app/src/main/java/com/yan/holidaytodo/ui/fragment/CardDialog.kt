@@ -24,7 +24,6 @@ class CardDialog(context: Context,
                  private val mTaskInfo: TaskInfo,
                  private val onTaskChange:(taskInfo: TaskInfo,changedTitle : String, changedContent : String)->Unit) : Dialog(context) {
 
-
     private lateinit var mRootView: View
     private lateinit var mContainer: ConstraintLayout
     private lateinit var mOpenAnimation: RotateAnimation

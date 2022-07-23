@@ -98,6 +98,10 @@ class MyNestedView @JvmOverloads constructor(
                 return
             }
 
+//            if(mRecyclerView.scrollY != 0 && mDiffRawY < 0){
+//                return
+//            }
+
             if( mMonthView.height > 125 && mState === CalendarMover.CalendarState.NORMAL && mDiffRawY < 0){ //普通状态向上
                 mMonthView.moveOffset(mDiffRawY)
                 consumed[1] = dy
@@ -134,6 +138,11 @@ class MyNestedView @JvmOverloads constructor(
             MotionEvent.ACTION_UP -> {
                 val disY = ev.y - mPosY
                 if (mRecyclerView.scrollY == 0 && disY < 0 && mState === CalendarMover.CalendarState.NORMAL && !isMoveUp){
+                    isMoved = false
+                    return super.dispatchTouchEvent(ev)
+                }
+
+                if (mRecyclerView.scrollY != 0 && disY < 0){
                     isMoved = false
                     return super.dispatchTouchEvent(ev)
                 }

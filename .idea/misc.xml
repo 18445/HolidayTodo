@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_back.xml" value="0.286" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_calendar_down.xml" value="0.2355" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_card_back.xml" value="0.2355" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_card_bg_back.xml" value="0.2355" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_card_bg_front.xml" value="0.2355" />
@@ -39,6 +40,7 @@
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/fragment_calendar.xml" value="0.3619791666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/fragment_todo.xml" value="0.3619791666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/item_calendar.xml" value="0.3619791666666667" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/item_calendar_title.xml" value="0.3619791666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/item_task_content.xml" value="0.3609375" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/item_task_title.xml" value="0.3609375" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/item_title.xml" value="0.3619791666666667" />
