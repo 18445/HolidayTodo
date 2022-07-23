@@ -4,6 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_back.xml" value="0.286" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_card_back.xml" value="0.2355" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_card_bg_back.xml" value="0.2355" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_card_bg_front.xml" value="0.2355" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_card_bg_window.xml" value="0.2355" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_card_more.xml" value="0.2355" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_holiday_future.xml" value="0.2355" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_holiday_past.xml" value="0.2355" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_no_data.xml" value="0.193" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_task.xml" value="0.286" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_task_delete.xml" value="0.279" />
@@ -43,6 +50,7 @@
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/shape_tab_indicator.xml" value="0.3619791666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/todo.xml" value="0.3619791666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/week.xml" value="0.3609375" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2355" />
       </map>
     </option>
   </component>

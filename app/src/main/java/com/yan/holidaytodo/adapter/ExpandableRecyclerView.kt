@@ -1,22 +1,14 @@
 package com.yan.holidaytodo.adapter
 
 import android.content.Context
-import android.util.Log
-import android.util.SparseArray
-import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.util.size
 import androidx.recyclerview.widget.RecyclerView
 import com.yan.holidaytodo.R
-import com.yan.holidaytodo.bean.rv.ItemContext
-import com.yan.holidaytodo.bean.rv.ItemTitle
-import com.yan.holidaytodo.bean.rv.TaskContent
-import com.yan.holidaytodo.bean.rv.TaskTitle
-import okhttp3.internal.notify
-import java.util.zip.Inflater
+import com.yan.holidaytodo.bean.rv.CalendarContext
+import com.yan.holidaytodo.bean.rv.CalendarTitle
 
 /**
  *
@@ -59,10 +51,10 @@ class ExpandableRecyclerView(val context : Context): RecyclerView.Adapter<Recycl
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if(viewType == ITEM_TITLE){
-            val view = inflater.inflate(R.layout.item_todo_title,parent,false)
+            val view = inflater.inflate(R.layout.item_calendar_title,parent,false)
             ViewHolderTitle(view)
         }else {
-            val view = inflater.inflate(R.layout.item_todo,parent,false)
+            val view = inflater.inflate(R.layout.item_calendar_content,parent,false)
             ViewHolderContext(view)
         }
     }
@@ -70,7 +62,7 @@ class ExpandableRecyclerView(val context : Context): RecyclerView.Adapter<Recycl
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ViewHolderTitle){
             //绑定Title
-            holder.itemTitle.text =(mShownItems[position] as ItemTitle).title
+            holder.itemTitle.text =(mShownItems[position] as CalendarTitle).title
         }else if(holder is ViewHolderContext){
             //绑定context
 
@@ -83,9 +75,9 @@ class ExpandableRecyclerView(val context : Context): RecyclerView.Adapter<Recycl
 
     override fun getItemViewType(position: Int): Int {
 
-        if(mShownItems[position] is ItemTitle){
+        if(mShownItems[position] is CalendarTitle){
             return ITEM_TITLE
-        }else if (mShownItems[position] is ItemContext){
+        }else if (mShownItems[position] is CalendarContext){
             return ITEM_CONTEXT
         }
 
@@ -95,7 +87,7 @@ class ExpandableRecyclerView(val context : Context): RecyclerView.Adapter<Recycl
     fun addObj(item : Any){
         mItems.add(item)
         mShownItems.add(item)
-        expandedItemsCache[mTotalItems] = item is ItemTitle
+        expandedItemsCache[mTotalItems] = item is CalendarTitle
         mTotalItems++
     }
 

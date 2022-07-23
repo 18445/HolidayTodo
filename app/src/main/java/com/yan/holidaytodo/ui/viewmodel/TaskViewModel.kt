@@ -9,6 +9,7 @@ import com.yan.holidaytodo.bean.net.wanandroid.RegisterInfo
 import com.yan.holidaytodo.bean.net.wanandroid.TaskInfo
 import com.yan.holidaytodo.bean.net.wanandroid.TaskList
 import com.yan.holidaytodo.net.StateTaskLiveData
+import com.yan.holidaytodo.net.StateTaskMutableLiveData
 import com.yan.holidaytodo.repository.TaskRepository
 import kotlinx.coroutines.launch
 
@@ -26,45 +27,57 @@ import kotlinx.coroutines.launch
 class TaskViewModel : BaseViewModel() {
 
 
-    private val mLoginInfo = StateTaskLiveData<LoginInfo>()
+    private val _mLoginInfo = StateTaskMutableLiveData<LoginInfo>()
+    val mLoginInfo : StateTaskLiveData<LoginInfo>
+        get() = _mLoginInfo
 
-    private val mRegisterInfo = StateTaskLiveData<RegisterInfo>()
+    private val _mRegisterInfo = StateTaskMutableLiveData<RegisterInfo>()
+    val mRegisterInfo : StateTaskLiveData<RegisterInfo>
+        get() = _mRegisterInfo
 
-    private val mAddTaskInfo = StateTaskLiveData<TaskInfo>()
+    private val _mAddTaskInfo = StateTaskMutableLiveData<TaskInfo>()
+    val mAddTaskInfo : StateTaskLiveData<TaskInfo>
+        get() = _mAddTaskInfo
 
-    private val mUpdateTaskInfo = StateTaskLiveData<TaskInfo>()
+    private val _mUpdateTaskInfo = StateTaskMutableLiveData<TaskInfo>()
+    val mUpdateTaskInfo : StateTaskLiveData<TaskInfo>
+        get() = _mUpdateTaskInfo
 
-    private val mTaskInfoLists = StateTaskLiveData<TaskList>()
+    private val _mTaskInfoLists = StateTaskMutableLiveData<TaskList>()
+    val mTaskInfoLists : StateTaskLiveData<TaskList>
+        get() = _mTaskInfoLists
 
-    private val mAllTaskList = StateTaskLiveData<TaskList>()
+    private val _mAllTaskList = StateTaskMutableLiveData<TaskList>()
+    val mAllTaskList : StateTaskLiveData<TaskList>
+        get() = _mAllTaskList
 
     fun loginIn(username : String,password : String){
         viewModelScope.launch {
-            mLoginInfo.value = TaskRepository.login(username, password)
+            _mLoginInfo.value = TaskRepository.login(username, password)
         }
     }
 
     fun register(username: String, password: String, repassword : String){
         viewModelScope.launch {
-            mRegisterInfo.value = TaskRepository.register(username, password, repassword)
+            _mRegisterInfo.value = TaskRepository.register(username, password, repassword)
         }
     }
 
     fun addTask(title: String,content: String,date: String,type: Long,priority: Int = 0){
         viewModelScope.launch {
-            mAddTaskInfo.value = TaskRepository.addTodo(title, content, date, type, priority)
+            _mAddTaskInfo.value = TaskRepository.addTodo(title, content, date, type, priority)
         }
     }
 
     fun updateTodo(id: Int,title: String,content: String, date : String,status: Int,type: Long,priority: Int = 0){
         viewModelScope.launch{
-            mUpdateTaskInfo.value = TaskRepository.updateTodo(id, title, content, date, status, type, priority)
+            _mUpdateTaskInfo.value = TaskRepository.updateTodo(id, title, content, date, status, type, priority)
         }
     }
 
     fun finishTodo(taskInfo : TaskInfo, status : Int){
         viewModelScope.launch {
-            mUpdateTaskInfo.value = TaskRepository.updateTodo(taskInfo.id,taskInfo.title,taskInfo.content,taskInfo.dateStr,status,taskInfo.type.toLong(),taskInfo.priority)
+            _mUpdateTaskInfo.value = TaskRepository.updateTodo(taskInfo.id,taskInfo.title,taskInfo.content,taskInfo.dateStr,status,taskInfo.type.toLong(),taskInfo.priority)
         }
     }
 
@@ -77,39 +90,39 @@ class TaskViewModel : BaseViewModel() {
 
     fun queryTodoList(status: Int, type: Long, priority: Int, index: Int) {
         viewModelScope.launch{
-            mTaskInfoLists.value = TaskRepository.queryTodoList(status, type, priority, index)
+            _mTaskInfoLists.value = TaskRepository.queryTodoList(status, type, priority, index)
         }
     }
 
     fun queryAllTodoList(index : Int){
         viewModelScope.launch {
-            mAllTaskList.value = TaskRepository.queryAllTodoList(index)
+            _mAllTaskList.value = TaskRepository.queryAllTodoList(index)
         }
     }
 
-    fun observeAddTaskInfo(owner : LifecycleOwner, listenerBuilder: StateTaskLiveData<TaskInfo>.ListenerBuilder.() -> Unit){
-        observeStateTaskLiveData(mAddTaskInfo,owner,listenerBuilder)
-    }
-
-    fun observeUpdateTaskInfo(owner : LifecycleOwner, listenerBuilder: StateTaskLiveData<TaskInfo>.ListenerBuilder.() -> Unit){
-        observeStateTaskLiveData(mUpdateTaskInfo,owner,listenerBuilder)
-    }
-
-    fun observeTaskList(owner: LifecycleOwner,listenerBuilder: StateTaskLiveData<TaskList>.ListenerBuilder.() -> Unit){
-        observeStateTaskLiveData(mTaskInfoLists,owner,listenerBuilder)
-    }
-
-    fun observeAllTasks(owner: LifecycleOwner,listenerBuilder: StateTaskLiveData<TaskList>.ListenerBuilder.() -> Unit){
-        observeStateTaskLiveData(mAllTaskList,owner,listenerBuilder)
-    }
-
-    fun observeLoginInfo(owner : LifecycleOwner, listenerBuilder: StateTaskLiveData<LoginInfo>.ListenerBuilder.() -> Unit){
-        observeStateTaskLiveData(mLoginInfo,owner,listenerBuilder)
-    }
-
-    fun observeRegister(owner : LifecycleOwner, listenerBuilder: StateTaskLiveData<RegisterInfo>.ListenerBuilder.() -> Unit){
-        observeStateTaskLiveData(mRegisterInfo,owner,listenerBuilder)
-    }
+//    fun observeAddTaskInfo(owner : LifecycleOwner, listenerBuilder: StateTaskLiveData<TaskInfo>.ListenerBuilder.() -> Unit){
+//        observeStateTaskLiveData(mAddTaskInfo,owner,listenerBuilder)
+//    }
+//
+//    fun observeUpdateTaskInfo(owner : LifecycleOwner, listenerBuilder: StateTaskLiveData<TaskInfo>.ListenerBuilder.() -> Unit){
+//        observeStateTaskLiveData(mUpdateTaskInfo,owner,listenerBuilder)
+//    }
+//
+//    fun observeTaskList(owner: LifecycleOwner,listenerBuilder: StateTaskLiveData<TaskList>.ListenerBuilder.() -> Unit){
+//        observeStateTaskLiveData(mTaskInfoLists,owner,listenerBuilder)
+//    }
+//
+//    fun observeAllTasks(owner: LifecycleOwner,listenerBuilder: StateTaskLiveData<TaskList>.ListenerBuilder.() -> Unit){
+//        observeStateTaskLiveData(mAllTaskList,owner,listenerBuilder)
+//    }
+//
+//    fun observeLoginInfo(owner : LifecycleOwner, listenerBuilder: StateTaskLiveData<LoginInfo>.ListenerBuilder.() -> Unit){
+//        observeStateTaskLiveData(mLoginInfo,owner,listenerBuilder)
+//    }
+//
+//    fun observeRegister(owner : LifecycleOwner, listenerBuilder: StateTaskLiveData<RegisterInfo>.ListenerBuilder.() -> Unit){
+//        observeStateTaskLiveData(mRegisterInfo,owner,listenerBuilder)
+//    }
 
 
 }

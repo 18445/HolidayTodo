@@ -74,7 +74,7 @@ class LoginActivity : BaseActivity<TaskViewModel>() {
 
     private fun loginIn(username : String, password : String){
         viewModel.loginIn(username , password)
-        viewModel.observeLoginInfo(this){
+        viewModel.mLoginInfo.observeState(this){
             onSuccess {
                 toastLong("登录成功")
                 finish()

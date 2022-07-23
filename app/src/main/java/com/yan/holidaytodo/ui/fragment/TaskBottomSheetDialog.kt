@@ -109,7 +109,7 @@ class TaskBottomSheetDialog : BottomSheetDialogFragment(){
                     append(mCalendarData.day)
                 }
                 viewModel.addTask(title.text.toString(),text.text.toString(),date,0)
-                viewModel.observeAddTaskInfo(requireActivity()){
+                viewModel.mAddTaskInfo.observeState(requireActivity()){
                     onSuccess {
                         toast("保存成功")
                         closeDialog()

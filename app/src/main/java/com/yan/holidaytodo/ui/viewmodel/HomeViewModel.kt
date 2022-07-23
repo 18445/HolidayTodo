@@ -10,6 +10,7 @@ import com.yan.holidaytodo.bean.net.calendar.WorkdayNext
 import com.yan.holidaytodo.bean.net.calendar.YearInfo
 import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.net.StateLiveData
+import com.yan.holidaytodo.net.StateMutableLiveData
 import com.yan.holidaytodo.repository.HomeRepository
 
 /**
@@ -25,13 +26,21 @@ import com.yan.holidaytodo.repository.HomeRepository
  */
 class HomeViewModel : BaseViewModel() {
 
-    private val dayInfo = StateLiveData<DayInfo>()
+    private val _dayInfo = StateMutableLiveData<DayInfo>()
+    val dayInfo : StateLiveData<DayInfo>
+        get() = _dayInfo
 
-    private val holidayNext = StateLiveData<HolidayNext>()
+    private val _holidayNext = StateMutableLiveData<HolidayNext>()
+    val holidayNext : StateLiveData<HolidayNext>
+        get() = _holidayNext
 
-    private val workdayNext = StateLiveData<WorkdayNext>()
+    private val _workdayNext = StateMutableLiveData<WorkdayNext>()
+    val workdayNext : StateLiveData<WorkdayNext>
+        get() = _workdayNext
 
-    private val yearInfo = StateLiveData<YearInfo>()
+    private val _yearInfo = StateMutableLiveData<YearInfo>()
+    val yearInfo : StateLiveData<YearInfo>
+        get() = _yearInfo
 
     private val _todayDate = MutableLiveData<String>()
 
@@ -40,25 +49,25 @@ class HomeViewModel : BaseViewModel() {
 
     fun getDayInfo(date : String){
         viewModelScopeLaunch{
-            dayInfo.postValue(HomeRepository.getDayInfo(date))
+            _dayInfo.postValue(HomeRepository.getDayInfo(date))
         }
     }
 
     fun getHolidayNext(date : String){
         viewModelScopeLaunch {
-            holidayNext.postValue(HomeRepository.getHolidayNext(date))
+            _holidayNext.postValue(HomeRepository.getHolidayNext(date))
         }
     }
 
     fun getWorkdayNext(date : String){
         viewModelScopeLaunch {
-            workdayNext.postValue(HomeRepository.getWorkdayNext(date))
+            _workdayNext.postValue(HomeRepository.getWorkdayNext(date))
         }
     }
 
     fun getYearInfo(date : String){
         viewModelScopeLaunch {
-            yearInfo.postValue(HomeRepository.getYearInfo(date))
+            _yearInfo.postValue(HomeRepository.getYearInfo(date))
         }
     }
 
@@ -67,21 +76,21 @@ class HomeViewModel : BaseViewModel() {
     }
 
 
-    fun observeDayInfo(owner: LifecycleOwner, listenerBuilder: StateLiveData<DayInfo>.ListenerBuilder.() -> Unit){
-        observeStateLiveData(dayInfo,owner,listenerBuilder)
-    }
-
-    fun observeHolidayNext(owner : LifecycleOwner,listenerBuilder: StateLiveData<HolidayNext>.ListenerBuilder.() -> Unit){
-        observeStateLiveData(holidayNext,owner,listenerBuilder)
-    }
-
-    fun observeWorkdayNext(owner: LifecycleOwner,listenerBuilder: StateLiveData<WorkdayNext>.ListenerBuilder.() -> Unit){
-        observeStateLiveData(workdayNext,owner,listenerBuilder)
-    }
-
-    fun observeYearInfo(owner: LifecycleOwner,listenerBuilder: StateLiveData<YearInfo>.ListenerBuilder.() -> Unit){
-        observeStateLiveData(yearInfo,owner,listenerBuilder)
-
-    }
+//    fun observeDayInfo(owner: LifecycleOwner, listenerBuilder: StateLiveData<DayInfo>.ListenerBuilder.() -> Unit){
+//        observeStateLiveData(dayInfo,owner,listenerBuilder)
+//    }
+//
+//    fun observeHolidayNext(owner : LifecycleOwner,listenerBuilder: StateLiveData<HolidayNext>.ListenerBuilder.() -> Unit){
+//        observeStateLiveData(holidayNext,owner,listenerBuilder)
+//    }
+//
+//    fun observeWorkdayNext(owner: LifecycleOwner,listenerBuilder: StateLiveData<WorkdayNext>.ListenerBuilder.() -> Unit){
+//        observeStateLiveData(workdayNext,owner,listenerBuilder)
+//    }
+//
+//    fun observeYearInfo(owner: LifecycleOwner,listenerBuilder: StateLiveData<YearInfo>.ListenerBuilder.() -> Unit){
+//        observeStateLiveData(yearInfo,owner,listenerBuilder)
+//
+//    }
 
 }

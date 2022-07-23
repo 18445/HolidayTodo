@@ -14,6 +14,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.yan.common.extension.toast
+import com.yan.common.extension.toastLong
 import com.yan.holidaytodo.R
 import com.yan.holidaytodo.adapter.TaskAdapter
 import com.yan.holidaytodo.base.BaseFragment
@@ -88,7 +90,16 @@ class TodoFragment : BaseFragment() {
 
     private fun initRecyclerView(view : View){
         mRecyclerView = view.findViewById(R.id.rv_task)
-        mAdapter = TaskAdapter(requireContext()) { viewModel.finishTodo(it,1) }
+        mAdapter = TaskAdapter(requireContext(),{ viewModel.finishTodo(it,1)}, onTaskChange = {
+                taskInfo, beChangedTitle, beChangedContent ->
+            viewModel.updateTodo(taskInfo.id,beChangedTitle,beChangedContent,taskInfo.dateStr,taskInfo.status,taskInfo.type.toLong())
+        })
+        viewModel.mUpdateTaskInfo.observeState(requireActivity()){
+            onSuccess {
+                toast("修改成功")
+                mAdapter.dismissDialog()
+            }
+        }
         mRecyclerView.adapter = mAdapter
         mRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
@@ -98,7 +109,7 @@ class TodoFragment : BaseFragment() {
     }
 
     private fun observeItems(){
-        viewModel.observeAllTasks(this){
+        viewModel.mAllTaskList.observeState(requireActivity()){
             onSuccess {
                 mTaskOver = it.over
                 mAllTasks.clear()

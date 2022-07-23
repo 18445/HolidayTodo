@@ -15,4 +15,8 @@
     <string name="example_task_add">输入待办名称，如：准备演示PPT</string>
     <string name="save">保存</string>
     <string name="no_task">还没有创建任务呢</string>
+    <string name="create_time">创建时间</string>
+    <string name="change_title">修改任务标题</string>
+    <string name="change_content">更改任务描述</string>
+    <string name="done_time">应完成时间</string>
 </resources>

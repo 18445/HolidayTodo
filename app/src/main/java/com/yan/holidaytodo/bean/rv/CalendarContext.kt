@@ -11,6 +11,6 @@ package com.yan.holidaytodo.bean.rv
  * @Version:        1.0
  * @Description:    RecycleView的Item 内容项
  */
-data class ItemContext (
-    val context : String
+data class CalendarContext (
+    val year : String
 )

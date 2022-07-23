@@ -1,6 +1,7 @@
 package com.yan.holidaytodo.net
 
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.yan.common.extension.toast
 import com.yan.common.network.ApiResponse
@@ -16,7 +17,20 @@ import com.yan.common.network.ApiResponse
  * @Version:        1.0
  * @Description:    也是为了解决common层无法统一字段的原因（返回json格式太奇怪了）
  */
-class StateLiveData<T> : MutableLiveData<DayResponse<T>>() {
+
+
+class StateMutableLiveData<T> : StateLiveData<T>(){
+    public override fun setValue(value: DayResponse<T>?) {
+        super.setValue(value)
+    }
+
+    public override fun postValue(value: DayResponse<T>?) {
+        super.postValue(value)
+    }
+}
+
+
+open class StateLiveData<T> : LiveData<DayResponse<T>>() {
 
     fun observeState(owner: LifecycleOwner, listenerBuilder: ListenerBuilder.() -> Unit) {
         val listener = ListenerBuilder().also(listenerBuilder)
@@ -77,7 +91,15 @@ class StateLiveData<T> : MutableLiveData<DayResponse<T>>() {
 
 }
 
-class StateTaskLiveData<T> : MutableLiveData<ApiResponse<T>>() {
+class StateTaskMutableLiveData<T> : StateTaskLiveData<T>(){
+
+    public override fun setValue(value: ApiResponse<T>?) {
+        super.setValue(value)
+    }
+
+}
+
+open class StateTaskLiveData<T> : LiveData<ApiResponse<T>>() {
 
     fun observeState(owner: LifecycleOwner, listenerBuilder: ListenerBuilder.() -> Unit) {
         val listener = ListenerBuilder().also(listenerBuilder)
@@ -136,3 +158,4 @@ class StateTaskLiveData<T> : MutableLiveData<ApiResponse<T>>() {
     }
 
 }
+

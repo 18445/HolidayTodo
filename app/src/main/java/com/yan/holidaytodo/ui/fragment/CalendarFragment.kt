@@ -8,16 +8,15 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.yan.common.App
 import com.yan.holidaytodo.R
 import com.yan.holidaytodo.adapter.ExpandableRecyclerView
 import com.yan.holidaytodo.base.BaseFragment
 import com.yan.holidaytodo.bean.State
-import com.yan.holidaytodo.bean.rv.ItemContext
-import com.yan.holidaytodo.bean.rv.ItemTitle
+import com.yan.holidaytodo.bean.net.calendar.HolidayData
+import com.yan.holidaytodo.bean.rv.CalendarContext
+import com.yan.holidaytodo.bean.rv.CalendarTitle
 import com.yan.holidaytodo.bean.view.CalendarAttr
 import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.callback.OnSelectDateListener
@@ -29,8 +28,6 @@ import com.yan.holidaytodo.widget.CalendarWeekView
 import com.yan.holidaytodo.widget.CustomDayView
 import com.yan.holidaytodo.widget.MonthView
 import com.yan.holidaytodo.widget.MyNestedView
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.newFixedThreadPoolContext
 
 /**
  *
@@ -54,6 +51,8 @@ class CalendarFragment : BaseFragment() {
     private lateinit var recyclerView : RecyclerView
 
     private lateinit var myNestedView: MyNestedView
+
+    private val readyToAddCalendars : MutableList<HolidayData> = mutableListOf()
 
     private lateinit var dateListener : (CalendarData) -> Unit
     override fun onCreateView(
@@ -128,18 +127,29 @@ class CalendarFragment : BaseFragment() {
 
     private fun initRecyclerView(view : View){
         recyclerView = view.findViewById(R.id.rv_calendar)
+        viewModel.getYearInfo(getYear().toString())
+        viewModel.yearInfo.observeState(requireActivity()){
+            onSuccess {
+                if(it.holiday == null){
+                    return@onSuccess
+                }
+                for (holiday in it.holiday!!){
+                    readyToAddCalendars.add(holiday.value)
+                }
+                setRecyclerView(view)
+            }
+        }
+    }
+
+    private fun setRecyclerView(view : View){
         val adapter = ExpandableRecyclerView(requireContext()).apply {
-            addObj(ItemTitle("aaaa"))
-            addObj(ItemContext("1111"))
-            addObj(ItemContext("2222"))
-            addObj(ItemContext("3333"))
-            addObj(ItemTitle("bbbb"))
-            addObj(ItemContext("4444"))
-            addObj(ItemContext("5555"))
-            addObj(ItemTitle("cccc"))
-            addObj(ItemContext("6666"))
-            addObj(ItemContext("7777"))
-            addObj(ItemContext("8888"))
+            val tasks = readyToAddCalendars.sortedBy{
+                it.date
+            }
+            for(calendar in tasks){
+                addObj(CalendarTitle(calendar.date))
+                addObj(CalendarContext(calendar.name))
+            }
         }
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter

@@ -74,7 +74,7 @@ class RegisterActivity : BaseActivity<TaskViewModel>() {
 
     private fun register(username : String,password : String ,repassword : String){
         viewModel.register(username, password, repassword)
-        viewModel.observeRegister(this){
+        viewModel.mRegisterInfo.observeState(this){
             onSuccess {
                 toastLong("注册成功")
             }

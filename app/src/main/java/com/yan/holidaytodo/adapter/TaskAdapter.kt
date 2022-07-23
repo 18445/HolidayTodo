@@ -30,12 +30,16 @@ import com.yan.holidaytodo.util.getWeek
  * @Version:        1.0
  * @Description:    任务Adapter
  */
-class TaskAdapter (val context : Context,val onTaskFinish: (taskInfo : TaskInfo) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class TaskAdapter (val context : Context,
+                   val onTaskFinish: (taskInfo : TaskInfo) -> Unit,
+                   val onTaskChange : (taskInfo: TaskInfo,beChangedTitle : String, beChangedContent : String) -> Unit)
+        : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     companion object{
         private const val TASK_TITLE = 0x000101
         private const val TASK_CONTEXT = 0x001010
     }
+    private lateinit var mCardDialog: CardDialog
     //inflater
     private val inflater = LayoutInflater.from(context)
     //判断所在列表是否是可折叠的
@@ -55,7 +59,7 @@ class TaskAdapter (val context : Context,val onTaskFinish: (taskInfo : TaskInfo)
 
     inner class ViewHolderTitle(itemView: View) : RecyclerView.ViewHolder(itemView){
         //标题
-        val taskTitle : TextView = itemView.findViewById<TextView?>(R.id.tv_task_title)
+        val taskTitle : TextView = itemView.findViewById(R.id.tv_task_title)
         val taskExpand : ImageView = itemView.findViewById<ImageView>(R.id.iv_task_expand).apply {
             setOnClickListener {
                 if (hasExpandedItemCache[absoluteAdapterPosition] == false){
@@ -71,12 +75,13 @@ class TaskAdapter (val context : Context,val onTaskFinish: (taskInfo : TaskInfo)
 
     inner class ViewHolderContext(itemView: View) : RecyclerView.ViewHolder(itemView){
         //内容
-        val taskImage : ImageView = itemView.findViewById<ImageView>(R.id.iv_task_done).apply {
-            setOnClickListener {
-                val dialog = CardDialog(context)
-                dialog.show()
+        init {
+            itemView.setOnClickListener {
+                mCardDialog = CardDialog(context,(mShownItems[absoluteAdapterPosition] as TaskContent).taskInfo,onTaskChange)
+                mCardDialog.show()
             }
         }
+        val taskImage : ImageView = itemView.findViewById(R.id.iv_task_done)
         val taskDes: TextView = itemView.findViewById(R.id.tv_task_done)
         val taskTitle : TextView= itemView.findViewById(R.id.tv_task_content_title)
         val taskContent : TextView= itemView.findViewById(R.id.tv_task_content_content)
@@ -157,8 +162,6 @@ class TaskAdapter (val context : Context,val onTaskFinish: (taskInfo : TaskInfo)
         }
         alertDialog.show()
     }
-
-
 
     fun addObj(item : Any){
         mItems.add(item)
@@ -299,6 +302,12 @@ class TaskAdapter (val context : Context,val onTaskFinish: (taskInfo : TaskInfo)
         for( i in firstItem+1 until endItem){
             mShownItems.add(i,mItems[i + expandItems])
             notifyItemChanged(i)
+        }
+    }
+
+    fun dismissDialog(){
+        if(this::mCardDialog.isInitialized){
+            mCardDialog.dismiss()
         }
     }
 

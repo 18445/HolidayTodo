@@ -11,6 +11,6 @@ package com.yan.holidaytodo.bean.rv
  * @Version:        1.0
  * @Description:    RecycleView的Item 标题项
  */
-data class ItemTitle(
+data class CalendarTitle(
     val title : String
 )
