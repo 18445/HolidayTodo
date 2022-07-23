@@ -13,7 +13,9 @@
         android:id="@+id/front"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <com.yan.holidaytodo.widget.PointerViewGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -173,6 +175,7 @@
                 app:layout_constraintTop_toTopOf="@+id/gl_card_back_bottom_button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.yan.holidaytodo.widget.PointerViewGroup>
     </LinearLayout>
 
     <LinearLayout
@@ -180,6 +183,11 @@
         android:id="@+id/back"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <com.yan.holidaytodo.widget.PointerViewGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -326,5 +334,6 @@
                 app:layout_constraintTop_toTopOf="@+id/gl_card_front_top" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.yan.holidaytodo.widget.PointerViewGroup>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
