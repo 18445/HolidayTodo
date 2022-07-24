@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+
+    <Button
+        android:id="@+id/mBtnTest1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试1"
+        app:layout_constraintBottom_toTopOf="@+id/mProgress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.504" />
+
+    <Button
+        android:id="@+id/mBtnTest2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试2"
+        app:layout_constraintBottom_toTopOf="@+id/mProgress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.334"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.504" />
+
+    <Button
+        android:id="@+id/mBtnTest3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试3"
+        app:layout_constraintBottom_toTopOf="@+id/mProgress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.659"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.504" />
+
+    <Button
+        android:id="@+id/mBtnTest4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试4"
+        app:layout_constraintBottom_toTopOf="@+id/mProgress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.504" />
+
+    <com.yan.holidaytodo.widget.ProgressLayout
+        android:id="@+id/mProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="136dp"
+        app:layout_constraintBottom_toTopOf="@+id/myFrameLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <com.yan.holidaytodo.widget.MyFrameLayout
+        android:id="@+id/myFrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.yan.holidaytodo.widget.TimeRollView
+            android:background="@drawable/view_time_roll_bg"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+    </com.yan.holidaytodo.widget.MyFrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,6 +25,7 @@ import com.yan.holidaytodo.bean.view.CalendarData
 import com.yan.holidaytodo.callback.OnSelectDateListener
 import com.yan.holidaytodo.ui.fragment.CalendarFragment
 import com.yan.holidaytodo.ui.fragment.TaskBottomSheetDialog
+import com.yan.holidaytodo.ui.fragment.TimerFragment
 import com.yan.holidaytodo.ui.fragment.TodoFragment
 import com.yan.holidaytodo.ui.viewmodel.HomeViewModel
 import com.yan.holidaytodo.util.*
@@ -46,9 +47,9 @@ class MainActivity : BaseActivity<HomeViewModel>() {
     private var mSelectedDate : CalendarData = CalendarData(getYear(), getMonth(), getDay())
 
     private val mFragments : List<Fragment> by lazy {
-        mutableListOf(CalendarFragment(),TodoFragment())
+        mutableListOf(TimerFragment(),CalendarFragment(),TodoFragment())
     }
-    private val tabTitle : List<String> = mutableListOf("日历","日程")
+    private val tabTitle : List<String> = mutableListOf("任务","日历","日程")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,6 +98,7 @@ class MainActivity : BaseActivity<HomeViewModel>() {
                 }
             }
             setPageTransformer(ViewPagerScale())
+//            currentItem = 1
         }
         TabLayoutMediator(tabLayout,viewPager2,true
         ) { tab, position -> tab.apply {
@@ -122,14 +124,14 @@ class MainActivity : BaseActivity<HomeViewModel>() {
             }
         }
         backButton = findViewById<FloatingActionButton>(R.id.fa_btn_back).apply {
-            (mFragments[0] as CalendarFragment).setOnDateListener { //设置隐藏时间
+            (mFragments[1] as CalendarFragment).setOnDateListener { //设置隐藏时间
                 isVisible = it.day != getDay() || it.month != getMonth() || it.year != getYear()
                 mSelectedDate = it
             }
 
             setOnClickListener {
-                viewPager2.currentItem = 0
-                (mFragments[0] as CalendarFragment).backToday()
+                viewPager2.currentItem = 1
+                (mFragments[1] as CalendarFragment).backToday()
             }
         }
         viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){

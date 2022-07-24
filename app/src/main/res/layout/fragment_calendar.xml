@@ -84,17 +84,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.yan.holidaytodo.widget.MyFrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            <com.yan.holidaytodo.widget.TimeRollView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@drawable/view_time_roll_bg"
-                />
-            </com.yan.holidaytodo.widget.MyFrameLayout>
-
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_calendar"
                 android:layout_width="match_parent"

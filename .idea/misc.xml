@@ -29,8 +29,10 @@
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_syllabus_active_mark_background.xml" value="0.1855" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_syllabus_mark_background.xml" value="0.1855" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_syllabus_unactive_mark_background.xml" value="0.1855" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_time_roll_back_bg.xml" value="0.362" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_time_roll_bg.xml" value="0.2355" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_unactive_mark_background.xml" value="0.19" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout-land/widget_progress_temp_number_layout.xml" value="0.48333333333333334" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/activity_login.xml" value="0.3619791666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/activity_main.xml" value="0.3619791666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/activity_register.xml" value="0.3609375" />
@@ -39,6 +41,7 @@
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/dialog_card.xml" value="0.3609375" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/dialog_task.xml" value="0.3609375" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/fragment_calendar.xml" value="0.3619791666666667" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/fragment_timer.xml" value="0.3609375" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/fragment_todo.xml" value="0.3619791666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/item_calendar.xml" value="0.3619791666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/item_calendar_title.xml" value="0.3619791666666667" />
@@ -53,6 +56,8 @@
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/shape_tab_indicator.xml" value="0.3619791666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/todo.xml" value="0.3619791666666667" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/week.xml" value="0.3609375" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/widget_progress_number_item_layout.xml" value="0.3609375" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/widget_progress_temp_number_layout.xml" value="0.3609375" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2355" />
       </map>
     </option>

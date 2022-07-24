@@ -37,6 +37,8 @@ android {
 dependencies {
     implementation(project(":common"))
     implementation(kotlin("reflect"))
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
 }
 
 

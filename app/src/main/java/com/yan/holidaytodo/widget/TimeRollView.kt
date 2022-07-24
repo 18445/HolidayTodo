@@ -2,12 +2,8 @@ package com.yan.holidaytodo.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Path
+import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.yan.holidaytodo.bean.view.CalendarData
@@ -65,7 +61,6 @@ class TimeRollView @JvmOverloads constructor(
             style = Paint.Style.FILL
             isAntiAlias = true
             strokeWidth = 1.dpToPx().toFloat()
-            color = Color.WHITE
             isAntiAlias = true
         }
 
@@ -79,7 +74,7 @@ class TimeRollView @JvmOverloads constructor(
             isAntiAlias = true
             textSize = 10.spToPx().toFloat()
             textAlign = Paint.Align.CENTER
-            color = Color.DKGRAY
+            color = Color.LTGRAY
         }
 
         val month = today.month
@@ -128,6 +123,14 @@ class TimeRollView @JvmOverloads constructor(
         timeTextX3 = viewWidth / 2
         timeTextX4 = viewWidth / 2 + viewWidth /4 - circleRadius * 3 / 2
         timeTextX5 = viewWidth - circleRadius * 3
+
+        val colors = intArrayOf(
+            Color.parseColor("#000000"),
+            Color.parseColor("#152331"),
+        )
+        val positions = floatArrayOf(0.0f, 1.0f)
+        val linearGradient = LinearGradient(viewWidth / 2f,0f, viewWidth / 2f,h.toFloat(), colors, positions, Shader.TileMode.CLAMP)
+        curveLinePaint.shader = linearGradient
     }
 
     override fun onDraw(canvas: Canvas) {
