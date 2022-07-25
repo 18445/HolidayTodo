@@ -1,6 +1,5 @@
 package com.yan.holidaytodo.bean.db
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -18,6 +17,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "HolidayDB")
 data class HolidayDB(
+
     @PrimaryKey val date : String,
     val name : String,
     val year : Int,

@@ -1,5 +1,6 @@
 package com.yan.common.network
 
+import android.os.Looper
 import android.util.Log
 import com.google.gson.JsonParseException
 import com.yan.common.extension.toast
@@ -33,9 +34,13 @@ fun handlingApiExceptions(code: Int?, errorMsg: String?) = when (code) {
         defaultSp.put {
             putString("Cookie",null)
         }
+        Looper.prepare()
         toast(HttpError.ACCOUNT_ERROR.errorMsg)
+        Looper.loop()
     }
-    HttpError.PARAMS_ERROR.code -> toast(HttpError.PARAMS_ERROR.errorMsg)
+    HttpError.PARAMS_ERROR.code -> {
+        toast(HttpError.PARAMS_ERROR.errorMsg)
+    }
     else -> errorMsg?.let { toast(it) }
 }
 //处理网络请求过程中抛出的异常

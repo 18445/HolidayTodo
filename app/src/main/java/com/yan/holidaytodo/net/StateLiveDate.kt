@@ -97,6 +97,10 @@ class StateTaskMutableLiveData<T> : StateTaskLiveData<T>(){
         super.setValue(value)
     }
 
+    public override fun postValue(value: ApiResponse<T>?) {
+        super.postValue(value)
+    }
+
 }
 
 open class StateTaskLiveData<T> : LiveData<ApiResponse<T>>() {

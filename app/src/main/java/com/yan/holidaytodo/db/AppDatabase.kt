@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.yan.common.App
 import com.yan.holidaytodo.bean.db.HolidayDB
+import com.yan.holidaytodo.bean.db.TaskDB
 
 /**
  *
@@ -18,9 +19,11 @@ import com.yan.holidaytodo.bean.db.HolidayDB
  * @Description:    全局数据库
  */
 
-@Database(entities = [HolidayDB::class],version = 2)
+@Database(entities = [HolidayDB::class,TaskDB::class],version = 4, exportSchema = false)
 abstract class AppDatabase : RoomDatabase(){
+
     abstract fun holidayDao() : HolidayDao
+    abstract fun taskDao() : TaskDao
 
     companion object{
         val INSTANCE by lazy {

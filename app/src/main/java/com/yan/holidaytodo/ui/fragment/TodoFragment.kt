@@ -98,6 +98,7 @@ class TodoFragment : BaseFragment() {
             onSuccess {
                 toast("修改成功")
                 mAdapter.dismissDialog()
+                initQueryAllTasks(1)
             }
         }
         mRecyclerView.adapter = mAdapter
@@ -122,6 +123,14 @@ class TodoFragment : BaseFragment() {
                 mEmptyImage.isVisible = false
             }
             onEmpty {
+                mEmptyImage.isVisible = true
+                mEmptyText.isVisible = true
+            }
+            onFailed { errCode, errMsg ->
+                mEmptyImage.isVisible = true
+                mEmptyText.isVisible = true
+            }
+            onException {
                 mEmptyImage.isVisible = true
                 mEmptyText.isVisible = true
             }

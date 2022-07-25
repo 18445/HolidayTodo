@@ -1,5 +1,6 @@
 package com.yan.holidaytodo.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
 import com.yan.common.network.ApiResponse
@@ -52,51 +53,51 @@ class TaskViewModel : BaseViewModel() {
         get() = _mAllTaskList
 
     fun loginIn(username : String,password : String){
-        viewModelScope.launch {
-            _mLoginInfo.value = TaskRepository.login(username, password)
+        viewModelScopeLaunch {
+            _mLoginInfo.postValue(TaskRepository.login(username, password))
         }
     }
 
     fun register(username: String, password: String, repassword : String){
-        viewModelScope.launch {
-            _mRegisterInfo.value = TaskRepository.register(username, password, repassword)
+        viewModelScopeLaunch {
+            _mRegisterInfo.postValue(TaskRepository.register(username, password, repassword))
         }
     }
 
     fun addTask(title: String,content: String,date: String,type: Long,priority: Int = 0){
-        viewModelScope.launch {
-            _mAddTaskInfo.value = TaskRepository.addTodo(title, content, date, type, priority)
+        viewModelScopeLaunch {
+            _mAddTaskInfo.postValue(TaskRepository.addTodo(title, content, date, type, priority))
         }
     }
 
     fun updateTodo(id: Int,title: String,content: String, date : String,status: Int,type: Long,priority: Int = 0){
-        viewModelScope.launch{
-            _mUpdateTaskInfo.value = TaskRepository.updateTodo(id, title, content, date, status, type, priority)
+        viewModelScopeLaunch {
+            _mUpdateTaskInfo.postValue(TaskRepository.updateTodo(id, title, content, date, status, type, priority))
         }
     }
 
     fun finishTodo(taskInfo : TaskInfo, status : Int){
-        viewModelScope.launch {
-            _mUpdateTaskInfo.value = TaskRepository.updateTodo(taskInfo.id,taskInfo.title,taskInfo.content,taskInfo.dateStr,status,taskInfo.type.toLong(),taskInfo.priority)
+        viewModelScopeLaunch {
+            _mUpdateTaskInfo.postValue(TaskRepository.updateTodo(taskInfo.id,taskInfo.title,taskInfo.content,taskInfo.dateStr,status,taskInfo.type.toLong(),taskInfo.priority))
         }
     }
 
     fun deleteTask(id: Int){
         //删除接口好像不好使了 寄
-        viewModelScope.launch{
+        viewModelScopeLaunch{
             TaskRepository.deleteTodo(id)
         }
     }
 
     fun queryTodoList(status: Int, type: Long, priority: Int, index: Int) {
-        viewModelScope.launch{
-            _mTaskInfoLists.value = TaskRepository.queryTodoList(status, type, priority, index)
+        viewModelScopeLaunch{
+            _mTaskInfoLists.postValue(TaskRepository.queryTodoList(status, type, priority, index))
         }
     }
 
     fun queryAllTodoList(index : Int){
-        viewModelScope.launch {
-            _mAllTaskList.value = TaskRepository.queryAllTodoList(index)
+        viewModelScopeLaunch {
+            _mAllTaskList.postValue(TaskRepository.queryAllTodoList(index))
         }
     }
 
