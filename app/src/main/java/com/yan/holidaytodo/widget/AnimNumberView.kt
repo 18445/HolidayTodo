@@ -146,6 +146,10 @@ class AnimNumberView @JvmOverloads constructor(
             //没有设置正计时的目标时间
             second = Int.MAX_VALUE / 2
         }
+        if (timerMode == TIMER_MODE){
+            setClock(mSecond,timerMode)
+            return
+        }
         val finalSecond = second
         mTimerDisposable = Flowable.intervalRange(0, (second + 1).toLong(), 0, 1, TimeUnit.SECONDS)
             .subscribeOn(Schedulers.io())

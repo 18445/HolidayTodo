@@ -178,7 +178,7 @@ class MainActivity : BaseActivity<HomeViewModel>() {
                     windowInsetsController?.isAppearanceLightStatusBars = true
 
                     tabLayout.setTabTextColors(Color.parseColor("#2980b9"),Color.parseColor("#70a1ff"))
-//                    tabLayout.setSelectedTabIndicatorColor(Color.WHITE)
+
                 }
             }
         })

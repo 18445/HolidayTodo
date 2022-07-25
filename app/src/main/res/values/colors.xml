@@ -13,6 +13,8 @@
     <color name="gray">#757f9a</color>
     <color name="light_blue2">#5BC0DE</color>
     <color name="light_red">#FF4081</color>
+    <color name="light_red2">#ff7676</color>
+    <color name="light_red3">#f54ea2</color>
 
     <color name="progress_bg_circle_color1">#1AD8D8D8</color>
     <color name="progress_inside_color1">#FF001BFF</color>

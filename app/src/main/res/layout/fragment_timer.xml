@@ -11,53 +11,6 @@
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
-    <Button
-        android:id="@+id/mBtnTest1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="测试1"
-        app:layout_constraintBottom_toTopOf="@+id/fly_timer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.504" />
-
-    <Button
-        android:id="@+id/mBtnTest2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="测试2"
-        app:layout_constraintBottom_toTopOf="@+id/fly_timer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.334"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.504" />
-
-    <Button
-        android:id="@+id/mBtnTest3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="测试3"
-        app:layout_constraintBottom_toTopOf="@+id/fly_timer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.659"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.504" />
-
-    <Button
-        android:id="@+id/mBtnTest4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="测试4"
-        app:layout_constraintBottom_toTopOf="@+id/fly_timer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.504" />
 
     <com.yan.holidaytodo.widget.MyFrameLayout
         android:id="@+id/myFrameLayout"
@@ -69,36 +22,89 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.yan.holidaytodo.widget.TimeRollView
-            android:background="@drawable/view_time_roll_bg"
+            android:id="@+id/trv_timer"
             android:layout_width="match_parent"
-            android:layout_height="250dp" />
+            android:layout_height="250dp"
+            android:background="@drawable/view_time_roll_bg" />
     </com.yan.holidaytodo.widget.MyFrameLayout>
 
     <com.yan.holidaytodo.widget.MyFrameLayout2
         android:id="@+id/fly_timer"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/myFrameLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="100dp"
-        android:layout_height="wrap_content">
-    <com.yan.holidaytodo.widget.PointerViewGroup
-        android:id="@+id/pointer_timer_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    <com.yan.holidaytodo.widget.ProgressLayout
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="42dp"
-        android:layout_marginBottom="42dp"
-        android:id="@+id/progress_layout_timer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        />
-    </com.yan.holidaytodo.widget.PointerViewGroup>
+        app:layout_constraintVertical_bias="0.3">
+
+        <com.yan.holidaytodo.widget.PointerViewGroup
+            android:id="@+id/pointer_timer_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.yan.holidaytodo.widget.ProgressLayout
+                android:id="@+id/progress_layout_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="42dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="42dp" />
+        </com.yan.holidaytodo.widget.PointerViewGroup>
     </com.yan.holidaytodo.widget.MyFrameLayout2>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        app:borderWidth="0dp"
+        android:background="@color/light_red3"
+        android:backgroundTint="@color/light_red3"
+        app:rippleColor="@color/white"
+        android:src="@drawable/ic_menu_item"
+        android:layout_marginStart="16dp"
+        android:id="@+id/fa_btn_timer"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/myFrameLayout" />
+
+
+    <Button
+        android:id="@+id/btn_timer_item1"
+        android:background="@drawable/ic_timer_clock"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_gravity="bottom|start"
+        app:layout_constraintBottom_toBottomOf="@+id/fa_btn_timer"
+        app:layout_constraintEnd_toEndOf="@+id/fa_btn_timer"
+        app:layout_constraintStart_toStartOf="@+id/fa_btn_timer"
+        app:layout_constraintTop_toTopOf="@+id/fa_btn_timer" />
+
+    <Button
+        android:background="@drawable/ic_timer_reckon"
+        android:layout_gravity="bottom|start"
+        android:id="@+id/btn_timer_item2"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/fa_btn_timer"
+        app:layout_constraintEnd_toEndOf="@+id/fa_btn_timer"
+        app:layout_constraintStart_toStartOf="@+id/fa_btn_timer"
+        app:layout_constraintTop_toTopOf="@+id/fa_btn_timer" />
+
+    <Button
+        android:background="@drawable/ic_timer_count_time"
+        android:layout_gravity="bottom|start"
+        android:id="@+id/btn_timer_item3"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/fa_btn_timer"
+        app:layout_constraintEnd_toEndOf="@+id/fa_btn_timer"
+        app:layout_constraintStart_toStartOf="@+id/fa_btn_timer"
+        app:layout_constraintTop_toTopOf="@+id/fa_btn_timer" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

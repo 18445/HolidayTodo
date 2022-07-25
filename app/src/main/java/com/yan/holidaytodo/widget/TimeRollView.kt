@@ -145,11 +145,11 @@ class TimeRollView @JvmOverloads constructor(
      */
     private fun drawText(canvas: Canvas) {
 
-        drawTextInfo(canvas, todayString, "20:00", timeTextX1)
-        drawTextInfo(canvas, null, "02:00", timeTextX2)
-        drawTextInfo(canvas, null, "08:00", timeTextX3)
-        drawTextInfo(canvas, null, "14:00", timeTextX4)
-        drawTextInfo(canvas, tomorrowString, "20:00", timeTextX5)
+        drawTextInfo(canvas, todayString, "00:00", timeTextX1)
+        drawTextInfo(canvas, null, "15:00", timeTextX2)
+        drawTextInfo(canvas, null, "30:00", timeTextX3)
+        drawTextInfo(canvas, null, "45:00", timeTextX4)
+        drawTextInfo(canvas, tomorrowString, "60:00", timeTextX5)
     }
 
     private fun drawTextInfo(canvas: Canvas,date : String?,time : String,dis : Int){
@@ -207,6 +207,28 @@ class TimeRollView @JvmOverloads constructor(
             }
         }
         return true
+    }
+
+    fun getCurrentCircle() : Int{
+        val second =
+        if (circleCenterX == width / 2){
+            circleCenterX * 60 * 60 / width
+        }else if (circleCenterX < width / 4){
+            (circleCenterX - 100) * 60 * 60 / width
+        }else if (circleCenterX < width / 2){
+            (circleCenterX - 50) * 60 * 60 / width
+        }else if(circleCenterX < 3 * width / 4){
+            (circleCenterX + 50) * 60 * 60 / width
+        }else{
+            (circleCenterX + 100) * 60 * 60 / width
+        }
+        return if(second <= 0){
+            0
+        }else if(second >= 60 * 60){
+            60 * 60
+        }else{
+            second
+        }
     }
 
 }

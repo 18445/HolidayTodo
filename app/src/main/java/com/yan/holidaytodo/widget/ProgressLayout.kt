@@ -34,6 +34,7 @@ class ProgressLayout @JvmOverloads constructor(
     private val circleStrokeWidth = 13.dpToPx()
 
     private var countMode = false
+    private var waveMode = false
 
 
     init {
@@ -50,6 +51,7 @@ class ProgressLayout @JvmOverloads constructor(
 
         addView(circleProgressView)
         addView(mAnimNumberView)
+        circleProgressView.setWareMode()
     }
 
     /**
@@ -58,13 +60,18 @@ class ProgressLayout @JvmOverloads constructor(
      * 如果是倒计时，计时结束回调计时结束的状态
      */
     fun setTimer(second: Int, timerMode: Int,onComplete: () -> Unit) {
-        circleProgressView.setWareMode()
+        if (timerMode != AnimNumberView.TIMER_MODE || !waveMode){
+            waveMode = true
+            circleProgressView.setWareMode()
+        }
+
         mAnimNumberView.setTimer(second, timerMode)
         mAnimNumberView.setOnTimerCompleteListener (object : AnimNumberView.OnTimerComplete {
             override fun onComplete() {
                 onComplete.invoke()
             }
         })
+
     }
 
     /**
@@ -74,6 +81,7 @@ class ProgressLayout @JvmOverloads constructor(
      */
     fun setCountMode(second: Int, onComplete: () -> Unit) {
         countMode = true
+        waveMode = false
         circleProgressView.setCountMode(second)
         mAnimNumberView.setTimer(second, AnimNumberView.DOWN_TIMER)
         mAnimNumberView.setOnTimerCompleteListener (object : AnimNumberView.OnTimerComplete {
@@ -81,6 +89,10 @@ class ProgressLayout @JvmOverloads constructor(
                 onComplete.invoke()
             }
         })
+    }
+
+    fun setWaveTimer(){
+        circleProgressView.setWareMode()
     }
 
     /**

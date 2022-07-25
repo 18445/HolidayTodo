@@ -288,15 +288,22 @@ fun judgeIfDateFuture(date : String) : Boolean{
 @SuppressLint("SimpleDateFormat")
 fun calDayTime(fromDate: String, toDate: String) : Long {
         val dft: DateFormat = SimpleDateFormat("yyyy-M-dd")
-//        try {
             val star: Date = dft.parse(fromDate)!! //开始时间
             val endDay: Date = dft.parse(toDate)!! //结束时间
             val starTime = star.time
             val endTime = endDay.time
             val num = endTime - starTime //时间戳相差的毫秒数
             return  num / 24 / 60 / 60 / 1000
-//        } catch (e: ParseException) {
-//            e.printStackTrace()
-//        }
-//    return -1
+}
+
+/**
+ * 计算当前时间
+ */
+fun calCurrentTime() : Int{
+    val calendar = Calendar.getInstance()
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+    val minute = calendar.get(Calendar.MINUTE)
+    val second = calendar.get(Calendar.SECOND)
+
+    return hour * 3600 + minute * 60 + (second + 1)
 }

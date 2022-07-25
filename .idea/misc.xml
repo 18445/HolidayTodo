@@ -12,6 +12,7 @@
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_card_more.xml" value="0.2355" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_holiday_future.xml" value="0.2355" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_holiday_past.xml" value="0.2355" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_menu_item.xml" value="0.282" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_no_data.xml" value="0.193" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_task.xml" value="0.286" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_task_delete.xml" value="0.279" />
@@ -19,6 +20,8 @@
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_task_finish.xml" value="0.279" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_task_unfinish.xml" value="0.279" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_time_clock.xml" value="0.286" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_timer_clock.xml" value="0.282" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_timer_count_time.xml" value="0.282" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_todo_info.xml" value="0.286" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/ic_todo_list.xml" value="0.286" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/selected_background.xml" value="0.1855" />
@@ -31,6 +34,7 @@
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_syllabus_unactive_mark_background.xml" value="0.1855" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_time_roll_back_bg.xml" value="0.362" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_time_roll_bg.xml" value="0.2355" />
+        <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_timer_button.xml" value="0.282" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/drawable/view_unactive_mark_background.xml" value="0.19" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout-land/widget_progress_temp_number_layout.xml" value="0.48333333333333334" />
         <entry key="..\:/AndroidStudio/HolidayTodo/app/src/main/res/layout/activity_login.xml" value="0.3619791666666667" />
