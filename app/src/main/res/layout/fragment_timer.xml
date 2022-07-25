@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="测试1"
-        app:layout_constraintBottom_toTopOf="@+id/mProgress"
+        app:layout_constraintBottom_toTopOf="@+id/fly_timer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="测试2"
-        app:layout_constraintBottom_toTopOf="@+id/mProgress"
+        app:layout_constraintBottom_toTopOf="@+id/fly_timer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.334"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="测试3"
-        app:layout_constraintBottom_toTopOf="@+id/mProgress"
+        app:layout_constraintBottom_toTopOf="@+id/fly_timer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.659"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,25 +52,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="测试4"
-        app:layout_constraintBottom_toTopOf="@+id/mProgress"
+        app:layout_constraintBottom_toTopOf="@+id/fly_timer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.504" />
-
-    <com.yan.holidaytodo.widget.ProgressLayout
-        android:id="@+id/mProgress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="136dp"
-        app:layout_constraintBottom_toTopOf="@+id/myFrameLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
 
     <com.yan.holidaytodo.widget.MyFrameLayout
         android:id="@+id/myFrameLayout"
@@ -86,4 +73,32 @@
             android:layout_width="match_parent"
             android:layout_height="250dp" />
     </com.yan.holidaytodo.widget.MyFrameLayout>
+
+    <com.yan.holidaytodo.widget.MyFrameLayout2
+        android:id="@+id/fly_timer"
+        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="100dp"
+        android:layout_height="wrap_content">
+    <com.yan.holidaytodo.widget.PointerViewGroup
+        android:id="@+id/pointer_timer_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <com.yan.holidaytodo.widget.ProgressLayout
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginBottom="42dp"
+        android:id="@+id/progress_layout_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
+    </com.yan.holidaytodo.widget.PointerViewGroup>
+    </com.yan.holidaytodo.widget.MyFrameLayout2>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

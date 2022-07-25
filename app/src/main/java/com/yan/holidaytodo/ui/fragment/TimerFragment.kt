@@ -38,7 +38,7 @@ class TimerFragment : BaseFragment() {
     }
 
     private fun initView(view: View) {
-        mProgressLayout = view.findViewById<ProgressLayout?>(R.id.mProgress).apply {
+        mProgressLayout = view.findViewById<ProgressLayout?>(R.id.progress_layout_timer).apply {
             setTimer(500, AnimNumberView.TIMER_MODE) {}
         }
 

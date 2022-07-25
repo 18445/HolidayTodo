@@ -1,6 +1,7 @@
 package com.yan.holidaytodo.ui.activity
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -8,6 +9,8 @@ import android.os.Looper
 import android.util.Log
 import android.view.MotionEvent
 import android.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -39,9 +42,14 @@ class MainActivity : BaseActivity<HomeViewModel>() {
     //TabLayout是否显示
     private var tabIsShown= true
 
-    private lateinit var tabLayout: TabLayout
-    private lateinit var toolbar: Toolbar
-    private lateinit var viewPager2: ViewPager2
+    private val windowInsetsController by lazy {
+        ViewCompat.getWindowInsetsController(window.decorView)
+    }
+
+    private lateinit var container : ConstraintLayout
+    private lateinit var tabLayout : TabLayout
+    private lateinit var toolbar : Toolbar
+    private lateinit var viewPager2 : ViewPager2
     private lateinit var todoButton : FloatingActionButton
     private lateinit var backButton : FloatingActionButton
     private var mSelectedDate : CalendarData = CalendarData(getYear(), getMonth(), getDay())
@@ -61,6 +69,7 @@ class MainActivity : BaseActivity<HomeViewModel>() {
     }
 
     private fun initTabLayout(){
+        container = findViewById(R.id.csl_main_container)
         tabLayout = findViewById(R.id.tl_main)
     }
 
@@ -98,7 +107,6 @@ class MainActivity : BaseActivity<HomeViewModel>() {
                 }
             }
             setPageTransformer(ViewPagerScale())
-//            currentItem = 1
         }
         TabLayoutMediator(tabLayout,viewPager2,true
         ) { tab, position -> tab.apply {
@@ -111,7 +119,6 @@ class MainActivity : BaseActivity<HomeViewModel>() {
     }
 
     private fun initButton(){
-
         todoButton = findViewById<FloatingActionButton>(R.id.fa_btn_todo).apply {
             setOnClickListener {
                 if(!Session.state){ //跳转登录界面
@@ -137,14 +144,41 @@ class MainActivity : BaseActivity<HomeViewModel>() {
         viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                if(position != 0){
+                if(position == 2){
                     backButton.isVisible = true
-                }else if(position == 0){
+                }else if(position == 1){
                     if(mSelectedDate.day == getDay()
                         && mSelectedDate.month == getMonth()
                         && mSelectedDate.year == getYear()){
                         backButton.isVisible = false
                     }
+                }
+                if(position == 0){
+                    backButton.isVisible = false
+                    if(this@MainActivity::toolbar.isInitialized){
+                        toolbar.setBackgroundColor(Color.BLACK)
+                        toolbar.setTitleTextColor(Color.WHITE)
+                    }
+                    tabLayout.setBackgroundColor(Color.BLACK)
+                    container.setBackgroundColor(Color.BLACK)
+                    todoButton.isVisible = false
+                    windowInsetsController?.isAppearanceLightStatusBars = false
+
+                    tabLayout.setTabTextColors(Color.WHITE,Color.LTGRAY)
+                    tabLayout.setSelectedTabIndicatorColor(Color.DKGRAY)
+
+                }else{
+                    if(this@MainActivity::toolbar.isInitialized){
+                        toolbar.setBackgroundColor(Color.WHITE)
+                    }
+                    tabLayout.setBackgroundColor(Color.WHITE)
+                    container.setBackgroundColor(Color.WHITE)
+                    toolbar.setTitleTextColor(Color.BLACK)
+                    todoButton.isVisible = true
+                    windowInsetsController?.isAppearanceLightStatusBars = true
+
+                    tabLayout.setTabTextColors(Color.parseColor("#2980b9"),Color.parseColor("#70a1ff"))
+//                    tabLayout.setSelectedTabIndicatorColor(Color.WHITE)
                 }
             }
         })
