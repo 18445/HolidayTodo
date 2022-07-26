@@ -59,7 +59,7 @@
 
 最后会返回`ApiEmptyResponse`、`ApiSuccessResponse`、`ApiFailedResponse`、`ApiErrorResponse`四种类型数据。
 
-`ViewModel`层仿照官网的`LiveData`，封装了`StateLiveData`与`StateMutableLiveData`用来保存不同的数据类型，返回给UI层进行监听。
+`ViewModel`层仿照官方的`LiveData`，封装了`StateLiveData`与`StateMutableLiveData`用来保存不同的数据类型，返回给UI层进行监听。
 
 ```kotlin
 open class StateTaskLiveData<T> : LiveData<ApiResponse<T>>() {
