@@ -171,7 +171,7 @@ override fun onChanged(apiResponse: ApiResponse<T>?) {
 
 #### 滑动冲突
 
-项目本身没有复杂的滑动冲突，本身存在的滑动冲突也是同方向VP2拦截了子View的滑动，大多数时候重新`Viewgroup`中`dispatchTouchEvent`方法，调用`requestDisallowInterceptTouchEvent`并设置为true即可解决。
+项目本身没有复杂的滑动冲突，存在的滑动冲突只需要解决VP2拦截了子View的滑动事件，大多数时候重新`Viewgroup`中`dispatchTouchEvent`方法，调用`requestDisallowInterceptTouchEvent`并设置为true即可解决。
 
 
 
