@@ -53,6 +53,7 @@ class CardDialog(context: Context,
         super.onCreate(savedInstanceState)
         //去掉系统的黑色矩形边框
         window!!.setBackgroundDrawableResource(R.drawable.ic_card_bg_window)
+        window!!.setWindowAnimations(R.style.dialog_animation)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         initView()
     }

@@ -116,6 +116,7 @@ class MainActivity : BaseActivity<HomeViewModel>() {
                 view.tooltipText = ""
             }
         } }.attach()
+        viewPager2.setCurrentItem(1,false)
     }
 
     private fun initButton(){
@@ -127,7 +128,6 @@ class MainActivity : BaseActivity<HomeViewModel>() {
                 }
                 val bottomSheetDialog = TaskBottomSheetDialog()
                 bottomSheetDialog.show(supportFragmentManager,"TaskBottomSheetDialog")
-
             }
         }
         backButton = findViewById<FloatingActionButton>(R.id.fa_btn_back).apply {

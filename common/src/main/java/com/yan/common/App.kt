@@ -27,14 +27,14 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = this
-//        Handler(mainLooper).post {
-//            while (true) {
-//                try {
-//                    Looper.loop()
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                }
-//            }
-//        }
+        Handler(mainLooper).post {
+            while (true) {
+                try {
+                    Looper.loop()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 }

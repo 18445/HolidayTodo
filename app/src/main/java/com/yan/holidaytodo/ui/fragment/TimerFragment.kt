@@ -90,6 +90,7 @@ class TimerFragment : BaseFragment() {
                 mTimeMode = false
                 mProgressLayout.setCountMode(mTimeRollView.getCurrentCircle()){
                     mTimeMode = true
+                    toast("倒计时完成，正在切回时钟模式")
                 }
             }
         }
