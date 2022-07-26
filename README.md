@@ -24,25 +24,28 @@
 
 ## 预览
 
-![task1](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/task1.gif)
+- 任务
+
+   ![task1](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/task1.gif)
+
+   ![task2](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/task2.gif)
+
+- 日历
+
+   ![calendar1](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/calendar1.gif)
 
 
-![task2](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/task2.gif)
+   ![calendar2](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/calendar2.gif)
+
+- 日程
+
+   ![schedule1](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/schedule1.gif)
 
 
-![calendar1](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/calendar1.gif)
+   ![schedule2](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/schedule2.gif)
 
 
-![calendar2](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/calendar2.gif)
-
-
-![schedule1](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/schedule1.gif)
-
-
-![schedule2](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/schedule2.gif)
-
-
-![schedule3](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/schedule3.gif)
+   ![schedule3](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/schedule3.gif)
 
 
 ## 内容
