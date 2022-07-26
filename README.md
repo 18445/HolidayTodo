@@ -26,17 +26,24 @@
 
 ![task1](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/task1.gif)
 
+
 ![task2](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/task2.gif)
+
 
 ![calendar1](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/calendar1.gif)
 
+
 ![calendar2](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/calendar2.gif)
+
 
 ![schedule1](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/schedule1.gif)
 
+
 ![schedule2](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/schedule2.gif)
 
+
 ![schedule3](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/schedule3.gif)
+
 
 ## 内容
 
@@ -173,5 +180,8 @@ override fun onChanged(apiResponse: ApiResponse<T>?) {
 
 项目本身没有复杂的滑动冲突，存在的滑动冲突只需要解决VP2拦截了子View的滑动事件，大多数时候重新`Viewgroup`中`dispatchTouchEvent`方法，调用`requestDisallowInterceptTouchEvent`并设置为true即可解决。
 
+## 不足
+
+日历控件状态保存与滑动有BUG，这个BUG在结合嵌套滑动的情况下尤其容易复现。主要原因可能是在编写CalendarMover时，主要是要`scroll`来完成视图布局的切换，一些判断条件在手势滑动时(特别是快速滑动情况下)，容易造成多次调用不同函数，导致上拉与下拉重叠，进而导致视图错乱。
 
 
