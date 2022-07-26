@@ -26,27 +26,23 @@
 
 - 任务
 
-   ![task1](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/task1.gif)
+   <img src="https://github.com/18445/HolidayTodo/blob/master/img/task1.gif" width="425">
 
-   ![task2](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/task2.gif)
+   <img src="https://github.com/18445/HolidayTodo/blob/master/img/task2.gif" width="425">
 
 - 日历
 
-   ![calendar1](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/calendar1.gif)
+    <img src="https://github.com/18445/HolidayTodo/blob/master/img/calendar1.gif" width="425">
 
-
-   ![calendar2](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/calendar2.gif)
+    <img src="https://github.com/18445/HolidayTodo/blob/master/img/calendar2.gif" width="425">
 
 - 日程
 
-   ![schedule1](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/schedule1.gif)
-
-
-   ![schedule2](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/schedule2.gif)
-
-
-   ![schedule3](https://pics-1307877642.cos.ap-chongqing.myqcloud.com/schedule3.gif)
-
+    <img src="https://github.com/18445/HolidayTodo/blob/master/img/schedule1.gif" width="425">
+    
+    <img src="https://github.com/18445/HolidayTodo/blob/master/img/schedule2.gif" width="425">
+    
+    <img src="https://github.com/18445/HolidayTodo/blob/master/img/schedule3.gif" width="425">
 
 ## 内容
 
