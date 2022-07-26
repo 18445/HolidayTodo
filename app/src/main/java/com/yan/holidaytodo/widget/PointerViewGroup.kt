@@ -99,7 +99,6 @@ class PointerViewGroup @JvmOverloads constructor(
 
     private fun cancelSteadyAnimIfNeed(){
         if(this::mSteadyAnim.isInitialized){
-            Log.e("mSteadyAnim","beCanceld")
             mSteadyAnim.cancel()
         }
     }

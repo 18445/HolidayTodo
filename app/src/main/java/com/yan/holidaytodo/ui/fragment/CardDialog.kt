@@ -4,7 +4,9 @@ package com.yan.holidaytodo.ui.fragment
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.Window
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
@@ -20,9 +22,11 @@ import com.yan.holidaytodo.bean.net.wanandroid.TaskInfo
 import com.yan.holidaytodo.util.RotateAnimation
 
 
-class CardDialog(context: Context,
-                 private val mTaskInfo: TaskInfo,
-                 private val onTaskChange:(taskInfo: TaskInfo,changedTitle : String, changedContent : String)->Unit) : Dialog(context) {
+class CardDialog(
+    context: Context,
+    private val mTaskInfo: TaskInfo,
+    private val onTaskChange: (taskInfo: TaskInfo, changedTitle: String, changedContent: String) -> Unit,
+) : Dialog(context) {
 
     private lateinit var mRootView: View
     private lateinit var mContainer: ConstraintLayout
@@ -34,13 +38,13 @@ class CardDialog(context: Context,
     private lateinit var mFrontClicker: ImageView
     private lateinit var mBackClicker: ImageView
 
-    private lateinit var mFrontTitle : TextView
-    private lateinit var mFrontCreateTime : TextView
-    private lateinit var mFrontContent : TextView
+    private lateinit var mFrontTitle: TextView
+    private lateinit var mFrontCreateTime: TextView
+    private lateinit var mFrontContent: TextView
 
-    private lateinit var mBackTitle : EditText
-    private lateinit var mBackContent : EditText
-    private lateinit var mSaveButton : MaterialButton
+    private lateinit var mBackTitle: EditText
+    private lateinit var mBackContent: EditText
+    private lateinit var mSaveButton: MaterialButton
 
 
     private var centerX = 0
@@ -101,20 +105,20 @@ class CardDialog(context: Context,
         }
     }
 
-    private fun initBackView(){
+    private fun initBackView() {
         mBackTitle = findViewById(R.id.et_card_title)
         mBackContent = findViewById(R.id.et_card_content)
         mSaveButton = findViewById<MaterialButton?>(R.id.btn_card_save).apply {
             setOnClickListener {
-                if (mBackTitle.text.isEmpty()){
+                if (mBackTitle.text.isEmpty()) {
                     toast("标题不可为空")
                     return@setOnClickListener
                 }
-                if(mBackContent.text.isEmpty()){
+                if (mBackContent.text.isEmpty()) {
                     toast("内容不可为空")
                     return@setOnClickListener
                 }
-                onTaskChange(mTaskInfo,mBackTitle.text.toString(),mBackContent.text.toString())
+                onTaskChange(mTaskInfo, mBackTitle.text.toString(), mBackContent.text.toString())
             }
         }
     }
